@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="description" content="Đề cương đồ án: phát hiện 29 điểm mốc sọ nghiêng bằng ViT-Small heatmap, kết quả sơ bộ trên bộ Aariz.">
+<title>Đề cương đồ án — 29 điểm mốc sọ nghiêng bằng ViT-heatmap</title>
+<style>
+:root{--bg:#fafaf7;--fg:#1b1f23;--mut:#5b6670;--card:#fff;--line:#e3e5e8;--acc:#1f6feb;--ok:#1a7f4b;--warn:#b35c00;--bar:#1f6feb;--bar2:#9aa7b4}
+@media (prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111418;--fg:#e6e8ea;--mut:#9aa5b1;--card:#181c21;--line:#2a3038;--acc:#6aa6ff;--ok:#4cc38a;--warn:#f0a54a;--bar:#6aa6ff;--bar2:#5b6772}}
+:root[data-theme=dark]{--bg:#111418;--fg:#e6e8ea;--mut:#9aa5b1;--card:#181c21;--line:#2a3038;--acc:#6aa6ff;--ok:#4cc38a;--warn:#f0a54a;--bar:#6aa6ff;--bar2:#5b6772}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:0 16px}
+a{color:var(--acc)}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:var(--card);padding:6px 10px}
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0;font-size:14px;color:var(--mut)}
+.top button{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:6px 12px;cursor:pointer}
+.eyebrow{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:600}
+h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:.3em 0}
+.lead{font-size:18px;color:var(--mut);max-width:720px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:28px 0}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.stat b{display:block;font-size:30px;line-height:1.1}.stat span{font-size:14px;color:var(--mut)}
+.cta{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+.btn{display:inline-block;padding:10px 16px;border-radius:10px;border:1px solid var(--line);text-decoration:none;background:var(--card);color:var(--fg)}
+.btn.p{background:var(--acc);border-color:var(--acc);color:#fff}
+nav.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:28px 0}
+nav.toc ol{margin:0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 24px}
+nav.toc a{text-decoration:none;color:var(--fg)}nav.toc a span{color:var(--acc);font-weight:600;margin-right:8px}
+section{padding:36px 0;border-top:1px solid var(--line)}
+.num{font-size:44px;font-weight:700;color:var(--line);line-height:1}
+.tag{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+h2{margin:.2em 0 .6em;font-size:26px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0 0 6px;font-size:17px}.card p{margin:.3em 0}
+.badge{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;background:var(--acc);color:#fff;margin-left:6px;vertical-align:middle}
+.badge.ok{background:var(--ok)}.badge.no{background:var(--warn)}
+.note{border-left:4px solid var(--acc);background:var(--card);padding:10px 14px;border-radius:0 8px 8px 0;margin:14px 0;color:var(--mut)}
+.note.w{border-color:var(--warn)}
+table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;font-size:15px}
+.tw{overflow-x:auto}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{background:var(--bg);font-size:13px;color:var(--mut)}
+tr.best td{font-weight:700;background:color-mix(in srgb,var(--ok) 10%,var(--card))}
+tr.cite td{font-style:italic;color:var(--mut)}
+.bars{margin:18px 0}.bar{display:grid;grid-template-columns:minmax(120px,230px) 1fr 64px;gap:10px;align-items:center;margin:8px 0;font-size:14px}
+.bar i{display:block;height:18px;border-radius:4px;background:var(--bar)}.bar.c i{background:repeating-linear-gradient(45deg,var(--bar2),var(--bar2) 6px,transparent 6px,transparent 10px);border:1px solid var(--bar2)}
+.bar em{font-style:normal;text-align:right;font-variant-numeric:tabular-nums}
+ol.steps{padding-left:0;list-style:none;counter-reset:s}
+ol.steps li{counter-increment:s;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px 12px 52px;margin:8px 0;position:relative}
+ol.steps li::before{content:counter(s);position:absolute;left:14px;top:12px;width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;text-align:center;font-size:14px;line-height:26px;font-weight:600}
+figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px}
+figure img{width:100%;height:auto;display:block;border-radius:8px;background:#fff}
+figcaption{font-size:13px;color:var(--mut);margin-top:6px}
+code{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:.92em}
+footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);font-size:14px}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Bỏ qua đến nội dung chính</a>
+<div class="wrap">
+<div class="top"><span>ThS HUIT · Thị giác máy tính và nhận dạng mẫu</span><button id="th" type="button">Giao diện</button></div>
+
+<header>
+<div class="eyebrow">Đề cương đồ án · cập nhật 07/11/2026</div>
+<h1>29 điểm mốc sọ nghiêng bằng ViT-Small heatmap</h1>
+<p class="lead">Thay baseline YOLO11-Pose (AGPL) bằng ViT-Small + decoder heatmap (Apache-2.0). Trên tập test Aariz, MRE giảm từ 1,93 xuống 1,39 mm (khoảng 28%).</p>
+<div class="stats">
+<div class="stat"><b>1.000</b><span>ảnh Aariz (700/150/150)</span></div>
+<div class="stat"><b>29</b><span>điểm mốc mỗi ảnh</span></div>
+<div class="stat"><b>7</b><span>thiết bị X-quang</span></div>
+<div class="stat"><b>1,39 mm</b><span>MRE trên test</span></div>
+</div>
+<div class="cta"><a class="btn p" href="#ketqua">Xem kết quả sơ bộ</a><a class="btn" href="#kehoach">Kế hoạch tiếp theo</a></div>
+</header>
+
+<nav class="toc" aria-label="Mục lục"><ol>
+<li><a href="#vande"><span>01</span>Đặt vấn đề</a></li>
+<li><a href="#rq"><span>02</span>Mục tiêu và câu hỏi nghiên cứu</a></li>
+<li><a href="#dulieu"><span>03</span>Dữ liệu và chỉ số</a></li>
+<li><a href="#phuongphap"><span>04</span>Phương pháp</a></li>
+<li><a href="#ketqua"><span>05</span>Kết quả thực nghiệm sơ bộ</a></li>
+<li><a href="#dongop"><span>06</span>Tính mới, đóng góp, hạn chế</a></li>
+<li><a href="#kehoach"><span>07</span>Kế hoạch thực hiện</a></li>
+<li><a href="#tailieu"><span>08</span>Tài liệu tham khảo</a></li>
+</ol></nav>
+
+<main id="main">
+
+<section id="vande"><div class="num">01</div><div class="tag">Bối cảnh</div><h2>Đặt vấn đề</h2>
+<p>Phát hiện tự động 29 điểm mốc trên phim sọ nghiêng giúp giảm thời gian đo thủ công. Mô hình hiện có còn ba hạn chế:</p>
+<div class="grid">
+<div class="card"><h3>Giấy phép</h3><p>YOLO11-Pose (Ultralytics) theo AGPL-3.0, khó đưa vào sản phẩm doanh nghiệp. Cần backbone mở (timm ViT, Apache-2.0).</p></div>
+<div class="card"><h3>Công nghệ cũ</h3><p>YOLO11 ra đời 2024; giảng viên đề nghị mô hình mới hơn hoặc Transformer.</p></div>
+<div class="card"><h3>Khác biệt thiết bị</h3><p>Ảnh đến từ 7 máy với chất lượng khác nhau; bộ lọc hình học 1B (khung S-N) không cải thiện kết quả.</p></div>
+</div></section>
+
+<section id="rq"><div class="num">02</div><div class="tag">Mục tiêu</div><h2>Mục tiêu và câu hỏi nghiên cứu</h2>
+<p>Xây dựng mô hình 29 điểm mốc giấy phép mở, chính xác hơn YOLO11-Pose và ít phụ thuộc thiết bị chụp.</p>
+<div class="grid">
+<div class="card"><h3>RQ1 <span class="badge ok">Đạt</span></h3><p>ViT-Small + decoder heatmap có vượt YOLO11-Pose về MRE và SDR trên test Aariz không?</p></div>
+<div class="card"><h3>RQ2 <span class="badge">Cải thiện nhẹ</span></h3><p>Augmentation theo thiết bị (gamma, tương phản, CLAHE, nhiễu, mờ) có giảm sai số và thu hẹp chênh lệch giữa các máy không?</p></div>
+<div class="card"><h3>RQ3 <span class="badge no">Không hiệu quả</span></h3><p>Bộ lọc ràng buộc hình học 1B có giảm số điểm lệch trên 5 mm không?</p></div>
+</div>
+<p class="note">Phạm vi: giao thức 29 điểm của Aariz; chưa kiểm tra trên dữ liệu ngoài Aariz.</p></section>
+
+<section id="dulieu"><div class="num">03</div><div class="tag">Dữ liệu</div><h2>Dữ liệu và chỉ số đánh giá</h2>
+<div class="grid">
+<div class="card"><h3>Aariz</h3><p>1.000 phim sọ nghiêng, 29 điểm mốc, kích thước pixel (mm) cho từng ảnh.</p></div>
+<div class="card"><h3>Chia tập</h3><p>Train 700 · Valid 150 · Test 150. Checkpoint chọn theo MRE trên valid.</p></div>
+<div class="card"><h3>Chỉ số</h3><p><b>MRE</b> (mm) · <b>SDR@2/2,5/3/4 mm</b> · <b>Outlier</b> (điểm lệch &gt; 5 mm). Phân tích riêng từng máy; LODO là bước tiếp theo.</p></div>
+</div></section>
+
+<section id="phuongphap"><div class="num">04</div><div class="tag">Phương pháp</div><h2>Phương pháp</h2>
+<p>Mô hình dự đoán 29 heatmap, mỗi heatmap cho một điểm mốc; vị trí lấy từ đỉnh heatmap.</p>
+<ol class="steps">
+<li><b>Đầu vào:</b> ảnh xám resize 768 × 768, chuẩn hóa ImageNet.</li>
+<li><b>Backbone:</b> ViT-Small (timm, Apache-2.0, khởi tạo từ trọng số tiền huấn luyện), lưới token 48 × 48.</li>
+<li><b>Decoder:</b> hai lớp ConvTranspose (GroupNorm, ReLU) lên 192 × 192 (stride 4), conv 1 × 1 ra 29 heatmap.</li>
+<li><b>Nhãn và loss:</b> heatmap Gaussian σ = 3; MSE có trọng số vùng gần điểm mốc (1 + 10 × y).</li>
+<li><b>Huấn luyện:</b> AdamW, lr 5e-4 (backbone ×0,1), warmup 2 epoch + cosine, AMP, cắt gradient 1,0; augmentation theo thiết bị: gamma, tương phản, CLAHE, nhiễu, làm mờ.</li>
+<li><b>Giải mã:</b> đỉnh heatmap, tinh chỉnh dưới pixel bằng trọng tâm cửa sổ 7 × 7, quy đổi về pixel ảnh gốc và mm.</li>
+<li><b>Hậu xử lý (tùy chọn):</b> bộ lọc hình học 1B theo khung S-N, khoảng cách Mahalanobis.</li>
+</ol>
+<p class="note w">Kiến trúc cũ (stride 16, trung bình token rồi MLP) cho MRE 6,78 mm nên được thay bằng decoder stride 4.</p></section>
+
+<section id="ketqua"><div class="num">05</div><div class="tag">Thực nghiệm</div><h2>Kết quả thực nghiệm sơ bộ</h2>
+<p>Trên test (150 ảnh), ViT-Small với augmentation theo thiết bị đạt MRE 1,39 mm, thấp hơn baseline YOLO11-Pose 1,93 mm.</p>
+<div class="bars" role="img" aria-label="So sánh MRE các mô hình">
+<div class="bar"><span>YOLO11-Pose (baseline)</span><i style="width:100%"></i><em>1,93</em></div>
+<div class="bar"><span>ViT, aug basic</span><i style="width:75%"></i><em>1,45</em></div>
+<div class="bar"><span><b>ViT, aug device</b></span><i style="width:72%"></i><em><b>1,39</b></em></div>
+<div class="bar"><span>ViT device + lọc 1B</span><i style="width:72%"></i><em>1,39</em></div>
+<div class="bar c"><span>ResNet-50 (MDPI, trích dẫn)</span><i style="width:65%"></i><em>1,25</em></div>
+</div>
+<div class="tw"><table>
+<thead><tr><th>Mô hình</th><th>MRE ± SD (mm)</th><th>SDR 2 mm (%)</th><th>SDR 2,5 mm</th><th>SDR 3 mm</th><th>SDR 4 mm</th><th>Outlier &gt; 5 mm</th></tr></thead>
+<tbody>
+<tr><td>YOLO11-Pose (baseline)</td><td>1,93</td><td>64,6</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>ViT-Small heatmap, aug basic</td><td>1,45 ± 1,52</td><td>78,28</td><td>85,10</td><td>89,43</td><td>94,30</td><td>137</td></tr>
+<tr class="best"><td>ViT-Small heatmap, aug device</td><td>1,39 ± 1,51</td><td>79,20</td><td>86,05</td><td>90,07</td><td>94,55</td><td>139</td></tr>
+<tr><td>ViT device + bộ lọc 1B</td><td>1,39 ± 1,50</td><td>79,17</td><td>86,02</td><td>90,02</td><td>94,53</td><td>139</td></tr>
+<tr class="cite"><td>ResNet-50 regression (MDPI 2025, trích dẫn)</td><td>1,25</td><td>81,5</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<ol class="steps">
+<li><b>RQ1 — đạt:</b> MRE giảm 1,93 → 1,45 mm (aug basic), SDR@2 mm tăng 64,6% → 78,3%.</li>
+<li><b>RQ2 — cải thiện nhẹ:</b> augmentation theo thiết bị giảm thêm 0,06 mm, cả 7 máy đều tốt hơn, nhưng tỉ lệ sai số giữa máy tốt nhất và xấu nhất vẫn khoảng 4,8 lần.</li>
+<li><b>RQ3 — không hiệu quả:</b> bộ lọc 1B không đổi MRE (1,39 mm) và không giảm outlier (139 điểm).</li>
+</ol>
+<p class="note w">ResNet-50 dùng giao thức 19 điểm nên chưa so sánh trực tiếp được; mô hình này hiện hơn ViT của đề tài khoảng 0,14 mm. Các cột SDR khác và outlier của baseline sẽ bổ sung khi chạy lại dự đoán baseline.</p>
+<div class="grid">
+<figure><img src="img/sdr_bars.png" alt="SDR theo ngưỡng" loading="lazy"><figcaption>SDR theo ngưỡng (bản device).</figcaption></figure>
+<figure><img src="img/per_landmark_mre.png" alt="MRE từng điểm mốc" loading="lazy"><figcaption>MRE từng điểm mốc.</figcaption></figure>
+<figure><img src="img/outliers.png" alt="Số outlier" loading="lazy"><figcaption>Số outlier trên 5 mm.</figcaption></figure>
+<figure><img src="img/mre_by_machine.png" alt="MRE theo máy chụp" loading="lazy"><figcaption>MRE theo máy chụp.</figcaption></figure>
+</div></section>
+
+<section id="dongop"><div class="num">06</div><div class="tag">Đóng góp</div><h2>Tính mới, đóng góp và hạn chế</h2>
+<div class="grid">
+<div class="card"><h3>Đóng góp 1</h3><p>Pipeline ViT-Small + decoder heatmap stride 4 (timm, Apache-2.0) thay YOLO11-Pose, MRE 1,39 mm trên test.</p></div>
+<div class="card"><h3>Đóng góp 2 <span class="badge">đang làm</span></h3><p>Đánh giá theo từng máy và augmentation theo thiết bị; tiếp theo là LODO (bỏ một máy khi huấn luyện, thử trên máy đó).</p></div>
+<div class="card"><h3>Đóng góp 3 <span class="badge">dự kiến</span></h3><p>Ước lượng độ bất định từ heatmap để cảnh báo điểm khó trước khi bác sĩ dùng.</p></div>
+</div>
+<h3>Hạn chế hiện tại</h3>
+<ol class="steps">
+<li>Một lần chạy, một seed; chênh MRE 0,06 mm giữa basic và device chưa kiểm định thống kê.</li>
+<li>Chưa thu hẹp khoảng cách giữa các máy; số outlier không giảm.</li>
+<li>Chưa vượt ResNet-50 được trích dẫn (1,25 mm, khác giao thức).</li>
+<li>Chưa kiểm tra bản quyền Aariz cho mục đích thương mại; chưa rà soát kỹ tài liệu liên quan.</li>
+</ol></section>
+
+<section id="kehoach"><div class="num">07</div><div class="tag">Lịch</div><h2>Kế hoạch thực hiện</h2>
+<p>Số liệu hiện có dùng để chốt đề cương nộp 10/11/2026; hạn nộp các bước sau chưa được thông báo.</p>
+<ol class="steps">
+<li><b>Chốt đề cương</b> với kết quả hiện có (10/11/2026).</li>
+<li><b>LODO:</b> sửa script để loại một máy khỏi train, ưu tiên Rotograph EVO và ART Plus.</li>
+<li><b>Tăng độ bền theo thiết bị</b> và ước lượng độ bất định; chạy nhiều seed để kiểm định.</li>
+<li><b>Rà soát tài liệu</b> và bản quyền Aariz; chạy lại dự đoán baseline để điền đủ bảng so sánh.</li>
+<li><b>Bài báo và slide</b> báo cáo.</li>
+<li><b>Ứng dụng demo</b> cho người dùng thao tác, dùng để đề xuất doanh nghiệp.</li>
+</ol></section>
+
+<section id="tailieu"><div class="num">08</div><div class="tag">Nguồn</div><h2>Tài liệu tham khảo</h2>
+<ol>
+<li>R. Szeliski, <i>Computer Vision: Algorithms and Applications</i>, Springer, 2022.</li>
+<li>Valliappa L., Martin G., Ryan G., <i>Practical Machine Learning for Computer Vision</i>, O'Reilly Media, 2021.</li>
+<li>Bộ dữ liệu Aariz (1.000 ảnh, 29 điểm) — cần bổ sung tác giả, năm, giấy phép.</li>
+<li>Bài ResNet-50 regression, MDPI 2025 (MRE 1,25 mm, SDR@2 mm 81,5%) — cần bổ sung thông tin bài.</li>
+<li>Khan et al. 2025, baseline trên Aariz (MRE 1,69 ± 3,36 mm, SDR@2 mm 81,18%) — cần bổ sung thông tin bài.</li>
+<li>timm (PyTorch Image Models), Apache-2.0; Ultralytics YOLO11, AGPL-3.0.</li>
+</ol></section>
+</main>
+<footer>ThS HUIT · Đề cương đồ án Thị giác máy tính và nhận dạng mẫu · cập nhật 07/11/2026</footer>
+</div>
+<script>
+(function(){var b=document.getElementById('th'),r=document.documentElement,k='theme';
+try{var s=localStorage.getItem(k);if(s)r.setAttribute('data-theme',s)}catch(e){}
+b.addEventListener('click',function(){var d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');var n=d==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem(k,n)}catch(e){}})})();
+</script>
+</body></html>
