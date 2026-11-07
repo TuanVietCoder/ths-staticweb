@@ -102,7 +102,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <p>Xây dựng mô hình 29 điểm mốc giấy phép mở, chính xác hơn YOLO11-Pose và ít phụ thuộc thiết bị chụp.</p>
 <div class="grid">
 <div class="card"><h3>RQ1 <span class="badge ok">Đạt</span></h3><p>ViT-Small + decoder heatmap có vượt YOLO11-Pose về MRE và SDR trên test Aariz không?</p></div>
-<div class="card"><h3>RQ2 <span class="badge">Cải thiện nhẹ</span></h3><p>Augmentation theo thiết bị (gamma, tương phản, CLAHE, nhiễu, mờ) có giảm sai số và thu hẹp chênh lệch giữa các máy không?</p></div>
+<div class="card"><h3>RQ2 <span class="badge">Cải thiện</span></h3><p>Augmentation theo thiết bị (gamma, tương phản, CLAHE, nhiễu, mờ) có giảm sai số và thu hẹp chênh lệch giữa các máy không?</p></div>
 <div class="card"><h3>RQ3 <span class="badge no">Không hiệu quả</span></h3><p>Bộ lọc ràng buộc hình học 1B có giảm số điểm lệch trên 5 mm không?</p></div>
 </div>
 <p class="note">Phạm vi: giao thức 29 điểm của Aariz; chưa kiểm tra trên dữ liệu ngoài Aariz.</p></section>
@@ -147,7 +147,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 </tbody></table></div>
 <ol class="steps">
 <li><b>RQ1 — đạt:</b> MRE giảm 1,93 → 1,45 mm (aug basic), SDR@2 mm tăng 64,6% → 78,3%.</li>
-<li><b>RQ2 — cải thiện nhẹ:</b> augmentation theo thiết bị giảm thêm 0,06 mm, cả 7 máy đều tốt hơn, nhưng tỉ lệ sai số giữa máy tốt nhất và xấu nhất vẫn khoảng 4,8 lần.</li>
+<li><b>RQ2 — cải thiện:</b> augmentation theo thiết bị giảm thêm 0,06 mm, cả 7 máy đều tốt hơn, nhưng tỉ lệ sai số giữa máy tốt nhất và xấu nhất vẫn khoảng 4,8 lần.</li>
 <li><b>RQ3 — không hiệu quả:</b> bộ lọc 1B không đổi MRE (1,39 mm) và không giảm outlier (139 điểm).</li>
 </ol>
 <p class="note w">ResNet-50 dùng giao thức 19 điểm nên chưa so sánh trực tiếp được; mô hình này hiện hơn ViT của đề tài khoảng 0,14 mm. Các cột SDR khác và outlier của baseline sẽ bổ sung khi chạy lại dự đoán baseline.</p>
