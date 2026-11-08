@@ -132,17 +132,6 @@ footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid
 .subj a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.4}
 .subj a:hover{border-color:var(--accent)}
 .subj a[aria-current="page"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
-.subj .has-sub>a{position:relative;padding-right:30px}
-.subj .has-sub>a::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border:solid currentColor;border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);transition:transform .15s}
-.subj .has-sub>a[aria-expanded="false"]::after{transform:translateY(-50%) rotate(-45deg)}
-.subj .sub{list-style:none;margin:6px 0 0 12px;padding:0 0 0 10px;border-left:2px solid var(--accent);display:flex;flex-direction:column;gap:6px}
-.subj .sub[hidden]{display:none}
-.subj .sub li{font-size:13.5px;line-height:1.4;padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
-.subj .sub li b{display:block;font-weight:600}
-.subj .sub li small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
-.subj .sub li.here{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
-.subj .sub li.off{opacity:.7;border-style:dashed}
-
 @media(min-width:1640px){.subj{position:fixed;top:92px;left:calc(50% - 800px);width:216px;margin:0}.subj ul{flex-direction:column;flex-wrap:nowrap}}
 
 /* mã nguồn: mục gập mở, khung cuộn riêng */
@@ -185,12 +174,7 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
   <h2>Các môn học</h2>
   <ul>
     <li><a href="https://tuanvietcoder.github.io/ths-staticweb/thi-giac-may-tinh-va-nhan-dang-mau/DeAn_DeCuong.html">Thị giác máy tính và nhận dạng mẫu</a></li>
-    <li class="has-sub"><a href="https://tuanvietcoder.github.io/ths-staticweb/phan-tich-mang-xa-hoi/DeAn_DeCuong.html" aria-current="page" aria-expanded="true" aria-controls="subj-sub" id="subj-toggle">Phân tích mạng xã hội</a>
-<ul class="sub" id="subj-sub">
-<li class="here"><b>Bài cá nhân</b><small>Trang này · Mạng tương tác tiếng Việt trên Bluesky, ứng dụng phát hiện bot/spam</small></li>
-<li class="off"><b>Bài nhóm</b><small>Chưa đăng · Nhóm 6, phân tích quan điểm người dùng (TwiUSD)</small></li>
-</ul>
-</li>
+    <li><a href="https://tuanvietcoder.github.io/ths-staticweb/phan-tich-mang-xa-hoi/DeAn_DeCuong.html" aria-current="page">Phân tích mạng xã hội</a></li>
   </ul>
 </nav>
 
@@ -214,16 +198,16 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
       <h1>Mạng tương tác của người dùng tiếng Việt trên Bluesky</h1>
       <p class="lead">Đồ án dựng đồ thị có hướng từ các lượt trả lời, trích dẫn, nhắc tên và đăng lại giữa người dùng Việt trên Bluesky, rồi đo cấu trúc mạng và xây ứng dụng chấm điểm các tài khoản nghi là bot hoặc spam.</p>
       <div class="stats">
-        <div class="stat"><div class="v">36.999</div><div class="l">bài tiếng Việt sau làm sạch (thô: 47.527)</div></div>
-        <div class="stat"><div class="v">4.114 · 5.897</div><div class="l">nút · cạnh của đồ thị hiện có</div></div>
-        <div class="stat"><div class="v">3.568</div><div class="l">nút trong thành phần liên thông lớn nhất</div></div>
-        <div class="stat"><div class="v">0,79</div><div class="l">modularity, Louvain tìm được 39 cộng đồng</div></div>
+        <div class="stat"><div class="v">37.520</div><div class="l">bài tiếng Việt sau làm sạch (thô: 48.311)</div></div>
+        <div class="stat"><div class="v">10.256 · 14.104</div><div class="l">nút · cạnh của đồ thị hiện có</div></div>
+        <div class="stat"><div class="v">9.727</div><div class="l">nút trong thành phần liên thông lớn nhất</div></div>
+        <div class="stat"><div class="v">0,88</div><div class="l">modularity, Louvain tìm được 49 cộng đồng</div></div>
       </div>
       <div class="btns">
         <a class="btn p" href="#ketqua">Xem kết quả sơ bộ</a>
         <a class="btn s" href="#kehoach">Kế hoạch tiếp theo</a>
       </div>
-      <p class="snap">Số liệu chụp ngày 08/11/2026, sau đợt crawl mở rộng, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu). Số liệu sẽ đổi nếu dữ liệu được crawl thêm.</p>
+      <p class="snap">Số liệu chụp ngày 08/11/2026, sau crawl mở rộng vòng 2, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu). Số liệu sẽ đổi nếu dữ liệu được crawl thêm.</p>
     </header>
 
     <section id="vande">
@@ -267,15 +251,15 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
       </ul>
       <h3>Kết quả làm sạch</h3>
       <div class="tw"><table>
-        <caption>Nhật ký làm sạch, đợt chạy ngày 08/11/2026 (sau crawl mở rộng)</caption>
+        <caption>Nhật ký làm sạch, đợt chạy ngày 08/11/2026 (sau crawl mở rộng vòng 2)</caption>
         <thead><tr><th>Bước</th><th>Nội dung</th><th class="num">Trước</th><th class="num">Sau</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Xóa trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC</td><td class="num">47.527</td><td class="num">47.527</td></tr>
-          <tr><td>2.2</td><td>Loại bài rỗng hoặc dưới 1 từ</td><td class="num">47.527</td><td class="num">46.128</td></tr>
-          <tr><td>2.3</td><td>Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)</td><td class="num">46.128</td><td class="num">36.999</td></tr>
-          <tr><td>3</td><td>Bot/spam: 2 tài khoản bị gắn cờ, chỉ báo cáo, chưa loại</td><td class="num">36.999</td><td class="num">36.999</td></tr>
-          <tr><td>5–6</td><td>Dựng cạnh, bỏ self-loop, bỏ nút cô lập (cạnh: 6.019 → 5.897; nút: 4.439 → 4.114)</td><td class="num">15.587</td><td class="num">5.897</td></tr>
-          <tr><td>6.3</td><td>Giữ thành phần liên thông lớn nhất (nút / cạnh)</td><td class="num">4.114 / 5.897</td><td class="num">3.568 / 5.354</td></tr>
+          <tr><td>1</td><td>Xóa trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC</td><td class="num">48.311</td><td class="num">48.311</td></tr>
+          <tr><td>2.2</td><td>Loại bài rỗng hoặc dưới 1 từ</td><td class="num">48.311</td><td class="num">46.872</td></tr>
+          <tr><td>2.3</td><td>Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)</td><td class="num">46.872</td><td class="num">37.520</td></tr>
+          <tr><td>3</td><td>Bot/spam: 2 tài khoản bị gắn cờ, chỉ báo cáo, chưa loại</td><td class="num">37.520</td><td class="num">37.520</td></tr>
+          <tr><td>5–6</td><td>Dựng cạnh, bỏ self-loop, bỏ nút cô lập (cạnh: 14.310 → 14.104; nút: 10.583 → 10.256)</td><td class="num">30.363</td><td class="num">14.104</td></tr>
+          <tr><td>6.3</td><td>Giữ thành phần liên thông lớn nhất (nút / cạnh)</td><td class="num">10.256 / 14.104</td><td class="num">9.727 / 13.556</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -285,7 +269,7 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
       <ol class="steps">
         <li><div><b>Thu thập.</b> Script Python dùng thư viện <code>atproto</code>, ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>.</div></li>
         <li><div><b>Làm sạch.</b> <code>clean_build_graph.py</code> chạy 7 bước, không sửa dữ liệu thô, xuất bảng nút, bảng cạnh và GraphML.</div></li>
-        <li><div><b>Độ đo toàn mạng.</b> Tám chỉ số mô tả hình dạng chung của mạng. Bấm vào nút bên dưới để xem giải thích từng chỉ số, kèm giá trị đo được trên thành phần liên thông lớn nhất.<details class="code gloss"><summary><span>Giải thích từng độ đo</span><small>8 chỉ số</small></summary><div class="body"><dl class="gl"><div><dt>Mật độ</dt><dd>Tỷ lệ số kết nối có thật so với số kết nối tối đa có thể có giữa các tài khoản. Nằm từ 0 đến 1; càng gần 0 thì mạng càng thưa, mỗi người chỉ tương tác với rất ít người.<span class="here">0,0004: mạng rất thưa, đa số hai tài khoản bất kỳ không tương tác với nhau.</span></dd></div><div><dt>Tương hỗ (reciprocity)</dt><dd>Trong các tương tác có chiều (A tới B), tỷ lệ cặp mà B cũng tương tác lại A. Cho biết tương tác là trao đổi hai chiều hay chỉ một chiều.<span class="here">0,011: gần như toàn bộ là một chiều, ví dụ đăng lại bài hoặc trả lời một tài khoản nổi bật.</span></dd></div><div><dt>Hệ số phân cụm</dt><dd>Bạn của bạn có là bạn của nhau không: tỷ lệ các bộ ba tài khoản khép kín thành hình tam giác. Từ 0 đến 1; cao nghĩa là các nhóm kết nối chặt với nhau.<span class="here">0,04: thấp, ít nhóm nhỏ kết chặt, tương tác trải rộng hơn là khép kín.</span></dd></div><div><dt>Assortativity theo bậc</dt><dd>Tài khoản có nhiều kết nối thường nối với tài khoản cũng nhiều kết nối (giá trị dương) hay với tài khoản ít kết nối (giá trị âm). Từ −1 đến 1.<span class="here">−0,22: âm, các nút lớn chủ yếu nối với rất nhiều nút nhỏ, tạo dạng hình sao.</span></dd></div><div><dt>Đường kính</dt><dd>Quãng đường dài nhất, tính bằng số bước, giữa hai tài khoản bất kỳ trong cùng một thành phần liên thông. Tính trên bản bỏ qua chiều của cạnh.<span class="here">18 bước: hai tài khoản xa nhau nhất phải qua 18 bước.</span></dd></div><div><dt>Độ dài đường đi trung bình</dt><dd>Số bước trung bình để đi từ một tài khoản tới một tài khoản khác. Cho biết thông tin lan trong mạng nhanh hay chậm.<span class="here">6,67 bước: trung bình mất gần 7 bước, tương đương “sáu bậc xa cách”.</span></dd></div><div><dt>Phân bố bậc</dt><dd>Với mỗi giá trị bậc (số kết nối của một tài khoản), có bao nhiêu tài khoản mang giá trị đó. Mạng xã hội thường có rất nhiều nút nhỏ và ít nút rất lớn.<span class="here">80% tài khoản chỉ có 1 kết nối, trong khi nút lớn nhất có 208.</span></dd></div><div><dt>Kiểm định power-law bằng bootstrap</dt><dd>Power-law là mô hình toán cho “đuôi nặng”: số tài khoản giảm theo lũy thừa khi bậc tăng. Cách kiểm: khớp mô hình vào dữ liệu thật, sinh 100 bộ dữ liệu giả đúng theo mô hình, rồi đếm bao nhiêu bộ giả lệch khỏi mô hình nhiều bằng dữ liệu thật. Tỷ lệ đó là p-value; p càng nhỏ thì dữ liệu thật càng không giống power-law.<span class="here">p = 0,00: không có bộ giả nào lệch nhiều như dữ liệu thật, nên phân bố bậc không phải power-law thuần dù đuôi vẫn nặng.</span></dd></div></dl></div></details></div></li>
+        <li><div><b>Độ đo toàn mạng.</b> Tám chỉ số mô tả hình dạng chung của mạng. Bấm vào nút bên dưới để xem giải thích từng chỉ số, kèm giá trị đo được trên thành phần liên thông lớn nhất.<details class="code gloss"><summary><span>Giải thích từng độ đo</span><small>8 chỉ số</small></summary><div class="body"><dl class="gl"><div><dt>Mật độ</dt><dd>Tỷ lệ số kết nối có thật so với số kết nối tối đa có thể có giữa các tài khoản. Nằm từ 0 đến 1; càng gần 0 thì mạng càng thưa, mỗi người chỉ tương tác với rất ít người.<span class="here">0,00014: mạng rất thưa, đa số hai tài khoản bất kỳ không tương tác với nhau.</span></dd></div><div><dt>Tương hỗ (reciprocity)</dt><dd>Trong các tương tác có chiều (A tới B), tỷ lệ cặp mà B cũng tương tác lại A. Cho biết tương tác là trao đổi hai chiều hay chỉ một chiều.<span class="here">0,015: gần như toàn bộ là một chiều, ví dụ đăng lại bài hoặc trả lời một tài khoản nổi bật.</span></dd></div><div><dt>Hệ số phân cụm</dt><dd>Bạn của bạn có là bạn của nhau không: tỷ lệ các bộ ba tài khoản khép kín thành hình tam giác. Từ 0 đến 1; cao nghĩa là các nhóm kết nối chặt với nhau.<span class="here">0,05: thấp, ít nhóm nhỏ kết chặt, tương tác trải rộng hơn là khép kín.</span></dd></div><div><dt>Assortativity theo bậc</dt><dd>Tài khoản có nhiều kết nối thường nối với tài khoản cũng nhiều kết nối (giá trị dương) hay với tài khoản ít kết nối (giá trị âm). Từ −1 đến 1.<span class="here">−0,21: âm, các nút lớn chủ yếu nối với rất nhiều nút nhỏ, tạo dạng hình sao.</span></dd></div><div><dt>Đường kính</dt><dd>Quãng đường dài nhất, tính bằng số bước, giữa hai tài khoản bất kỳ trong cùng một thành phần liên thông. Tính trên bản bỏ qua chiều của cạnh.<span class="here">13 bước: hai tài khoản xa nhau nhất phải qua 13 bước.</span></dd></div><div><dt>Độ dài đường đi trung bình</dt><dd>Số bước trung bình để đi từ một tài khoản tới một tài khoản khác. Cho biết thông tin lan trong mạng nhanh hay chậm.<span class="here">5,74 bước: trung bình mất gần 6 bước, gần với “sáu bậc xa cách”.</span></dd></div><div><dt>Phân bố bậc</dt><dd>Với mỗi giá trị bậc (số kết nối của một tài khoản), có bao nhiêu tài khoản mang giá trị đó. Mạng xã hội thường có rất nhiều nút nhỏ và ít nút rất lớn.<span class="here">80% tài khoản chỉ có 1 kết nối, trong khi nút lớn nhất có 241.</span></dd></div><div><dt>Kiểm định power-law bằng bootstrap</dt><dd>Power-law là mô hình toán cho “đuôi nặng”: số tài khoản giảm theo lũy thừa khi bậc tăng. Cách kiểm: khớp mô hình vào dữ liệu thật, sinh 100 bộ dữ liệu giả đúng theo mô hình, rồi đếm bao nhiêu bộ giả lệch khỏi mô hình nhiều bằng dữ liệu thật. Tỷ lệ đó là p-value; p càng nhỏ thì dữ liệu thật càng không giống power-law.<span class="here">p = 0,00: không có bộ giả nào lệch nhiều như dữ liệu thật, nên phân bố bậc không phải power-law thuần dù đuôi vẫn nặng.</span></dd></div></dl></div></details></div></li>
         <li><div><b>Centrality.</b> Degree, closeness, betweenness, eigenvector, PageRank, kèm HITS (hub và authority) cho đồ thị có hướng.</div></li>
         <li><div><b>Thuật toán áp dụng.</b> Louvain tìm cộng đồng, đánh giá bằng modularity, chạy trên bản vô hướng của thành phần liên thông lớn nhất.</div></li>
         <li><div><b>Trực quan hóa.</b> Gephi (ForceAtlas2, tô màu theo cộng đồng, cỡ nút theo centrality) và NetworkX.</div></li>
@@ -1169,22 +1153,22 @@ if __name__ == "__main__":
 
     <section id="ketqua">
       <h2><span class="n">05</span>Kết quả thực nghiệm sơ bộ</h2>
-      <p>Các số dưới đây tính trên đồ thị đầy đủ (4.114 nút) và trên thành phần liên thông lớn nhất (3.568 nút, chiếm 87% số nút).</p>
+      <p>Các số dưới đây tính trên đồ thị đầy đủ (10.256 nút) và trên thành phần liên thông lớn nhất (9.727 nút, chiếm 95% số nút).</p>
 
       <div class="tw"><table>
         <caption>Độ đo toàn mạng. Dấu “—” là không xác định vì đồ thị chưa liên thông. Đường kính và đường đi tính trên bản vô hướng.</caption>
         <thead><tr><th>Độ đo</th><th class="num">Toàn bộ</th><th class="num">Liên thông lớn nhất</th></tr></thead>
         <tbody>
-          <tr><td>Số nút</td><td class="num">4.114</td><td class="num">3.568</td></tr>
-          <tr><td>Số cạnh có hướng</td><td class="num">5.897</td><td class="num">5.354</td></tr>
-          <tr><td>Mật độ</td><td class="num">0,00035</td><td class="num">0,00042</td></tr>
-          <tr><td>Tương hỗ (reciprocity)</td><td class="num">0,012</td><td class="num">0,011</td></tr>
-          <tr><td>Hệ số phân cụm trung bình</td><td class="num">0,036</td><td class="num">0,041</td></tr>
-          <tr><td>Transitivity</td><td class="num">0,023</td><td class="num">0,024</td></tr>
-          <tr><td>Assortativity theo bậc</td><td class="num">−0,242</td><td class="num">−0,221</td></tr>
-          <tr><td>Đường kính</td><td class="num">—</td><td class="num">18</td></tr>
-          <tr><td>Độ dài đường đi trung bình</td><td class="num">—</td><td class="num">6,67</td></tr>
-          <tr><td>Số thành phần liên thông (4 lớn nhất)</td><td class="num">44 (3.568 · 56 · 48 · 47)</td><td class="num">—</td></tr>
+          <tr><td>Số nút</td><td class="num">10.256</td><td class="num">9.727</td></tr>
+          <tr><td>Số cạnh có hướng</td><td class="num">14.104</td><td class="num">13.556</td></tr>
+          <tr><td>Mật độ</td><td class="num">0,00013</td><td class="num">0,00014</td></tr>
+          <tr><td>Tương hỗ (reciprocity)</td><td class="num">0,015</td><td class="num">0,015</td></tr>
+          <tr><td>Hệ số phân cụm trung bình</td><td class="num">0,049</td><td class="num">0,050</td></tr>
+          <tr><td>Transitivity</td><td class="num">0,013</td><td class="num">0,013</td></tr>
+          <tr><td>Assortativity theo bậc</td><td class="num">−0,222</td><td class="num">−0,210</td></tr>
+          <tr><td>Đường kính</td><td class="num">—</td><td class="num">13</td></tr>
+          <tr><td>Độ dài đường đi trung bình</td><td class="num">—</td><td class="num">5,74</td></tr>
+          <tr><td>Số thành phần liên thông (4 lớn nhất)</td><td class="num">38 (9.727 · 81 · 80 · 48)</td><td class="num">—</td></tr>
         </tbody>
       </table></div>
 
@@ -1192,59 +1176,59 @@ if __name__ == "__main__":
         <h4>Loại tương tác tạo nên các cạnh</h4>
         <p class="cap">Tổng số lượt tương tác theo loại, trước khi gộp thành cạnh có trọng số.</p>
         <div class="bars">
-          <div class="grp">Toàn bộ đồ thị (12.974 lượt)</div>
-          <div class="bar"><span>Repost</span><span class="t"><i style="width:100%"></i></span><span class="v">10.902</span></div>
-          <div class="bar"><span>Reply</span><span class="t"><i style="width:10.4%"></i></span><span class="v">1.131</span></div>
-          <div class="bar"><span>Quote</span><span class="t"><i style="width:8.5%"></i></span><span class="v">930</span></div>
-          <div class="bar"><span>Mention</span><span class="t"><i style="width:.3%"></i></span><span class="v">11</span></div>
-          <div class="grp">Liên thông lớn nhất (9.930 lượt)</div>
-          <div class="bar"><span>Repost</span><span class="t"><i style="width:82.1%"></i></span><span class="v">8.945</span></div>
-          <div class="bar"><span>Reply</span><span class="t"><i style="width:8.8%"></i></span><span class="v">962</span></div>
-          <div class="bar"><span>Quote</span><span class="t"><i style="width:.2%"></i></span><span class="v">18</span></div>
-          <div class="bar"><span>Mention</span><span class="t"><i style="width:.1%"></i></span><span class="v">5</span></div>
+          <div class="grp">Toàn bộ đồ thị (26.969 lượt)</div>
+          <div class="bar"><span>Repost</span><span class="t"><i style="width:100%"></i></span><span class="v">24.769</span></div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:5%"></i></span><span class="v">1.244</span></div>
+          <div class="bar"><span>Quote</span><span class="t"><i style="width:3.8%"></i></span><span class="v">943</span></div>
+          <div class="bar"><span>Mention</span><span class="t"><i style="width:.2%"></i></span><span class="v">13</span></div>
+          <div class="grp">Liên thông lớn nhất (23.797 lượt)</div>
+          <div class="bar"><span>Repost</span><span class="t"><i style="width:91.1%"></i></span><span class="v">22.567</span></div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:4.8%"></i></span><span class="v">1.188</span></div>
+          <div class="bar"><span>Quote</span><span class="t"><i style="width:.2%"></i></span><span class="v">34</span></div>
+          <div class="bar"><span>Mention</span><span class="t"><i style="width:.1%"></i></span><span class="v">8</span></div>
         </div>
       </div>
 
       <div class="fig">
         <h4>Phân bố bậc (thang log–log)</h4>
         <p class="cap">Mỗi chấm là một giá trị bậc: trục ngang là bậc, trục dọc là số nút có bậc đó. Toàn bộ đồ thị, bậc tính trên bản vô hướng.</p>
-        <svg id="deg" viewBox="0 0 600 300" role="img" aria-label="Phân bố bậc log-log: 3.324 nút bậc 1, 366 nút bậc 2, số nút giảm dần khi bậc tăng, bậc lớn nhất là 208"></svg>
+        <svg id="deg" viewBox="0 0 600 300" role="img" aria-label="Phân bố bậc log-log: 8.233 nút bậc 1, 1.072 nút bậc 2, số nút giảm dần khi bậc tăng, bậc lớn nhất là 241"></svg>
       </div>
 
       <h3>Các nút trung tâm</h3>
       <div class="tw"><table>
-        <caption>Năm nút đứng đầu theo từng độ đo, thành phần liên thông lớn nhất. Mã ẩn danh. Bảng top 10 đầy đủ nằm trong data/analysis.</caption>
+        <caption>Năm nút đứng đầu theo từng độ đo, thành phần liên thông lớn nhất. Mã ẩn danh, được đánh lại sau mỗi lần chạy. Bảng top 10 đầy đủ nằm trong data/analysis.</caption>
         <thead><tr><th class="num">Hạng</th><th>Bậc vào</th><th>PageRank</th><th>Betweenness</th><th>Eigenvector</th><th>Bậc ra</th></tr></thead>
         <tbody>
-          <tr><td class="num">1</td><td>U00519 (39)</td><td>U00519 (0,0013)</td><td class="hot">U00669 (0,0071)</td><td class="hot">U00669 (0,301)</td><td>U01592 (208)</td></tr>
-          <tr><td class="num">2</td><td>U02771 (34)</td><td>U02771 (0,0009)</td><td>U02910 (0,0027)</td><td>U00854 (0,219)</td><td>U03044 (146)</td></tr>
-          <tr><td class="num">3</td><td>U01458 (29)</td><td>U03852 (0,0008)</td><td>U01597 (0,0023)</td><td>U02252 (0,198)</td><td class="hot">U00669 (140)</td></tr>
-          <tr><td class="num">4</td><td>U00854 (24)</td><td>U00202 (0,0007)</td><td>U00854 (0,0019)</td><td>U00986 (0,195)</td><td>U02353 (136)</td></tr>
-          <tr><td class="num">5</td><td>U04051 (22)</td><td>U03231 (0,0007)</td><td>U00986 (0,0014)</td><td>U00250 (0,184)</td><td>U00367 (128)</td></tr>
+          <tr><td class="num">1</td><td class="hot">U01245 (39)</td><td class="hot">U07637 (0,0023)</td><td class="hot">U01623 (0,0012)</td><td class="hot">U01623 (0,299)</td><td>U00362 (241)</td></tr>
+          <tr><td class="num">2</td><td>U06924 (34)</td><td>U05773 (0,0008)</td><td>U07257 (0,0006)</td><td>U02054 (0,218)</td><td>U03912 (208)</td></tr>
+          <tr><td class="num">3</td><td>U03564 (29)</td><td>U00205 (0,0006)</td><td>U00976 (0,0004)</td><td>U05598 (0,198)</td><td>U04883 (177)</td></tr>
+          <tr><td class="num">4</td><td>U07637 (26)</td><td>U01401 (0,0005)</td><td>U09980 (0,0004)</td><td>U02383 (0,194)</td><td>U06963 (176)</td></tr>
+          <tr><td class="num">5</td><td>U02054 (24)</td><td>U01245 (0,0005)</td><td>U03934 (0,0004)</td><td>U00598 (0,185)</td><td>U01938 (174)</td></tr>
         </tbody>
       </table></div>
-      <p>HITS: hub score dồn gần hết vào một tài khoản seed (U01592, 0,95; bậc ra 208), authority cao nhất ở U00792 (0,108). Hai điểm số này tập trung vào cấu trúc dày nhất nên ít phân biệt được phần còn lại của mạng.</p>
+      <p>HITS: hub score dồn gần hết vào một tài khoản (U03912, 0,95; bậc ra 208), authority cao nhất ở U01893 (0,108). Hai điểm số này tập trung vào cấu trúc dày nhất nên ít phân biệt được phần còn lại của mạng.</p>
 
       <div class="fig">
         <h4>Quy mô các cộng đồng (Louvain)</h4>
-        <p class="cap">Số nút của 8 cộng đồng lớn nhất trong tổng số 39 cộng đồng của thành phần liên thông lớn nhất. Modularity Q = 0,791. Chạy 10 lần với seed khác nhau: Q từ 0,789 đến 0,791, số cộng đồng từ 36 đến 39.</p>
+        <p class="cap">Số nút của 8 cộng đồng lớn nhất trong tổng số 49 cộng đồng của thành phần liên thông lớn nhất. Modularity Q = 0,877. Chạy 10 lần với seed khác nhau: Q từ 0,876 đến 0,877, số cộng đồng từ 47 đến 49.</p>
         <div class="bars">
-          <div class="bar"><span>Cộng đồng 1</span><span class="t"><i style="width:100.0%"></i></span><span class="v">605</span></div>
-          <div class="bar"><span>Cộng đồng 2</span><span class="t"><i style="width:43.6%"></i></span><span class="v">264</span></div>
-          <div class="bar"><span>Cộng đồng 3</span><span class="t"><i style="width:31.1%"></i></span><span class="v">188</span></div>
-          <div class="bar"><span>Cộng đồng 4</span><span class="t"><i style="width:27.8%"></i></span><span class="v">168</span></div>
-          <div class="bar"><span>Cộng đồng 5</span><span class="t"><i style="width:24.3%"></i></span><span class="v">147</span></div>
-          <div class="bar"><span>Cộng đồng 6</span><span class="t"><i style="width:23.3%"></i></span><span class="v">141</span></div>
-          <div class="bar"><span>Cộng đồng 7</span><span class="t"><i style="width:22.0%"></i></span><span class="v">133</span></div>
-          <div class="bar"><span>Cộng đồng 8</span><span class="t"><i style="width:21.2%"></i></span><span class="v">128</span></div>
+          <div class="bar"><span>Cộng đồng 1</span><span class="t"><i style="width:100.0%"></i></span><span class="v">1.183</span></div>
+          <div class="bar"><span>Cộng đồng 2</span><span class="t"><i style="width:83.6%"></i></span><span class="v">989</span></div>
+          <div class="bar"><span>Cộng đồng 3</span><span class="t"><i style="width:68.7%"></i></span><span class="v">813</span></div>
+          <div class="bar"><span>Cộng đồng 4</span><span class="t"><i style="width:59.6%"></i></span><span class="v">705</span></div>
+          <div class="bar"><span>Cộng đồng 5</span><span class="t"><i style="width:39.6%"></i></span><span class="v">468</span></div>
+          <div class="bar"><span>Cộng đồng 6</span><span class="t"><i style="width:33.3%"></i></span><span class="v">394</span></div>
+          <div class="bar"><span>Cộng đồng 7</span><span class="t"><i style="width:28.7%"></i></span><span class="v">340</span></div>
+          <div class="bar"><span>Cộng đồng 8</span><span class="t"><i style="width:26.3%"></i></span><span class="v">311</span></div>
         </div>
       </div>
 
       <h3>Ba phát hiện</h3>
       <div class="finds">
-        <div class="find"><span class="pill mid">RQ1</span><b>Vai trò trung tâm tách thành hai nhóm khác nhau.</b><p>Nút được nhiều người tương tác tới nhất là U00519 (bậc vào 39), cũng đứng đầu PageRank. Nút cầu nối là U00669, đứng đầu betweenness và eigenvector, đồng thời có bậc ra 140. Hai nhóm này khác nhau, nên cần báo cáo từng độ đo thay vì một bảng xếp hạng chung.</p></div>
-        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rõ, nhưng repost chi phối.</b><p>Louvain tìm được 39 cộng đồng với modularity 0,79, ổn định qua 10 lần chạy (0,789 đến 0,791), cao hơn nhiều so với đợt trước. Repost chiếm 90% lượt tương tác, nên các cộng đồng phản ánh chủ yếu việc ai đăng lại bài của ai. Bài giữ đồ thị đủ 4 loại cạnh và ghi rõ điều này ở mục hạn chế.</p></div>
-        <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>2.852 trên 3.568 nút (80%) chỉ có bậc 1, trong khi 166 nút có bậc từ 10 trở lên và 36 nút từ 50 trở lên. Kiểm định power-law (bootstrap 100 lần, xmin = 3, số mũ 1,75) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
+        <div class="find"><span class="pill mid">RQ1</span><b>Vai trò trung tâm tách thành nhiều nhóm khác nhau.</b><p>U01245 được nhiều tài khoản tương tác tới nhất (bậc vào 39). U07637 đứng đầu PageRank, gấp khoảng 3 lần hạng hai, dù bậc vào chỉ 26 vì được các nút quan trọng trỏ tới. U01623 đứng đầu betweenness và eigenvector, là nút cầu nối với bậc ra 140. Vì vậy cần báo cáo từng độ đo thay vì một bảng xếp hạng chung.</p></div>
+        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rất rõ, nhưng repost chi phối.</b><p>Louvain tìm được 49 cộng đồng với modularity 0,88, ổn định qua 10 lần chạy (0,876 đến 0,877). Repost chiếm 92% lượt tương tác trên toàn mạng, nên các cộng đồng phản ánh chủ yếu việc ai đăng lại bài của ai. Bài giữ đồ thị đủ 4 loại cạnh và ghi rõ điều này ở mục hạn chế.</p></div>
+        <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>7.786 trên 9.727 nút (80%) chỉ có bậc 1, trong khi 314 nút có bậc từ 10 trở lên và 96 nút từ 50 trở lên. Kiểm định power-law (bootstrap 100 lần, xmin = 4, số mũ 1,80) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
       </div>
       <p>Tín hiệu đầu tiên cho ứng dụng: bước làm sạch đã gắn cờ 2 tài khoản, mỗi tài khoản khoảng 200 bài, có 76% và 54% bài trùng nội dung. Cả hai đều đăng đều khoảng 2,7 bài mỗi ngày hoạt động, nên riêng tần suất không tách được họ; cần kết hợp thêm tín hiệu nội dung và vị trí trong mạng.</p>
     </section>
@@ -1260,7 +1244,7 @@ if __name__ == "__main__":
       <h3>Hạn chế</h3>
       <ul>
         <li><b>Lệch do chọn seed:</b> mạng phụ thuộc vào những tài khoản được chọn làm điểm xuất phát. Đợt mở rộng đã giảm nhưng chưa loại bỏ lệch này.</li>
-        <li><b>Repost chiếm ưu thế:</b> khoảng 90% lượt tương tác là repost, nên cộng đồng và nút trung tâm chủ yếu phản ánh hành vi đăng lại. Bài giữ đồ thị đủ 4 loại cạnh.</li>
+        <li><b>Repost chiếm ưu thế:</b> khoảng 92% lượt tương tác là repost, nên cộng đồng và nút trung tâm chủ yếu phản ánh hành vi đăng lại. Bài giữ đồ thị đủ 4 loại cạnh.</li>
         <li><b>Repost không tìm được qua search:</b> chỉ lấy được khi duyệt bảng tin của seed, nên cạnh repost tập trung quanh seed.</li>
         <li><b>Nhãn ngôn ngữ do người đăng đặt:</b> một số bài gắn <code>vi</code> nhưng không phải tiếng Việt; đã lọc phần dài và không có dấu, còn sót bài ngắn.</li>
         <li><b>Chưa có nhãn thật:</b> không có danh sách bot đã xác nhận, nên độ chính xác của ứng dụng chỉ ước lượng bằng gán nhãn tay một mẫu nhỏ. Mới gắn cờ 2 tài khoản, chưa loại khỏi đồ thị.</li>
@@ -1272,7 +1256,7 @@ if __name__ == "__main__":
       <h2><span class="n">07</span>Kế hoạch thực hiện</h2>
       <ul class="plan">
         <li><span class="d">đã xong</span><span><b>Crawl đợt 1 và làm sạch lần đầu.</b> 30.088 bài, đồ thị 675 nút.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">đã xong</span><span><b>Crawl mở rộng theo seed và làm sạch lại.</b> 47.527 bài thô, đồ thị 4.114 nút, thành phần liên thông lớn nhất 3.568 nút.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">đã xong</span><span><b>Crawl mở rộng theo seed (2 vòng) và làm sạch lại.</b> 48.311 bài thô, đồ thị 10.256 nút, thành phần liên thông lớn nhất 9.727 nút.</span><span class="pill ok">xong</span></li>
         <li><span class="d">đã xong</span><span><b>Phân tích mạng.</b> Script analyze_network.py tính độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data/analysis.</span><span class="pill ok">xong</span></li>
         <li><span class="d">23/11 – 27/11</span><span><b>Trực quan hóa.</b> Gephi và NetworkX, xuất ảnh độ phân giải cao.</span><span class="pill todo">sắp tới</span></li>
         <li><span class="d">28/11 – 02/12</span><span><b>Ứng dụng bot/spam.</b> Chấm điểm, gán nhãn tay mẫu 50 tài khoản để kiểm chứng, giao diện Streamlit.</span><span class="pill todo">sắp tới</span></li>
@@ -1297,11 +1281,11 @@ if __name__ == "__main__":
   </main>
 </div>
 
-<footer>Số liệu lấy từ thư mục <code>data/clean</code>, chụp ngày 07/11/2026. Mã nút <code>U00xxx</code> là mã ẩn danh. Trang sẽ được cập nhật sau đợt crawl mở rộng.</footer>
+<footer>Số liệu lấy từ thư mục <code>data/clean</code>, chụp ngày 08/11/2026, sau crawl mở rộng vòng 2. Mã nút <code>U00xxx</code> là mã ẩn danh, đánh lại sau mỗi lần chạy làm sạch nên không so sánh được giữa các lần chạy.</footer>
 
 <script>
 (function(){
-  var pts=[[1,3324],[2,366],[3,77],[4,55],[5,33],[6,20],[7,24],[8,10],[9,23],[10,7],[11,18],[12,8],[13,12],[14,7],[15,6],[16,5],[17,8],[18,3],[19,5],[20,2],[21,4],[22,3],[23,3],[24,1],[25,3],[26,3],[27,3],[28,2],[29,1],[30,4],[32,4],[33,1],[34,4],[35,1],[36,1],[37,1],[38,6],[39,3],[41,2],[42,3],[43,5],[44,3],[46,3],[50,2],[51,1],[52,1],[55,2],[56,1],[58,1],[60,1],[62,1],[63,1],[64,2],[65,1],[70,1],[73,2],[75,2],[77,1],[83,1],[88,1],[90,1],[99,1],[101,1],[104,1],[106,2],[109,1],[111,1],[116,1],[120,1],[128,1],[136,1],[140,1],[146,1],[208,1]];
+  var pts=[[1,8233],[2,1072],[3,266],[4,149],[5,81],[6,29],[7,37],[8,23],[9,37],[10,16],[11,27],[12,10],[13,16],[14,14],[15,9],[16,11],[17,9],[18,5],[19,8],[20,3],[21,7],[22,5],[23,4],[25,7],[26,6],[27,4],[28,2],[29,3],[30,5],[31,3],[32,5],[33,3],[34,5],[35,2],[36,1],[37,2],[38,7],[39,3],[40,1],[41,4],[42,7],[43,5],[44,9],[45,1],[46,3],[50,2],[51,1],[52,1],[54,1],[55,2],[56,1],[57,1],[58,1],[59,1],[60,1],[62,2],[63,4],[64,5],[65,1],[68,1],[69,1],[70,1],[72,2],[73,4],[74,2],[75,1],[76,1],[77,1],[78,2],[81,2],[83,2],[86,1],[88,2],[90,1],[91,1],[94,2],[97,1],[98,1],[99,1],[101,2],[103,1],[104,2],[106,3],[108,2],[109,1],[111,1],[114,1],[116,1],[117,1],[118,2],[119,1],[120,1],[121,1],[125,1],[128,1],[129,1],[134,1],[135,1],[136,1],[137,2],[140,1],[146,1],[154,1],[155,2],[157,1],[159,1],[163,1],[173,1],[175,2],[176,1],[177,1],[208,1],[241,1]];
   var svg=document.getElementById('deg'); if(!svg) return;
   var W=600,H=300,L=56,R=16,T=14,B=44,pw=W-L-R,ph=H-T-B;
   var xmax=Math.log10(300), ymax=Math.log10(10000);
@@ -1317,9 +1301,9 @@ if __name__ == "__main__":
     var hub=p[0]>=100;
     s+='<circle class="d'+(hub?' hub':'')+'" cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="'+(p[1]>1?6:4.5)+'"><title>'+p[1]+' nút có bậc '+p[0]+'</title></circle>';
   });
-  s+='<text x="'+(X(1)+12)+'" y="'+(Y(3324)+4)+'">3.324 nút bậc 1</text>';
-  s+='<text x="'+(X(2)+12)+'" y="'+(Y(366)+4)+'">366 nút bậc 2</text>';
-  s+='<text class="hl" x="'+(X(208)-8)+'" y="'+(Y(1)-14)+'" text-anchor="end">bậc lớn nhất: 208</text>';
+  s+='<text x="'+(X(1)+12)+'" y="'+(Y(8233)+4)+'">8.233 nút bậc 1</text>';
+  s+='<text x="'+(X(2)+12)+'" y="'+(Y(1072)+4)+'">1.072 nút bậc 2</text>';
+  s+='<text class="hl" x="'+(X(241)-8)+'" y="'+(Y(1)-14)+'" text-anchor="end">bậc lớn nhất: 241</text>';
   svg.innerHTML=s;
 })();
 </script>
@@ -1337,9 +1321,5 @@ if __name__ == "__main__":
 </script>
 
 
-<script>
-(function(){var t=document.getElementById("subj-toggle"),l=document.getElementById("subj-sub");if(!t||!l)return;
-t.addEventListener("click",function(e){e.preventDefault();var open=t.getAttribute("aria-expanded")==="true";t.setAttribute("aria-expanded",String(!open));l.hidden=open;});})();
-</script>
 </body>
 </html>
