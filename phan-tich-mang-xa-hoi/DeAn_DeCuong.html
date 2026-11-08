@@ -1341,5 +1341,9 @@ if __name__ == "__main__":
 </script>
 
 
+<script>
+(function(){var t=document.getElementById("subj-toggle"),l=document.getElementById("subj-sub");if(!t||!l)return;
+t.addEventListener("click",function(e){e.preventDefault();var open=t.getAttribute("aria-expanded")==="true";t.setAttribute("aria-expanded",String(!open));l.hidden=open;});})();
+</script>
 </body>
 </html>
