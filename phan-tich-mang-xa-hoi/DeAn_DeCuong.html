@@ -152,6 +152,14 @@ details.code .run{margin:0 0 14px;font-size:14px}
 .cf .cp:hover{border-color:var(--accent)}
 .cf pre{margin:0;padding:12px 14px;max-height:460px;overflow:auto;font:12.5px/1.55 var(--mono);background:var(--surface);color:var(--ink);tab-size:4}
 .cf pre code{background:none;padding:0;font:inherit;white-space:pre}
+
+/* giải thích từng độ đo */
+dl.gl{margin:12px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+dl.gl>div{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:11px 13px;min-width:0}
+dl.gl dt{font-weight:600;font-size:15px}
+dl.gl dd{margin:3px 0 0;font-size:14px;line-height:1.55;color:var(--muted)}
+dl.gl .here{display:block;margin-top:7px;color:var(--ink)}
+dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
@@ -258,9 +266,9 @@ details.code .run{margin:0 0 14px;font-size:14px}
     <section id="phuongphap">
       <h2><span class="n">04</span>Phương pháp</h2>
       <ol class="steps">
-        <li><div><b>Thu thập.</b> Script Python dùng thư viện <code>atproto</code>, ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>, chạy lại được khi bị ngắt.</div></li>
+        <li><div><b>Thu thập.</b> Script Python dùng thư viện <code>atproto</code>, ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>.</div></li>
         <li><div><b>Làm sạch.</b> <code>clean_build_graph.py</code> chạy 7 bước, không sửa dữ liệu thô, xuất bảng nút, bảng cạnh và GraphML.</div></li>
-        <li><div><b>Độ đo toàn mạng.</b> Mật độ, tương hỗ, hệ số phân cụm, assortativity, đường kính, độ dài đường đi trung bình, phân bố bậc, kiểm định power-law bằng bootstrap.</div></li>
+        <li><div><b>Độ đo toàn mạng.</b> Tám chỉ số mô tả hình dạng chung của mạng. Mỗi chỉ số trả lời một câu hỏi đơn giản, giải thích bên dưới kèm giá trị đo được trên thành phần liên thông lớn nhất.<dl class="gl"><div><dt>Mật độ</dt><dd>Tỷ lệ số kết nối có thật so với số kết nối tối đa có thể có giữa các tài khoản. Nằm từ 0 đến 1; càng gần 0 thì mạng càng thưa, mỗi người chỉ tương tác với rất ít người.<span class="here">0,0004: mạng rất thưa, đa số hai tài khoản bất kỳ không tương tác với nhau.</span></dd></div><div><dt>Tương hỗ (reciprocity)</dt><dd>Trong các tương tác có chiều (A tới B), tỷ lệ cặp mà B cũng tương tác lại A. Cho biết tương tác là trao đổi hai chiều hay chỉ một chiều.<span class="here">0,011: gần như toàn bộ là một chiều, ví dụ đăng lại bài hoặc trả lời một tài khoản nổi bật.</span></dd></div><div><dt>Hệ số phân cụm</dt><dd>Bạn của bạn có là bạn của nhau không: tỷ lệ các bộ ba tài khoản khép kín thành hình tam giác. Từ 0 đến 1; cao nghĩa là các nhóm kết nối chặt với nhau.<span class="here">0,04: thấp, ít nhóm nhỏ kết chặt, tương tác trải rộng hơn là khép kín.</span></dd></div><div><dt>Assortativity theo bậc</dt><dd>Tài khoản có nhiều kết nối thường nối với tài khoản cũng nhiều kết nối (giá trị dương) hay với tài khoản ít kết nối (giá trị âm). Từ −1 đến 1.<span class="here">−0,22: âm, các nút lớn chủ yếu nối với rất nhiều nút nhỏ, tạo dạng hình sao.</span></dd></div><div><dt>Đường kính</dt><dd>Quãng đường dài nhất, tính bằng số bước, giữa hai tài khoản bất kỳ trong cùng một thành phần liên thông. Tính trên bản bỏ qua chiều của cạnh.<span class="here">18 bước: hai tài khoản xa nhau nhất phải qua 18 bước.</span></dd></div><div><dt>Độ dài đường đi trung bình</dt><dd>Số bước trung bình để đi từ một tài khoản tới một tài khoản khác. Cho biết thông tin lan trong mạng nhanh hay chậm.<span class="here">6,67 bước: trung bình mất gần 7 bước, tương đương “sáu bậc xa cách”.</span></dd></div><div><dt>Phân bố bậc</dt><dd>Với mỗi giá trị bậc (số kết nối của một tài khoản), có bao nhiêu tài khoản mang giá trị đó. Mạng xã hội thường có rất nhiều nút nhỏ và ít nút rất lớn.<span class="here">80% tài khoản chỉ có 1 kết nối, trong khi nút lớn nhất có 208.</span></dd></div><div><dt>Kiểm định power-law bằng bootstrap</dt><dd>Power-law là mô hình toán cho “đuôi nặng”: số tài khoản giảm theo lũy thừa khi bậc tăng. Cách kiểm: khớp mô hình vào dữ liệu thật, sinh 100 bộ dữ liệu giả đúng theo mô hình, rồi đếm bao nhiêu bộ giả lệch khỏi mô hình nhiều bằng dữ liệu thật. Tỷ lệ đó là p-value; p càng nhỏ thì dữ liệu thật càng không giống power-law.<span class="here">p = 0,00: không có bộ giả nào lệch nhiều như dữ liệu thật, nên phân bố bậc không phải power-law thuần dù đuôi vẫn nặng.</span></dd></div></dl></div></li>
         <li><div><b>Centrality.</b> Degree, closeness, betweenness, eigenvector, PageRank, kèm HITS (hub và authority) cho đồ thị có hướng.</div></li>
         <li><div><b>Thuật toán áp dụng.</b> Louvain tìm cộng đồng, đánh giá bằng modularity, chạy trên bản vô hướng của thành phần liên thông lớn nhất.</div></li>
         <li><div><b>Trực quan hóa.</b> Gephi (ForceAtlas2, tô màu theo cộng đồng, cỡ nút theo centrality) và NetworkX.</div></li>
