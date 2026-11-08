@@ -57,12 +57,28 @@ figure img{width:100%;height:auto;display:block;border-radius:8px;background:#ff
 figcaption{font-size:13px;color:var(--mut);margin-top:6px}
 code{background:var(--card);border:1px solid var(--line);border-radius:4px;padding:1px 5px;font-size:.92em}
 footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);font-size:14px}
+
+/* danh sách các môn: hàng nút khi hẹp, cột cố định ở lề trái khi màn hình rộng */
+.subj{margin:0 0 6px}
+.subj h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);font-weight:600;margin:0 0 8px}
+.subj ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.subj a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);text-decoration:none;font-size:14px;line-height:1.4}
+.subj a:hover{border-color:var(--acc)}
+.subj a[aria-current=page]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);font-weight:600}
+@media(min-width:1480px){.subj{position:fixed;top:60px;left:calc(50% - 720px);width:216px;margin:0}.subj ul{flex-direction:column;flex-wrap:nowrap}}
 </style>
 </head>
 <body>
 <a class="skip" href="#main">Bỏ qua đến nội dung chính</a>
 <div class="wrap">
 <div class="top"><span>ThS HUIT · Thị giác máy tính và nhận dạng mẫu</span><button id="th" type="button">Giao diện</button></div>
+<nav class="subj" aria-label="Các môn học">
+<h2>Các môn học</h2>
+<ul>
+<li><a href="https://tuanvietcoder.github.io/ths-staticweb/thi-giac-may-tinh-va-nhan-dang-mau/DeAn_DeCuong.html" aria-current="page">Thị giác máy tính và nhận dạng mẫu</a></li>
+<li><a href="https://tuanvietcoder.github.io/ths-staticweb/phan-tich-mang-xa-hoi/DeAn_DeCuong.html">Phân tích mạng xã hội</a></li>
+</ul>
+</nav>
 
 <header>
 <div class="eyebrow">Đề cương đồ án · cập nhật 07/11/2026</div>
