@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<style>html{-webkit-text-size-adjust:100%}body{margin:0}</style>
+<title>Mạng tương tác Bluesky tiếng Việt</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Bố cục: cột mục lục dính bên trái, thân bài một cột đọc; số liệu dùng chữ mono, điểm nhấn màu cam chỉ dành cho nút "hub". */
+:root{
+  --bg:#f4f7fa; --surface:#ffffff; --ink:#14222f; --muted:#556677; --line:#d8e0e9;
+  --accent:#1560c0; --accent-soft:#e2edfa; --hot:#b4600f; --hot-soft:#fbecdb;
+  --good:#1d7449; --good-soft:#dff2e8; --warn:#9a5c0a; --warn-soft:#fbefd6; --bad:#a93329; --bad-soft:#f9e0dd;
+  --font:'Be Vietnam Pro',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0c1520; --surface:#122030; --ink:#e6eef6; --muted:#9bafc1; --line:#233548;
+  --accent:#6aaeff; --accent-soft:#17304d; --hot:#f0a45a; --hot-soft:#392916;
+  --good:#5cc58e; --good-soft:#143324; --warn:#e0a34a; --warn-soft:#37290f; --bad:#f0877d; --bad-soft:#3b1d1a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0c1520; --surface:#122030; --ink:#e6eef6; --muted:#9bafc1; --line:#233548;
+  --accent:#6aaeff; --accent-soft:#17304d; --hot:#f0a45a; --hot-soft:#392916;
+  --good:#5cc58e; --good-soft:#143324; --warn:#e0a34a; --warn-soft:#37290f; --bad:#f0877d; --bad-soft:#3b1d1a; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--font);padding-block:0 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+a{color:var(--accent)}
+.skip{position:absolute;left:-999px}
+.skip:focus{left:16px;top:8px;background:var(--surface);padding:8px 12px;border:1px solid var(--line);z-index:20}
+.top{max-width:1120px;margin:0 auto;padding:18px 0;display:flex;flex-wrap:wrap;gap:6px 18px;justify-content:space-between;
+  font-size:13px;color:var(--muted);border-bottom:1px solid var(--line)}
+.top b{color:var(--ink);font-weight:600}
+.wrap{max-width:1120px;margin:0 auto;display:grid;grid-template-columns:200px minmax(0,1fr);gap:48px;padding-top:36px}
+@media(max-width:860px){.wrap{grid-template-columns:minmax(0,1fr);gap:24px}}
+
+/* mục lục */
+.toc{position:sticky;top:20px;align-self:start;font-size:14px}
+.toc ol{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.toc a{display:flex;gap:10px;padding:6px 10px;border-radius:6px;text-decoration:none;color:var(--muted)}
+.toc a:hover,.toc a:focus-visible{background:var(--accent-soft);color:var(--ink)}
+.toc .n{font:500 12px/1.9 var(--mono);color:var(--accent)}
+.toc h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:0 0 8px 10px;font-weight:600}
+@media(max-width:860px){.toc{position:static}.toc ol{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
+
+main{min-width:0}
+.hero h1{font-size:clamp(28px,4.6vw,44px);line-height:1.12;font-weight:800;letter-spacing:-.02em;margin:0 0 14px;text-wrap:balance}
+.hero p.lead{font-size:18px;color:var(--muted);max-width:62ch;margin:0 0 24px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px;margin:0 0 22px}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;min-width:0}
+.stat .v{font:500 26px/1.2 var(--mono);font-variant-numeric:tabular-nums}
+.stat .l{font-size:13px;color:var(--muted);margin-top:4px}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+.btn{display:inline-block;padding:10px 16px;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;border:1px solid var(--accent)}
+.btn.p{background:var(--accent);color:var(--bg)}
+.btn.s{color:var(--accent)}
+.snap{font-size:13px;color:var(--muted);border-left:3px solid var(--warn);padding:4px 0 4px 12px;margin:20px 0 0;max-width:70ch}
+
+section{padding-top:48px;scroll-margin-top:12px}
+section>h2{font-size:24px;line-height:1.25;font-weight:700;margin:0 0 14px;display:flex;gap:12px;align-items:baseline;text-wrap:balance}
+section>h2 .n{font:500 14px var(--mono);color:var(--accent)}
+h3{font-size:16px;margin:26px 0 8px;font-weight:600}
+p{margin:0 0 14px;max-width:72ch}
+ul,ol.plain{margin:0 0 16px;padding-left:22px;max-width:72ch}
+li{margin-bottom:6px}
+code{font:400 13px var(--mono);background:var(--accent-soft);padding:1px 6px;border-radius:4px}
+
+.pill{display:inline-block;font:500 12px/1 var(--mono);padding:4px 8px;border-radius:99px;white-space:nowrap}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.mid{background:var(--warn-soft);color:var(--warn)}
+.pill.no{background:var(--bad-soft);color:var(--bad)}
+.pill.todo{background:var(--accent-soft);color:var(--accent)}
+
+.tw{overflow-x:auto;margin:0 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--bg)}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+td.hot{color:var(--hot);font-weight:500}
+caption{caption-side:bottom;text-align:left;padding:8px 14px;font-size:12px;color:var(--muted)}
+
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;margin:0 0 20px;min-width:0}
+.fig h4{margin:0 0 4px;font-size:15px}
+.fig .cap{font-size:13px;color:var(--muted);margin:0 0 12px;max-width:none}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:minmax(96px,150px) 1fr 64px;gap:10px;align-items:center;font-size:13px}
+.bar .t{height:16px;background:var(--bg);border-radius:4px;overflow:hidden}
+.bar .t i{display:block;height:100%;background:var(--accent);border-radius:4px}
+.bar .t i.h{background:var(--hot)}
+.bar .t i.m{background:var(--muted);opacity:.55}
+.bar .v{font-family:var(--mono);text-align:right;font-variant-numeric:tabular-nums}
+.grp{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:8px 0 0}
+svg{display:block;width:100%;height:auto;max-width:100%}
+svg .ax{stroke:var(--line);stroke-width:1}
+svg .gl{stroke:var(--line);stroke-width:1;stroke-dasharray:3 4}
+svg text{fill:var(--muted);font:12px var(--mono)}
+svg circle.d{fill:var(--accent);fill-opacity:.85}
+svg circle.hub{fill:var(--hot)}
+svg text.hl{fill:var(--hot);font-weight:500}
+
+.finds{display:grid;gap:12px;margin:0 0 18px}
+.find{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:grid;gap:6px}
+.find b{font-size:15px}
+.find p{margin:0;font-size:14.5px;color:var(--muted)}
+.rq{display:grid;grid-template-columns:auto 1fr auto;gap:6px 14px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line);max-width:80ch}
+.rq:last-of-type{border-bottom:0}
+.rq .k{font:500 13px var(--mono);color:var(--accent)}
+.rq p{margin:0}
+.steps{list-style:none;padding:0;margin:0 0 16px;display:grid;gap:10px;counter-reset:s;max-width:80ch}
+.steps li{counter-increment:s;display:grid;grid-template-columns:34px 1fr;gap:12px;margin:0}
+.steps li::before{content:counter(s);width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:500 13px/28px var(--mono);text-align:center}
+.steps b{font-weight:600}
+.plan{list-style:none;padding:0;margin:0 0 16px;max-width:80ch}
+.plan li{display:grid;grid-template-columns:116px 1fr auto;gap:6px 14px;padding:12px 0;border-bottom:1px solid var(--line);margin:0;align-items:baseline}
+.plan .d{font:500 13px var(--mono);color:var(--muted)}
+@media(max-width:560px){.plan li{grid-template-columns:1fr}.rq{grid-template-columns:auto 1fr}.rq .pill{grid-column:2;justify-self:start}.bar{grid-template-columns:96px 1fr 56px}}
+.refs{padding-left:22px}
+.refs li{margin-bottom:10px}
+footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
+@media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">Bỏ qua mục lục</a>
+<div class="top">
+  <span><b>Môn Phân tích mạng xã hội</b> · Bài tập cá nhân</span>
+  <span>Cập nhật 08/11/2026 · Hạn nộp: đầu tháng 12/2026</span>
+</div>
+
+<div class="wrap">
+  <nav class="toc" aria-label="Mục lục">
+    <h2>Nội dung</h2>
+    <ol>
+      <li><a href="#vande"><span class="n">01</span>Đặt vấn đề</a></li>
+      <li><a href="#rq"><span class="n">02</span>Mục tiêu, câu hỏi</a></li>
+      <li><a href="#dulieu"><span class="n">03</span>Dữ liệu và đồ thị</a></li>
+      <li><a href="#phuongphap"><span class="n">04</span>Phương pháp</a></li>
+      <li><a href="#ketqua"><span class="n">05</span>Kết quả sơ bộ</a></li>
+      <li><a href="#dongop"><span class="n">06</span>Đóng góp, hạn chế</a></li>
+      <li><a href="#kehoach"><span class="n">07</span>Kế hoạch</a></li>
+      <li><a href="#tailieu"><span class="n">08</span>Tài liệu tham khảo</a></li>
+    </ol>
+  </nav>
+
+  <main id="main">
+    <header class="hero">
+      <h1>Mạng tương tác của người dùng tiếng Việt trên Bluesky</h1>
+      <p class="lead">Đồ án dựng đồ thị có hướng từ các lượt trả lời, trích dẫn, nhắc tên và đăng lại giữa người dùng Việt trên Bluesky, rồi đo cấu trúc mạng và xây ứng dụng chấm điểm các tài khoản nghi là bot hoặc spam.</p>
+      <div class="stats">
+        <div class="stat"><div class="v">26.533</div><div class="l">bài tiếng Việt sau làm sạch (thô: 30.088)</div></div>
+        <div class="stat"><div class="v">675 · 718</div><div class="l">nút · cạnh của đồ thị hiện có</div></div>
+        <div class="stat"><div class="v">305</div><div class="l">nút trong thành phần liên thông lớn nhất</div></div>
+        <div class="stat"><div class="v">0,40</div><div class="l">modularity, Louvain tìm được 4 cộng đồng</div></div>
+      </div>
+      <div class="btns">
+        <a class="btn p" href="#ketqua">Xem kết quả sơ bộ</a>
+        <a class="btn s" href="#kehoach">Kế hoạch tiếp theo</a>
+      </div>
+      <p class="snap">Số liệu chụp ngày 07/11/2026, trước đợt crawl mở rộng. Mạng hiện còn nhỏ và thưa, nên kết quả ở mục 05 chỉ để định hướng, chưa dùng để kết luận.</p>
+    </header>
+
+    <section id="vande">
+      <h2><span class="n">01</span>Đặt vấn đề</h2>
+      <p>Bluesky là mạng xã hội phi tập trung chạy trên giao thức AT Protocol. Dữ liệu công khai đọc được qua API mở, nên có thể thu thập hợp lệ bằng tài khoản và App Password của chính người làm bài. Cộng đồng người Việt trên nền tảng này còn mới, chưa có mô tả nào về cấu trúc tương tác của họ.</p>
+      <p>Bài tập yêu cầu thu thập tối thiểu 20.000 bản ghi từ một nguồn, làm sạch, dựng đồ thị, tính các độ đo của phân tích mạng xã hội, chọn một thuật toán để áp dụng, trực quan hóa và xây ứng dụng minh họa. Bluesky đáp ứng đủ các bước đó với dữ liệu thật.</p>
+      <ul>
+        <li>Ai là người được nhiều người khác tương tác tới, và ai chủ động tương tác nhiều nhất?</li>
+        <li>Mạng có tách thành các cộng đồng rõ ràng không?</li>
+        <li>Mạng có vài nút rất lớn và đa số nút nhỏ, như các mạng xã hội thường thấy không?</li>
+        <li>Tài khoản nào hành xử khác thường (nghi bot, spam) và làm lệch các độ đo của mạng?</li>
+      </ul>
+      <p>Câu hỏi cuối là lý do của ứng dụng. Bot và spam làm sai lệch centrality và cộng đồng, nên một công cụ chấm điểm tài khoản nghi ngờ vừa có ích cho người dùng nền tảng, vừa làm sạch dữ liệu cho chính bài phân tích này.</p>
+    </section>
+
+    <section id="rq">
+      <h2><span class="n">02</span>Mục tiêu và câu hỏi nghiên cứu</h2>
+      <p>Mục tiêu: mô tả cấu trúc mạng tương tác tiếng Việt trên Bluesky bằng các độ đo chuẩn, và xây một ứng dụng phát hiện tài khoản nghi bot/spam từ hành vi đăng bài và vị trí trong mạng.</p>
+      <div>
+        <div class="rq"><span class="k">RQ1</span><p>Những tài khoản nào giữ vai trò trung tâm (degree, betweenness, closeness, eigenvector, PageRank, HITS)?</p><span class="pill mid">sơ bộ</span></div>
+        <div class="rq"><span class="k">RQ2</span><p>Mạng có cấu trúc cộng đồng không, đo bằng Louvain và modularity?</p><span class="pill mid">sơ bộ</span></div>
+        <div class="rq"><span class="k">RQ3</span><p>Phân bố bậc có đuôi nặng (một ít nút rất lớn, nhiều nút rất nhỏ) không?</p><span class="pill no">chưa đủ dữ liệu</span></div>
+        <div class="rq"><span class="k">RQ4</span><p>Các tín hiệu về hành vi (tần suất đăng, trùng nội dung, tỷ lệ đăng lại) và vị trí trong mạng có tách được nhóm tài khoản nghi bot/spam không, và loại nhóm đó thì các độ đo của mạng đổi thế nào?</p><span class="pill todo">sắp làm</span></div>
+      </div>
+      <p>Phạm vi: chỉ các bài có nhãn ngôn ngữ <code>vi</code>, thời gian đăng từ 10/2024 đến 10/2026. Không xét nội dung văn bản, chỉ xét cấu trúc tương tác.</p>
+    </section>
+
+    <section id="dulieu">
+      <h2><span class="n">03</span>Dữ liệu và đồ thị</h2>
+      <h3>Nguồn và cách thu thập</h3>
+      <ul>
+        <li><b>Tìm bài</b> bằng <code>searchPosts</code> với <code>lang=vi</code>, duyệt theo từng ngày và từ khóa tiếng Việt phổ biến.</li>
+        <li><b>Mở rộng theo seed</b> bằng <code>getAuthorFeed</code>: lấy toàn bộ bài và lượt đăng lại của các tài khoản trung tâm, rồi lặp lại với những tài khoản mới được nhắc tới.</li>
+        <li>Tất cả đều là dữ liệu công khai. Trang này chỉ hiển thị mã ẩn danh <code>U00xxx</code>, không hiển thị tên tài khoản.</li>
+      </ul>
+      <h3>Đồ thị</h3>
+      <ul>
+        <li><b>Nút:</b> một tài khoản Bluesky.</li>
+        <li><b>Cạnh có hướng:</b> A trỏ tới B khi A trả lời, trích dẫn, nhắc tên hoặc đăng lại bài của B.</li>
+        <li><b>Trọng số:</b> số lần tương tác, giữ riêng theo từng loại (reply, quote, mention, repost).</li>
+      </ul>
+      <h3>Kết quả làm sạch</h3>
+      <div class="tw"><table>
+        <caption>Nhật ký làm sạch, đợt chạy ngày 07/11/2026 (chưa mở rộng crawl)</caption>
+        <thead><tr><th>Bước</th><th>Nội dung</th><th class="num">Trước</th><th class="num">Sau</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Xóa trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC</td><td class="num">30.088</td><td class="num">30.088</td></tr>
+          <tr><td>2.2</td><td>Loại bài rỗng hoặc dưới 1 từ</td><td class="num">30.088</td><td class="num">29.510</td></tr>
+          <tr><td>2.3</td><td>Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)</td><td class="num">29.510</td><td class="num">26.533</td></tr>
+          <tr><td>3</td><td>Bot/spam: 2 tài khoản bị gắn cờ, chỉ báo cáo, chưa loại</td><td class="num">26.533</td><td class="num">26.533</td></tr>
+          <tr><td>5–6</td><td>Dựng cạnh, bỏ self-loop, bỏ nút cô lập (cạnh: 768 → 718; nút: 1.049 → 675)</td><td class="num">4.549</td><td class="num">718</td></tr>
+          <tr><td>6.3</td><td>Giữ thành phần liên thông lớn nhất (nút / cạnh)</td><td class="num">675 / 718</td><td class="num">305 / 357</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="phuongphap">
+      <h2><span class="n">04</span>Phương pháp</h2>
+      <ol class="steps">
+        <li><div><b>Thu thập.</b> Script Python dùng thư viện <code>atproto</code>, ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>, chạy lại được khi bị ngắt.</div></li>
+        <li><div><b>Làm sạch.</b> <code>clean_build_graph.py</code> chạy 7 bước, không sửa dữ liệu thô, xuất bảng nút, bảng cạnh và GraphML.</div></li>
+        <li><div><b>Độ đo toàn mạng.</b> Mật độ, tương hỗ, hệ số phân cụm, assortativity, đường kính, độ dài đường đi trung bình, phân bố bậc.</div></li>
+        <li><div><b>Centrality.</b> Degree, closeness, betweenness, eigenvector, PageRank, kèm HITS (hub và authority) cho đồ thị có hướng.</div></li>
+        <li><div><b>Thuật toán áp dụng.</b> Louvain tìm cộng đồng, đánh giá bằng modularity, chạy trên bản vô hướng của thành phần liên thông lớn nhất.</div></li>
+        <li><div><b>Trực quan hóa.</b> Gephi (ForceAtlas2, tô màu theo cộng đồng, cỡ nút theo centrality) và NetworkX.</div></li>
+        <li><div><b>Ứng dụng phát hiện bot/spam.</b> Tính đặc trưng từng tài khoản, chấm điểm nghi ngờ, giao diện Streamlit (chi tiết bên dưới).</div></li>
+      </ol>
+      <h3>Ứng dụng: chấm điểm tài khoản nghi bot/spam</h3>
+      <div class="tw"><table>
+        <caption>Các nhóm tín hiệu dùng để chấm điểm. Mọi tín hiệu tính từ dữ liệu công khai đã thu thập.</caption>
+        <thead><tr><th>Nhóm</th><th>Tín hiệu</th><th>Vì sao đáng ngờ</th></tr></thead>
+        <tbody>
+          <tr><td>Tần suất</td><td>Số bài mỗi ngày hoạt động</td><td>Đăng dày đặc, đều đặn bất thường</td></tr>
+          <tr><td>Nội dung</td><td>Tỷ lệ bài trùng, tỷ lệ bài có link</td><td>Lặp một nội dung hoặc chỉ đẩy link</td></tr>
+          <tr><td>Hành vi</td><td>Tỷ lệ repost, quote, reply trên tổng hoạt động</td><td>Chỉ khuếch đại bài người khác, ít tự đăng</td></tr>
+          <tr><td>Vị trí trong mạng</td><td>Bậc vào/ra, hub score, tương hỗ, phân cụm</td><td>Tương tác một chiều, không được ai đáp lại</td></tr>
+        </tbody>
+      </table></div>
+      <ul>
+        <li><b>Chấm điểm:</b> điểm tổng có trọng số của các tín hiệu đã chuẩn hóa, mỗi tín hiệu hiện rõ phần đóng góp để giải thích được. Đối chiếu với Isolation Forest, một mô hình không giám sát.</li>
+        <li><b>Kiểm chứng:</b> chưa có danh sách bot đã xác nhận, nên gán nhãn tay một mẫu 50 tài khoản (25 điểm cao nhất, 25 ngẫu nhiên) rồi tính precision@25.</li>
+        <li><b>Giao diện:</b> thẻ điểm của một tài khoản, bảng xếp hạng nghi ngờ, đồ thị lân cận tô màu theo điểm, thanh trượt ngưỡng cho thấy số nút, số cạnh và modularity của mạng trước và sau khi loại nhóm bị gắn cờ.</li>
+        <li><b>Thận trọng:</b> kết quả chỉ là mức nghi ngờ, không kết luận một tài khoản là bot. Trang và ứng dụng chỉ dùng mã ẩn danh.</li>
+      </ul>
+    </section>
+
+    <section id="ketqua">
+      <h2><span class="n">05</span>Kết quả thực nghiệm sơ bộ</h2>
+      <p>Các số dưới đây tính trên đồ thị hiện có (675 nút) và trên thành phần liên thông lớn nhất (305 nút).</p>
+
+      <div class="tw"><table>
+        <caption>Độ đo toàn mạng. Dấu “—” là không xác định vì đồ thị chưa liên thông.</caption>
+        <thead><tr><th>Độ đo</th><th class="num">Toàn bộ</th><th class="num">Liên thông lớn nhất</th></tr></thead>
+        <tbody>
+          <tr><td>Số nút</td><td class="num">675</td><td class="num">305</td></tr>
+          <tr><td>Số cạnh có hướng</td><td class="num">718</td><td class="num">357</td></tr>
+          <tr><td>Mật độ</td><td class="num">0,0016</td><td class="num">0,0039</td></tr>
+          <tr><td>Tương hỗ (reciprocity)</td><td class="num">0,006</td><td class="num">0,006</td></tr>
+          <tr><td>Hệ số phân cụm trung bình</td><td class="num">0,077</td><td class="num">0,171</td></tr>
+          <tr><td>Transitivity</td><td class="num">0,0037</td><td class="num">0,0056</td></tr>
+          <tr><td>Assortativity theo bậc</td><td class="num">−0,393</td><td class="num">−0,022</td></tr>
+          <tr><td>Đường kính</td><td class="num">—</td><td class="num">7</td></tr>
+          <tr><td>Độ dài đường đi trung bình</td><td class="num">—</td><td class="num">2,82</td></tr>
+          <tr><td>Số thành phần liên thông (4 lớn nhất)</td><td class="num">305 · 141 · 84 · 52</td><td class="num">—</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="fig">
+        <h4>Loại tương tác tạo nên các cạnh</h4>
+        <p class="cap">Tổng số lượt tương tác theo loại, trước khi gộp thành cạnh có trọng số.</p>
+        <div class="bars">
+          <div class="grp">Toàn bộ đồ thị (2.930 lượt)</div>
+          <div class="bar"><span>Repost</span><span class="t"><i style="width:100%"></i></span><span class="v">1.463</span></div>
+          <div class="bar"><span>Quote</span><span class="t"><i style="width:50.9%"></i></span><span class="v">745</span></div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:49.1%"></i></span><span class="v">719</span></div>
+          <div class="bar"><span>Mention</span><span class="t"><i style="width:.3%"></i></span><span class="v">3</span></div>
+          <div class="grp">Liên thông lớn nhất (1.408 lượt)</div>
+          <div class="bar"><span>Repost</span><span class="t"><i style="width:84.4%"></i></span><span class="v">1.235</span></div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:11.8%"></i></span><span class="v">173</span></div>
+          <div class="bar"><span>Quote</span><span class="t"><i style="width:0%"></i></span><span class="v">0</span></div>
+          <div class="bar"><span>Mention</span><span class="t"><i style="width:0%"></i></span><span class="v">0</span></div>
+        </div>
+      </div>
+
+      <div class="fig">
+        <h4>Phân bố bậc (thang log–log)</h4>
+        <p class="cap">Mỗi chấm là một giá trị bậc: trục ngang là bậc, trục dọc là số nút có bậc đó. Toàn bộ đồ thị, bậc tính trên bản vô hướng.</p>
+        <svg id="deg" viewBox="0 0 600 300" role="img" aria-label="Phân bố bậc log-log: 585 nút bậc 1, 76 nút bậc 2, còn lại mỗi bậc có một nút, bậc lớn nhất là 208"></svg>
+      </div>
+
+      <h3>Các nút trung tâm</h3>
+      <div class="tw"><table>
+        <caption>Thành phần liên thông lớn nhất. Mã ẩn danh; ba nút đầu bảng là các tài khoản seed của đợt crawl.</caption>
+        <thead><tr><th>Nút</th><th class="num">Bậc ra</th><th class="num">Hub (HITS)</th><th class="num">Authority (HITS)</th><th class="num">Betweenness</th><th class="num">Eigenvector</th></tr></thead>
+        <tbody>
+          <tr><td class="hot">U00254</td><td class="num">208</td><td class="num">0,950</td><td class="num">—</td><td class="num">0,0017</td><td class="num">0,641</td></tr>
+          <tr><td class="hot">U00126</td><td class="num">106</td><td class="num">0,048</td><td class="num">0,108</td><td class="num">0,0006</td><td class="num">0,319</td></tr>
+          <tr><td class="hot">U00122</td><td class="num">33</td><td class="num">0,002</td><td class="num">—</td><td class="num">0</td><td class="num">—</td></tr>
+          <tr><td>U00418</td><td class="num">0</td><td class="num">0</td><td class="num">0,058</td><td class="num">0</td><td class="num">—</td></tr>
+          <tr><td>U00195</td><td class="num">0</td><td class="num">0</td><td class="num">0,040</td><td class="num">0</td><td class="num">—</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="fig">
+        <h4>Quy mô các cộng đồng (Louvain)</h4>
+        <p class="cap">Số nút mỗi cộng đồng trong thành phần liên thông lớn nhất. Modularity Q = 0,398.</p>
+        <div class="bars">
+          <div class="bar"><span>Cộng đồng 1</span><span class="t"><i style="width:100%"></i></span><span class="v">183</span></div>
+          <div class="bar"><span>Cộng đồng 2</span><span class="t"><i style="width:42.6%"></i></span><span class="v">78</span></div>
+          <div class="bar"><span>Cộng đồng 3</span><span class="t"><i style="width:18%"></i></span><span class="v">33</span></div>
+          <div class="bar"><span>Cộng đồng 4</span><span class="t"><i style="width:6%"></i></span><span class="v">11</span></div>
+        </div>
+      </div>
+
+      <h3>Ba phát hiện</h3>
+      <div class="finds">
+        <div class="find"><span class="pill mid">RQ1</span><b>Mạng có dạng hình sao quanh vài tài khoản seed.</b><p>Ba nút đầu bảng tạo ra 347 trên 357 cạnh của thành phần liên thông lớn nhất. Bậc vào lớn nhất chỉ là 2, tức không tài khoản nào được nhiều người khác tương tác tới. Các độ đo như betweenness và PageRank vì thế gần như phẳng.</p></div>
+        <div class="find"><span class="pill mid">RQ2</span><b>Modularity 0,40 phản ánh cách lấy mẫu hơn là cộng đồng thật.</b><p>Bốn cộng đồng Louvain tìm được gần trùng với các “ngôi sao” quanh từng seed. Cần thêm tương tác giữa những người không phải seed trước khi gọi đó là cấu trúc cộng đồng.</p></div>
+        <div class="find"><span class="pill no">RQ3</span><b>Chưa kiểm tra được đuôi nặng.</b><p>585 trên 675 nút chỉ có một cạnh, và chỉ 16 giá trị bậc khác nhau xuất hiện. Số điểm này quá ít để khớp hay bác bỏ power-law.</p></div>
+      </div>
+      <p>Tín hiệu đầu tiên cho ứng dụng: bước làm sạch đã gắn cờ 2 tài khoản, mỗi tài khoản khoảng 200 bài, có 76% và 54% bài trùng nội dung. Cả hai đều đăng đều khoảng 2,7 bài mỗi ngày hoạt động, nên riêng tần suất không tách được họ; cần kết hợp thêm tín hiệu nội dung và vị trí trong mạng.</p>
+      <p>Nguyên nhân chung: mẫu được lấy theo tài khoản seed, nên có nhiều bài từ ít người nhưng ít tương tác chéo giữa họ. Đợt crawl mở rộng ở mục 07 nhằm sửa đúng điểm này.</p>
+    </section>
+
+    <section id="dongop">
+      <h2><span class="n">06</span>Đóng góp và hạn chế</h2>
+      <h3>Đóng góp</h3>
+      <ul>
+        <li>Bộ dữ liệu tương tác tiếng Việt trên Bluesky, kèm quy trình thu thập và làm sạch chạy lại được. <span class="pill ok">đã có</span></li>
+        <li>Phân tích cấu trúc mạng (centrality, HITS, Louvain, phân bố bậc) trên dữ liệu mở rộng. <span class="pill todo">đang làm</span></li>
+        <li>Ứng dụng chấm điểm tài khoản nghi bot/spam, có giải thích từng tín hiệu và so sánh độ đo mạng trước, sau khi loại. <span class="pill todo">dự kiến</span></li>
+      </ul>
+      <h3>Hạn chế</h3>
+      <ul>
+        <li><b>Lệch do chọn seed:</b> mạng phụ thuộc vào những tài khoản được chọn làm điểm xuất phát.</li>
+        <li><b>Repost không tìm được qua search:</b> chỉ lấy được khi duyệt bảng tin của seed, nên cạnh repost tập trung quanh seed.</li>
+        <li><b>Nhãn ngôn ngữ do người đăng đặt:</b> một số bài gắn <code>vi</code> nhưng không phải tiếng Việt; đã lọc phần dài và không có dấu, còn sót bài ngắn.</li>
+        <li><b>Chưa có nhãn thật:</b> không có danh sách bot đã xác nhận, nên độ chính xác của ứng dụng chỉ ước lượng bằng gán nhãn tay một mẫu nhỏ. Mới gắn cờ 2 tài khoản, chưa loại khỏi đồ thị.</li>
+        <li><b>Quyền riêng tư:</b> chỉ công bố mã ẩn danh, bảng ánh xạ về tài khoản thật giữ riêng.</li>
+      </ul>
+    </section>
+
+    <section id="kehoach">
+      <h2><span class="n">07</span>Kế hoạch thực hiện</h2>
+      <ul class="plan">
+        <li><span class="d">đã xong</span><span><b>Crawl đợt 1 và làm sạch lần đầu.</b> 30.088 bài, đồ thị 675 nút.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">08/11 – 12/11</span><span><b>Crawl mở rộng theo seed vòng 1 và vòng 2.</b> Mục tiêu: thành phần liên thông lớn nhất từ vài nghìn nút trở lên; chạy lại làm sạch.</span><span class="pill mid">đang chạy</span></li>
+        <li><span class="d">13/11 – 22/11</span><span><b>Phân tích mạng.</b> Độ đo toàn mạng, centrality, HITS, Louvain, modularity, phân bố bậc trên dữ liệu mới; đồng thời tính đặc trưng hành vi từng tài khoản.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">23/11 – 27/11</span><span><b>Trực quan hóa.</b> Gephi và NetworkX, xuất ảnh độ phân giải cao.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">28/11 – 02/12</span><span><b>Ứng dụng bot/spam.</b> Chấm điểm, gán nhãn tay mẫu 50 tài khoản để kiểm chứng, giao diện Streamlit.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">03/12 – hạn nộp</span><span><b>Báo cáo và đóng gói.</b> Mã nguồn, dữ liệu mẫu, README, file Gephi; chạy thử từ đầu trên máy sạch.</span><span class="pill todo">sắp tới</span></li>
+      </ul>
+    </section>
+
+    <section id="tailieu">
+      <h2><span class="n">08</span>Tài liệu tham khảo</h2>
+      <ol class="refs">
+        <li>Kleppmann, M. và cộng sự (2024). <i>Bluesky and the AT Protocol: Usable Decentralized Social Media.</i> arXiv:2402.03239.</li>
+        <li>Blondel, V. D., Guillaume, J.-L., Lambiotte, R., Lefebvre, E. (2008). Fast unfolding of communities in large networks. <i>Journal of Statistical Mechanics</i>, P10008.</li>
+        <li>Kleinberg, J. M. (1999). Authoritative sources in a hyperlinked environment. <i>Journal of the ACM</i>, 46(5), 604–632.</li>
+        <li>Brin, S., Page, L. (1998). The anatomy of a large-scale hypertextual web search engine. <i>Computer Networks and ISDN Systems</i>, 30, 107–117.</li>
+        <li>Newman, M. E. J. (2010). <i>Networks: An Introduction.</i> Oxford University Press.</li>
+        <li>Hagberg, A., Schult, D., Swart, P. (2008). Exploring network structure, dynamics, and function using NetworkX. <i>Proceedings of SciPy 2008.</i></li>
+        <li>Bastian, M., Heymann, S., Jacomy, M. (2009). Gephi: an open source software for exploring and manipulating networks. <i>ICWSM.</i></li>
+        <li>Ferrara, E., Varol, O., Davis, C., Menczer, F., Flammini, A. (2016). The rise of social bots. <i>Communications of the ACM</i>, 59(7), 96–104.</li>
+        <li>Liu, F. T., Ting, K. M., Zhou, Z.-H. (2008). Isolation forest. <i>IEEE ICDM</i>, 413–422.</li>
+      </ol>
+    </section>
+  </main>
+</div>
+
+<footer>Số liệu lấy từ thư mục <code>data/clean</code>, chụp ngày 07/11/2026. Mã nút <code>U00xxx</code> là mã ẩn danh. Trang sẽ được cập nhật sau đợt crawl mở rộng.</footer>
+
+<script>
+(function(){
+  var pts=[[1,585],[2,76],[3,1],[4,1],[5,1],[10,1],[11,1],[13,1],[14,1],[22,1],[33,1],[51,1],[75,1],[106,1],[140,1],[208,1]];
+  var svg=document.getElementById('deg'); if(!svg) return;
+  var W=600,H=300,L=56,R=16,T=14,B=44,pw=W-L-R,ph=H-T-B;
+  var xmax=Math.log10(300), ymax=Math.log10(1000);
+  function X(v){return L+Math.log10(v)/xmax*pw}
+  function Y(v){return T+ph-Math.log10(v)/ymax*ph}
+  var s='';
+  [1,10,100,1000].forEach(function(v){s+='<line class="gl" x1="'+L+'" x2="'+(W-R)+'" y1="'+Y(v)+'" y2="'+Y(v)+'"/><text x="'+(L-8)+'" y="'+(Y(v)+4)+'" text-anchor="end">'+v+'</text>'});
+  [1,10,100].forEach(function(v){s+='<line class="gl" y1="'+T+'" y2="'+(T+ph)+'" x1="'+X(v)+'" x2="'+X(v)+'"/><text x="'+X(v)+'" y="'+(T+ph+18)+'" text-anchor="middle">'+v+'</text>'});
+  s+='<line class="ax" x1="'+L+'" x2="'+(W-R)+'" y1="'+(T+ph)+'" y2="'+(T+ph)+'"/><line class="ax" x1="'+L+'" x2="'+L+'" y1="'+T+'" y2="'+(T+ph)+'"/>';
+  s+='<text x="'+(L+pw/2)+'" y="'+(H-6)+'" text-anchor="middle">bậc</text>';
+  s+='<text transform="translate(14 '+(T+ph/2)+') rotate(-90)" text-anchor="middle">số nút</text>';
+  pts.forEach(function(p){
+    var hub=p[0]>=100;
+    s+='<circle class="d'+(hub?' hub':'')+'" cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="'+(p[1]>1?6:4.5)+'"><title>'+p[1]+' nút có bậc '+p[0]+'</title></circle>';
+  });
+  s+='<text x="'+(X(1)+12)+'" y="'+(Y(585)+4)+'">585 nút bậc 1</text>';
+  s+='<text x="'+(X(2)+12)+'" y="'+(Y(76)+4)+'">76 nút bậc 2</text>';
+  s+='<text class="hl" x="'+(X(208)-8)+'" y="'+(Y(1)-14)+'" text-anchor="end">hub: bậc 208, 140, 106</text>';
+  svg.innerHTML=s;
+})();
+</script>
+
+</body>
+</html>
