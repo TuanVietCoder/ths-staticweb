@@ -123,6 +123,16 @@ svg text.hl{fill:var(--hot);font-weight:500}
 footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid var(--line);font-size:13px;color:var(--muted)}
 @media(prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* danh sách các môn: hàng nút khi hẹp, cột cố định ở lề trái khi màn hình rộng */
+.subj{max-width:1120px;margin:14px auto 0}
+.subj h2{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 8px}
+.subj ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.subj li{margin:0}
+.subj a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);text-decoration:none;font-size:14px;line-height:1.4}
+.subj a:hover{border-color:var(--accent)}
+.subj a[aria-current="page"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
+@media(min-width:1640px){.subj{position:fixed;top:92px;left:calc(50% - 800px);width:216px;margin:0}.subj ul{flex-direction:column;flex-wrap:nowrap}}
 </style>
 </head>
 <body>
@@ -132,6 +142,13 @@ footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid
   <span><b>Môn Phân tích mạng xã hội</b> · Bài tập cá nhân</span>
   <span>Cập nhật 08/11/2026 · Hạn nộp: đầu tháng 12/2026</span>
 </div>
+<nav class="subj" aria-label="Các môn học">
+  <h2>Các môn học</h2>
+  <ul>
+    <li><a href="https://tuanvietcoder.github.io/ths-staticweb/thi-giac-may-tinh-va-nhan-dang-mau/DeAn_DeCuong.html">Thị giác máy tính và nhận dạng mẫu</a></li>
+    <li><a href="https://tuanvietcoder.github.io/ths-staticweb/phan-tich-mang-xa-hoi/DeAn_DeCuong.html" aria-current="page">Phân tích mạng xã hội</a></li>
+  </ul>
+</nav>
 
 <div class="wrap">
   <nav class="toc" aria-label="Mục lục">
