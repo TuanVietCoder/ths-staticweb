@@ -65,6 +65,17 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 .subj a{display:block;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--fg);text-decoration:none;font-size:14px;line-height:1.4}
 .subj a:hover{border-color:var(--acc)}
 .subj a[aria-current=page]{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent);font-weight:600}
+.subj .has-sub>a{position:relative;padding-right:30px}
+.subj .has-sub>a::after{content:"";position:absolute;right:12px;top:50%;width:6px;height:6px;border:solid currentColor;border-width:0 2px 2px 0;transform:translateY(-70%) rotate(45deg);transition:transform .15s}
+.subj .has-sub>a[aria-expanded="false"]::after{transform:translateY(-50%) rotate(-45deg)}
+.subj .sub{list-style:none;margin:6px 0 0 12px;padding:0 0 0 10px;border-left:2px solid var(--acc);display:flex;flex-direction:column;gap:6px}
+.subj .sub[hidden]{display:none}
+.subj .sub li{font-size:13.5px;line-height:1.4;padding:6px 10px;border-radius:8px;border:1px solid var(--line)}
+.subj .sub li b{display:block;font-weight:600}
+.subj .sub li small{display:block;color:var(--mut);font-size:12px;margin-top:2px}
+.subj .sub li.here{border-color:var(--acc);background:color-mix(in srgb,var(--acc) 12%,transparent)}
+.subj .sub li.off{opacity:.7;border-style:dashed}
+
 @media(min-width:1480px){.subj{position:fixed;top:60px;left:calc(50% - 720px);width:216px;margin:0}.subj ul{flex-direction:column;flex-wrap:nowrap}}
 </style>
 </head>
@@ -75,7 +86,11 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <nav class="subj" aria-label="Các môn học">
 <h2>Các môn học</h2>
 <ul>
-<li><a href="https://tuanvietcoder.github.io/ths-staticweb/thi-giac-may-tinh-va-nhan-dang-mau/DeAn_DeCuong.html" aria-current="page">Thị giác máy tính và nhận dạng mẫu</a></li>
+<li class="has-sub"><a href="https://tuanvietcoder.github.io/ths-staticweb/thi-giac-may-tinh-va-nhan-dang-mau/DeAn_DeCuong.html" aria-current="page" aria-expanded="true" aria-controls="subj-sub" id="subj-toggle">Thị giác máy tính và nhận dạng mẫu</a>
+<ul class="sub" id="subj-sub">
+<li class="here"><b>Đồ án</b><small>Trang này · Đề cương đồ án 29 điểm mốc sọ nghiêng bằng ViT-Small heatmap</small></li>
+</ul>
+</li>
 <li><a href="https://tuanvietcoder.github.io/ths-staticweb/phan-tich-mang-xa-hoi/DeAn_DeCuong.html">Phân tích mạng xã hội</a></li>
 </ul>
 </nav>
@@ -215,5 +230,9 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 (function(){var b=document.getElementById('th'),r=document.documentElement,k='theme';
 try{var s=localStorage.getItem(k);if(s)r.setAttribute('data-theme',s)}catch(e){}
 b.addEventListener('click',function(){var d=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');var n=d==='dark'?'light':'dark';r.setAttribute('data-theme',n);try{localStorage.setItem(k,n)}catch(e){}})})();
+</script>
+<script>
+(function(){var t=document.getElementById("subj-toggle"),l=document.getElementById("subj-sub");if(!t||!l)return;
+t.addEventListener("click",function(e){e.preventDefault();var open=t.getAttribute("aria-expanded")==="true";t.setAttribute("aria-expanded",String(!open));l.hidden=open;});})();
 </script>
 </body></html>
