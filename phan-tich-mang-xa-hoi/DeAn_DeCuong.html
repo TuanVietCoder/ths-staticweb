@@ -133,6 +133,25 @@ footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid
 .subj a:hover{border-color:var(--accent)}
 .subj a[aria-current="page"]{border-color:var(--accent);background:var(--accent-soft);font-weight:600}
 @media(min-width:1640px){.subj{position:fixed;top:92px;left:calc(50% - 800px);width:216px;margin:0}.subj ul{flex-direction:column;flex-wrap:nowrap}}
+
+/* mã nguồn: mục gập mở, khung cuộn riêng */
+details.code{background:var(--surface);border:1px solid var(--line);border-radius:10px;margin:0 0 12px;min-width:0}
+details.code>summary{cursor:pointer;list-style:none;padding:13px 16px;display:flex;flex-wrap:wrap;gap:4px 14px;align-items:baseline;font-weight:600}
+details.code>summary::-webkit-details-marker{display:none}
+details.code>summary::before{content:"▸";color:var(--accent);font-size:13px;width:12px;transition:transform .15s}
+details.code[open]>summary::before{transform:rotate(90deg)}
+details.code>summary small{font:400 12px var(--mono);color:var(--muted)}
+details.code .body{padding:2px 16px 16px;border-top:1px solid var(--line);min-width:0}
+details.code .body ul{padding-left:20px;margin:14px 0 10px}
+details.code .run{margin:0 0 14px;font-size:14px}
+.cf{border:1px solid var(--line);border-radius:8px;margin:0 0 12px;overflow:hidden;min-width:0}
+.cf .ch{display:flex;gap:12px;align-items:center;padding:7px 12px;background:var(--bg);border-bottom:1px solid var(--line);font-size:12px;color:var(--muted)}
+.cf .ch code{background:none;padding:0;color:var(--ink);font-weight:500}
+.cf .ch span{margin-left:auto}
+.cf .cp{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:6px;padding:3px 10px;font:12px var(--font);cursor:pointer}
+.cf .cp:hover{border-color:var(--accent)}
+.cf pre{margin:0;padding:12px 14px;max-height:460px;overflow:auto;font:12.5px/1.55 var(--mono);background:var(--surface);color:var(--ink);tab-size:4}
+.cf pre code{background:none;padding:0;font:inherit;white-space:pre}
 </style>
 </head>
 <body>
@@ -247,6 +266,863 @@ footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid
         <li><div><b>Trực quan hóa.</b> Gephi (ForceAtlas2, tô màu theo cộng đồng, cỡ nút theo centrality) và NetworkX.</div></li>
         <li><div><b>Ứng dụng phát hiện bot/spam.</b> Tính đặc trưng từng tài khoản, chấm điểm nghi ngờ, giao diện Streamlit (chi tiết bên dưới).</div></li>
       </ol>
+      <h3>Mã nguồn các bước</h3>
+      <p>Bấm vào từng mục để xem giải thích và toàn bộ mã nguồn. Script không chứa mật khẩu: thông tin đăng nhập đọc từ biến môi trường.</p>
+
+      <details class="code">
+        <summary><span>Script crawl</span><small>crawl_bluesky.py · crawl_seed.py</small></summary>
+        <div class="body">
+          <ul>
+            <li><b>crawl_bluesky.py</b> tìm bài tiếng Việt bằng <code>searchPosts</code> với <code>lang=vi</code>, duyệt theo từng ngày và từng từ khóa phổ biến. Hàm <code>parse_post</code> rút ra tác giả, nội dung, thời gian, bài được reply, bài được quote, tài khoản được nhắc tên và số lượt tương tác.</li>
+            <li><b>crawl_seed.py</b> xếp hạng tài khoản theo số bài đã đăng cộng số lần được người khác tương tác tới, rồi lấy toàn bộ bài và lượt đăng lại của các tài khoản đó bằng <code>getAuthorFeed</code>. Lượt repost ghi riêng vào <code>reposts.jsonl</code>.</li>
+            <li>Cả hai ghi nối vào file JSONL, bỏ qua bài đã có, nên dừng bằng Ctrl+C rồi chạy lại vẫn tiếp tục được. Đăng nhập bằng App Password qua biến <code>BSKY_HANDLE</code> và <code>BSKY_APP_PASSWORD</code>.</li>
+          </ul>
+          <p class="run">Cách chạy: <code>python crawl_seed.py --top 3000 --target 80000 --max-pages 3</code></p>
+          <div class="cf"><div class="ch"><code>crawl_bluesky.py</code><span>178 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+"""
+Crawl bài đăng tiếng Việt (langs chứa 'vi') từ Bluesky bằng AT Protocol.
+Giai đoạn 2 của kế hoạch bài tập cá nhân SNA.
+
+Cài đặt:   pip install atproto
+Đăng nhập: tạo App Password tại Bluesky &gt; Settings &gt; Privacy and security &gt; App passwords
+           set BSKY_HANDLE=ten.bsky.social
+           set BSKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx      (Windows cmd)
+Chạy:      python crawl_bluesky.py --days 30 --target 30000
+
+Đầu ra (data/raw/posts.jsonl): mỗi dòng 1 bài đăng, dùng để dựng cạnh:
+  - reply   : author -&gt; tác giả của reply_parent_uri
+  - quote   : author -&gt; tác giả của quote_uri
+  - mention : author -&gt; mention_dids
+Có thể dừng (Ctrl+C) và chạy lại, script tự bỏ qua bài đã có.
+"""
+import argparse
+import json
+import os
+import sys
+import time
+from datetime import datetime, timedelta, timezone
+
+from atproto import Client
+
+# Từ phổ biến tiếng Việt để search (searchPosts bắt buộc có từ khóa q)
+QUERIES = [
+    "và", "là", "không", "được", "tôi", "của", "một", "những", "này", "có",
+    "mình", "đã", "cho", "với", "người", "các", "rất", "thì", "cũng", "như",
+]
+
+
+def to_dict(obj):
+    if obj is None:
+        return {}
+    if isinstance(obj, dict):
+        return obj
+    if hasattr(obj, "model_dump"):
+        return obj.model_dump(by_alias=True)
+    return {}
+
+
+def did_from_uri(uri):
+    # at://did:plc:xxxx/app.bsky.feed.post/rkey
+    if uri and uri.startswith("at://"):
+        return uri[5:].split("/")[0]
+    return None
+
+
+def parse_post(p):
+    rec = to_dict(p.record)
+    reply = rec.get("reply") or {}
+    parent_uri = (reply.get("parent") or {}).get("uri")
+    root_uri = (reply.get("root") or {}).get("uri")
+
+    mentions = []
+    for facet in rec.get("facets") or []:
+        for feat in facet.get("features") or []:
+            t = feat.get("$type") or feat.get("py_type") or ""
+            if t.endswith("#mention") and feat.get("did"):
+                mentions.append(feat["did"])
+
+    quote_uri = None
+    emb = rec.get("embed") or {}
+    t = emb.get("$type") or emb.get("py_type") or ""
+    if t == "app.bsky.embed.record":
+        quote_uri = (emb.get("record") or {}).get("uri")
+    elif t == "app.bsky.embed.recordWithMedia":
+        quote_uri = ((emb.get("record") or {}).get("record") or {}).get("uri")
+
+    return {
+        "uri": p.uri,
+        "author_did": p.author.did,
+        "author_handle": p.author.handle,
+        "created_at": rec.get("createdAt") or rec.get("created_at"),
+        "text": rec.get("text", ""),
+        "langs": rec.get("langs") or [],
+        "reply_parent_uri": parent_uri,
+        "reply_parent_did": did_from_uri(parent_uri),
+        "reply_root_uri": root_uri,
+        "quote_uri": quote_uri,
+        "quote_did": did_from_uri(quote_uri),
+        "mention_dids": sorted(set(mentions)),
+        "like_count": p.like_count or 0,
+        "repost_count": p.repost_count or 0,
+        "reply_count": p.reply_count or 0,
+        "quote_count": getattr(p, "quote_count", 0) or 0,
+    }
+
+
+def load_seen(path):
+    seen = set()
+    if os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                try:
+                    seen.add(json.loads(line)["uri"])
+                except Exception:
+                    pass
+    return seen
+
+
+def search_page(client, q, since, until, cursor):
+    params = {
+        "q": q, "lang": "vi", "limit": 100, "sort": "latest",
+        "since": since, "until": until,
+    }
+    if cursor:
+        params["cursor"] = cursor
+    for attempt in range(6):
+        try:
+            return client.app.bsky.feed.search_posts(params=params)
+        except Exception as e:  # rate limit / lỗi mạng -&gt; chờ rồi thử lại
+            wait = 5 * (2 ** attempt)
+            print(f"  ! lỗi: {e} -&gt; chờ {wait}s", file=sys.stderr)
+            time.sleep(wait)
+    return None
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--days", type=int, default=30, help="số ngày lùi về quá khứ")
+    ap.add_argument("--target", type=int, default=30000, help="số bài cần thu thập")
+    ap.add_argument("--max-pages", type=int, default=30, help="số trang tối đa mỗi (ngày, từ khóa)")
+    ap.add_argument("--out", default="data/raw")
+    args = ap.parse_args()
+
+    handle = os.environ.get("BSKY_HANDLE")
+    pw = os.environ.get("BSKY_APP_PASSWORD")
+    if not handle or not pw:
+        sys.exit("Thiếu biến môi trường BSKY_HANDLE / BSKY_APP_PASSWORD")
+
+    client = Client()
+    client.login(handle, pw)
+
+    os.makedirs(args.out, exist_ok=True)
+    out_path = os.path.join(args.out, "posts.jsonl")
+    seen = load_seen(out_path)
+    total = len(seen)
+    print(f"Đã có sẵn {total} bài. Mục tiêu {args.target}.")
+
+    today = datetime.now(timezone.utc).replace(hour=0, minute=0, second=0, microsecond=0)
+    with open(out_path, "a", encoding="utf-8") as f:
+        for d in range(args.days):
+            day_end = today - timedelta(days=d)
+            day_start = day_end - timedelta(days=1)
+            since, until = day_start.isoformat(), day_end.isoformat()
+            for q in QUERIES:
+                cursor = None
+                for _ in range(args.max_pages):
+                    res = search_page(client, q, since, until, cursor)
+                    if res is None or not res.posts:
+                        break
+                    for p in res.posts:
+                        if p.uri in seen:
+                            continue
+                        row = parse_post(p)
+                        if "vi" not in row["langs"]:
+                            continue
+                        seen.add(p.uri)
+                        f.write(json.dumps(row, ensure_ascii=False) + "\n")
+                        total += 1
+                    f.flush()
+                    cursor = res.cursor
+                    if not cursor or total &gt;= args.target:
+                        break
+                    time.sleep(0.3)
+                if total &gt;= args.target:
+                    break
+            print(f"{day_start.date()} -&gt; tổng {total} bài")
+            if total &gt;= args.target:
+                break
+    print(f"Xong: {total} bài tại {out_path}")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div><div class="cf"><div class="ch"><code>crawl_seed.py</code><span>151 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+"""
+Mở rộng dữ liệu theo tài khoản seed (bước 2 của kế hoạch thu thập).
+Đọc data/raw/posts.jsonl -&gt; chọn tài khoản tiếng Việt tích cực nhất -&gt; lấy toàn bộ
+bài đăng (kèm reply) của họ qua getAuthorFeed -&gt; ghi nối vào cùng posts.jsonl.
+Đồng thời ghi các lượt repost của seed vào data/raw/reposts.jsonl (cạnh repost).
+
+Dùng chung đăng nhập với crawl_bluesky.py (BSKY_HANDLE, BSKY_APP_PASSWORD).
+Để file này cùng thư mục với crawl_bluesky.py.
+
+Chạy:  python crawl_seed.py --top 1500 --target 30000
+Có thể Ctrl+C và chạy lại: bỏ qua bài đã có và seed đã xử lý (data/raw/seeds_done.txt).
+"""
+import argparse
+import json
+import os
+import sys
+import time
+from collections import Counter
+
+from atproto import Client
+
+from crawl_bluesky import parse_post, load_seen
+
+
+def load_rows(path):
+    rows = []
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            try:
+                rows.append(json.loads(line))
+            except Exception:
+                pass
+    return rows
+
+
+def rank_seeds(rows, top):
+    """Điểm = số bài đã đăng + số lần được reply/quote/mention tới (tài khoản 'trung tâm')."""
+    score = Counter()
+    handle = {}
+    for r in rows:
+        score[r["author_did"]] += 1
+        handle[r["author_did"]] = r["author_handle"]
+        for k in ("reply_parent_did", "quote_did"):
+            if r.get(k):
+                score[r[k]] += 1
+        for d in r.get("mention_dids") or []:
+            score[d] += 1
+    return [(d, handle.get(d, d)) for d, _ in score.most_common(top)]
+
+
+def get_feed(client, did, cursor):
+    params = {"actor": did, "limit": 100, "filter": "posts_with_replies"}
+    if cursor:
+        params["cursor"] = cursor
+    for attempt in range(6):
+        try:
+            return client.app.bsky.feed.get_author_feed(params=params)
+        except Exception as e:
+            msg = str(e)
+            # tài khoản bị chặn/xóa/khóa -&gt; bỏ qua, không thử lại
+            if any(s in msg for s in ("BlockedActor", "BlockedByActor", "AccountDeactivated",
+                                      "AccountTakedown", "Profile not found", "InvalidRequest")):
+                return None
+            wait = 5 * (2 ** attempt)
+            print(f"  ! lỗi: {msg[:120]} -&gt; chờ {wait}s", file=sys.stderr)
+            time.sleep(wait)
+    return None
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--top", type=int, default=1500, help="số tài khoản seed")
+    ap.add_argument("--target", type=int, default=30000, help="dừng khi đủ số bài")
+    ap.add_argument("--max-pages", type=int, default=10, help="số trang tối đa mỗi seed (100 bài/trang)")
+    ap.add_argument("--out", default="data/raw")
+    args = ap.parse_args()
+
+    handle = os.environ.get("BSKY_HANDLE")
+    pw = os.environ.get("BSKY_APP_PASSWORD")
+    if not handle or not pw:
+        sys.exit("Thiếu biến môi trường BSKY_HANDLE / BSKY_APP_PASSWORD")
+
+    posts_path = os.path.join(args.out, "posts.jsonl")
+    reposts_path = os.path.join(args.out, "reposts.jsonl")
+    done_path = os.path.join(args.out, "seeds_done.txt")
+    if not os.path.exists(posts_path):
+        sys.exit("Chưa có posts.jsonl - hãy chạy crawl_bluesky.py trước.")
+
+    rows = load_rows(posts_path)
+    seen = load_seen(posts_path)
+    total = len(seen)
+    done = set()
+    if os.path.exists(done_path):
+        with open(done_path, encoding="utf-8") as f:
+            done = {l.strip() for l in f if l.strip()}
+    seeds = [(d, h) for d, h in rank_seeds(rows, args.top) if d not in done]
+    print(f"Hiện có {total} bài. {len(seeds)} seed chưa xử lý. Mục tiêu {args.target}.")
+
+    client = Client()
+    client.login(handle, pw)
+
+    with open(posts_path, "a", encoding="utf-8") as fp, \
+         open(reposts_path, "a", encoding="utf-8") as fr, \
+         open(done_path, "a", encoding="utf-8") as fd:
+        for i, (did, h) in enumerate(seeds, 1):
+            added = 0
+            cursor = None
+            for _ in range(args.max_pages):
+                res = get_feed(client, did, cursor)
+                if res is None or not res.feed:
+                    break
+                for item in res.feed:
+                    p = item.post
+                    reason = getattr(item, "reason", None)
+                    rtype = (getattr(reason, "py_type", "") or getattr(reason, "$type", "") or "") if reason else ""
+                    if rtype.endswith("reasonRepost"):
+                        # seed repost bài của người khác -&gt; cạnh repost
+                        fr.write(json.dumps({
+                            "reposter_did": did,
+                            "target_uri": p.uri,
+                            "target_did": p.author.did,
+                            "indexed_at": getattr(reason, "indexed_at", None),
+                        }, ensure_ascii=False) + "\n")
+                        continue
+                    if p.uri in seen or p.author.did != did:
+                        continue
+                    row = parse_post(p)
+                    if "vi" not in row["langs"]:
+                        continue
+                    seen.add(p.uri)
+                    fp.write(json.dumps(row, ensure_ascii=False) + "\n")
+                    total += 1
+                    added += 1
+                fp.flush()
+                fr.flush()
+                cursor = res.cursor
+                if not cursor or total &gt;= args.target:
+                    break
+                time.sleep(0.2)
+            fd.write(did + "\n")
+            fd.flush()
+            if i % 20 == 0 or added:
+                print(f"[{i}/{len(seeds)}] @{h}: +{added} -&gt; tổng {total} bài")
+            if total &gt;= args.target:
+                break
+    print(f"Xong: {total} bài tại {posts_path}")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div>
+        </div>
+      </details>
+
+      <details class="code">
+        <summary><span>Script làm sạch</span><small>clean_build_graph.py</small></summary>
+        <div class="body">
+          <ul>
+            <li>Chạy 7 bước theo thứ tự: xóa bài trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC, giữ bài có nhãn <code>vi</code>, loại bài rỗng, loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai), gắn cờ tài khoản nghi bot/spam.</li>
+            <li>Sau đó dựng cạnh có hướng từ reply, quote, mention và repost, gộp trọng số theo cặp nguồn–đích, bỏ self-loop, bỏ nút cô lập và giữ thành phần liên thông lớn nhất.</li>
+            <li>Mỗi bước in số bản ghi trước và sau, ghi vào <code>cleaning_log.csv</code>. Không sửa dữ liệu thô. Xuất bảng nút, bảng cạnh, GraphML cho Gephi, và bản ẩn danh (<code>*_anon.csv</code>) dùng cho báo cáo.</li>
+            <li>Các ngưỡng đặt bằng tham số dòng lệnh, ví dụ <code>--max-ppd</code> (bài mỗi ngày để nghi bot), <code>--dup-min</code> và <code>--dup-ratio</code> (nghi spam do trùng nội dung), <code>--drop-flagged</code> (loại hẳn tài khoản bị gắn cờ).</li>
+          </ul>
+          <p class="run">Cách chạy: <code>python clean_build_graph.py</code></p>
+          <div class="cf"><div class="ch"><code>clean_build_graph.py</code><span>244 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+"""
+Làm sạch dữ liệu Bluesky tiếng Việt và dựng đồ thị (7 bước, theo tài liệu "Quy trình làm sạch").
+
+Cài:   python -m pip install networkx
+Chạy:  python clean_build_graph.py
+       python clean_build_graph.py --max-ppd 60 --dup-min 15 --drop-flagged
+
+Đầu vào : data/raw/posts.jsonl, data/raw/reposts.jsonl
+Đầu ra  : data/clean/  (posts_clean.jsonl, nodes.csv, edges.csv, graph.graphml, graph_gcc.graphml,
+          flagged_accounts.csv, id_map.csv, nodes_anon.csv, edges_anon.csv, cleaning_log.csv)
+Không sửa data/raw/.
+"""
+import argparse
+import csv
+import json
+import os
+import re
+import unicodedata
+from collections import Counter, defaultdict
+from datetime import datetime, timezone
+
+import networkx as nx
+
+RAW = "data/raw"
+OUT = "data/clean"
+TYPES = ("reply", "quote", "mention", "repost")
+VI_CHARS = set("àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ")
+URL_RE = re.compile(r"https?://\S+")
+MENTION_RE = re.compile(r"@\S+")
+LOG = []
+
+
+def log(step, label, before, after, unit="bài"):
+    LOG.append((step, label, before, after, unit))
+    print(f"[{step}] {label}: {before} -&gt; {after} {unit} (loại {before - after})")
+
+
+def read_jsonl(path):
+    if not os.path.exists(path):
+        return
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            try:
+                yield json.loads(line)
+            except Exception:
+                pass
+
+
+def parse_time(s):
+    try:
+        d = datetime.fromisoformat(str(s).replace("Z", "+00:00"))
+    except Exception:
+        return None
+    if d.tzinfo is None:
+        d = d.replace(tzinfo=timezone.utc)
+    return d.astimezone(timezone.utc)
+
+
+def norm_text(t):
+    t = unicodedata.normalize("NFC", t or "")
+    return re.sub(r"\s+", " ", t).strip()
+
+
+def word_count(t):
+    t = MENTION_RE.sub(" ", URL_RE.sub(" ", t))
+    return len(re.findall(r"[^\W\d_]+", t))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--min-year", type=int, default=2023, help="bỏ bài có ngày trước năm này")
+    ap.add_argument("--min-words", type=int, default=1, help="số từ tối thiểu của bài (không tính link, @mention)")
+    ap.add_argument("--long-text", type=int, default=30, help="bài dài hơn mức này mà không có ký tự tiếng Việt -&gt; nghi gắn nhãn sai")
+    ap.add_argument("--max-ppd", type=float, default=100, help="ngưỡng bài/ngày hoạt động để nghi bot")
+    ap.add_argument("--dup-min", type=int, default=20, help="một văn bản lặp từ số lần này (cùng tài khoản) thì nghi spam")
+    ap.add_argument("--dup-ratio", type=float, default=0.5, help="tỷ lệ bài trùng nội dung tối thiểu để nghi spam")
+    ap.add_argument("--drop-flagged", action="store_true", help="loại hẳn các tài khoản bị gắn cờ (mặc định chỉ báo cáo)")
+    args = ap.parse_args()
+    os.makedirs(OUT, exist_ok=True)
+
+    # ---------------- Bước 1: trùng, dòng hỏng, thời gian ----------------
+    rows, n_raw = [], 0
+    seen = set()
+    for r in read_jsonl(os.path.join(RAW, "posts.jsonl")):
+        n_raw += 1
+        if r.get("uri") and r["uri"] not in seen:
+            seen.add(r["uri"])
+            rows.append(r)
+    log("1.1", "Xóa trùng uri", n_raw, len(rows))
+
+    n = len(rows)
+    rows = [r for r in rows if r.get("author_did") and r.get("created_at")]
+    log("1.2", "Loại dòng thiếu trường bắt buộc", n, len(rows))
+
+    n, now = len(rows), datetime.now(timezone.utc)
+    lo = datetime(args.min_year, 1, 1, tzinfo=timezone.utc)
+    keep = []
+    for r in rows:
+        d = parse_time(r["created_at"])
+        if d and lo &lt;= d &lt;= now:
+            r["created_at"] = d.isoformat()
+            keep.append(r)
+    rows = keep
+    log("1.3", "Chuẩn hóa thời gian UTC, loại ngày vô lý", n, len(rows))
+
+    # ---------------- Bước 2: nội dung văn bản ----------------
+    n = len(rows)
+    rows = [r for r in rows if "vi" in (r.get("langs") or [])]
+    log("2.1", "Giữ bài có langs chứa 'vi'", n, len(rows))
+
+    for r in rows:
+        r["text"] = norm_text(r.get("text"))
+    n = len(rows)
+    rows = [r for r in rows if word_count(r["text"]) &gt;= args.min_words]
+    log("2.2", f"Loại bài rỗng / dưới {args.min_words} từ", n, len(rows))
+
+    n = len(rows)
+    rows = [r for r in rows if not (len(r["text"]) &gt;= args.long_text and not (set(r["text"].lower()) &amp; VI_CHARS))]
+    log("2.3", "Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)", n, len(rows))
+
+    # ---------------- Bước 3: bot / spam ----------------
+    by_author = defaultdict(list)
+    for r in rows:
+        by_author[r["author_did"]].append(r)
+    flagged = {}
+    for a, ps in by_author.items():
+        days = {p["created_at"][:10] for p in ps}
+        ppd = len(ps) / len(days)
+        texts = Counter(p["text"].lower() for p in ps)
+        dup_posts = sum(c for c in texts.values() if c &gt;= args.dup_min)
+        dup_ratio = dup_posts / len(ps)
+        why = []
+        if ppd &gt; args.max_ppd:
+            why.append(f"ppd={ppd:.0f}&gt;{args.max_ppd:g}")
+        if dup_posts and dup_ratio &gt;= args.dup_ratio:
+            why.append(f"trùng nội dung {dup_ratio:.0%}")
+        if why:
+            flagged[a] = (ps[0].get("author_handle"), len(ps), round(ppd, 1), round(dup_ratio, 2), "; ".join(why))
+    with open(os.path.join(OUT, "flagged_accounts.csv"), "w", encoding="utf-8-sig", newline="") as f:
+        cw = csv.writer(f)
+        cw.writerow(["did", "handle", "posts", "posts_per_day", "dup_ratio", "ly_do"])
+        for a, v in sorted(flagged.items(), key=lambda kv: -kv[1][1]):
+            cw.writerow([a, *v])
+    n = len(rows)
+    if args.drop_flagged:
+        rows = [r for r in rows if r["author_did"] not in flagged]
+    log("3", f"Bot/spam: {len(flagged)} tài khoản bị gắn cờ" + (" (đã loại)" if args.drop_flagged else " (chỉ báo cáo, xem flagged_accounts.csv)"), n, len(rows))
+
+    with open(os.path.join(OUT, "posts_clean.jsonl"), "w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
+
+    # ---------------- Bước 4: định danh (DID là ID nút) ----------------
+    handle, posts_of, days_of = {}, Counter(), defaultdict(set)
+    for r in rows:
+        a = r["author_did"]
+        handle[a] = r.get("author_handle") or handle.get(a)
+        posts_of[a] += 1
+        days_of[a].add(r["created_at"][:10])
+
+    # ---------------- Bước 5: dựng cạnh ----------------
+    w = defaultdict(Counter)
+    for r in rows:
+        a = r["author_did"]
+        if r.get("reply_parent_did"):
+            w[(a, r["reply_parent_did"])]["reply"] += 1
+        if r.get("quote_did"):
+            w[(a, r["quote_did"])]["quote"] += 1
+        for d in r.get("mention_dids") or []:
+            w[(a, d)]["mention"] += 1
+    seen_rp = set()
+    for r in read_jsonl(os.path.join(RAW, "reposts.jsonl")):
+        s, d, t = r.get("reposter_did"), r.get("target_did"), r.get("target_uri")
+        if s and d and (s, t) not in seen_rp and (not args.drop_flagged or s not in flagged):
+            seen_rp.add((s, t))
+            w[(s, d)]["repost"] += 1
+    nodes_all = set(posts_of) | {x for e in w for x in e}
+    log("5", "Dựng cạnh (số cặp nguồn-đích, đã gộp trọng số)", sum(sum(c.values()) for c in w.values()), len(w), "tương tác -&gt; cạnh")
+
+    # ---------------- Bước 6: làm sạch đồ thị ----------------
+    G = nx.DiGraph()
+    for n_ in nodes_all:
+        G.add_node(n_)
+    for (s, d), c in w.items():
+        G.add_edge(s, d, weight=sum(c.values()), **{"w_" + t: c.get(t, 0) for t in TYPES})
+    n_e = G.number_of_edges()
+    G.remove_edges_from(list(nx.selfloop_edges(G)))
+    log("6.1", "Bỏ self-loop", n_e, G.number_of_edges(), "cạnh")
+    n_n = G.number_of_nodes()
+    G.remove_nodes_from([x for x in list(G) if G.degree(x) == 0])
+    log("6.2", "Bỏ nút cô lập", n_n, G.number_of_nodes(), "nút")
+    gcc_nodes = max(nx.weakly_connected_components(G), key=len) if G.number_of_nodes() else set()
+    GCC = G.subgraph(gcc_nodes).copy()
+    log("6.3", "Giant component (liên thông yếu)", G.number_of_nodes(), GCC.number_of_nodes(), "nút")
+    log("6.3", "Giant component", G.number_of_edges(), GCC.number_of_edges(), "cạnh")
+
+    for g in (G, GCC):
+        for x in g:
+            p, ad = posts_of.get(x, 0), len(days_of.get(x, ()))
+            g.nodes[x].update(label=handle.get(x) or x[-8:], posts=p, posts_per_day=round(p / ad, 2) if ad else 0)
+
+    # ---------------- Bước 7: xuất file ----------------
+    ids = {d: f"U{i:05d}" for i, d in enumerate(sorted(G.nodes), 1)}
+    with open(os.path.join(OUT, "id_map.csv"), "w", encoding="utf-8-sig", newline="") as f:
+        cw = csv.writer(f)
+        cw.writerow(["code", "did", "handle"])
+        for d, c in ids.items():
+            cw.writerow([c, d, handle.get(d, "")])
+
+    def write_tables(g, nodes_name, edges_name, anon):
+        with open(os.path.join(OUT, nodes_name), "w", encoding="utf-8-sig", newline="") as f:
+            cw = csv.writer(f)
+            cw.writerow(["Id", "Label", "posts", "posts_per_day", "in_degree", "out_degree"])
+            for x, a in g.nodes(data=True):
+                cw.writerow([ids[x] if anon else x, ids[x] if anon else a["label"], a["posts"], a["posts_per_day"], g.in_degree(x), g.out_degree(x)])
+        with open(os.path.join(OUT, edges_name), "w", encoding="utf-8-sig", newline="") as f:
+            cw = csv.writer(f)
+            cw.writerow(["Source", "Target", "Type", "Weight"] + ["w_" + t for t in TYPES])
+            for s, d, a in g.edges(data=True):
+                cw.writerow([ids[s] if anon else s, ids[d] if anon else d, "Directed", a["weight"]] + [a["w_" + t] for t in TYPES])
+
+    write_tables(G, "nodes.csv", "edges.csv", False)
+    write_tables(G, "nodes_anon.csv", "edges_anon.csv", True)
+    nx.write_graphml(G, os.path.join(OUT, "graph.graphml"))
+    nx.write_graphml(GCC, os.path.join(OUT, "graph_gcc.graphml"))
+    with open(os.path.join(OUT, "cleaning_log.csv"), "w", encoding="utf-8-sig", newline="") as f:
+        cw = csv.writer(f)
+        cw.writerow(["buoc", "noi_dung", "truoc", "sau", "don_vi"])
+        cw.writerows(LOG)
+
+    tw = Counter()
+    for _, _, a in G.edges(data=True):
+        for t in TYPES:
+            tw[t] += a["w_" + t]
+    print("\nTÓM TẮT")
+    print(f"  Bài sạch: {len(rows)} | tác giả: {len(posts_of)}")
+    print(f"  Đồ thị: {G.number_of_nodes()} nút, {G.number_of_edges()} cạnh | giant component: {GCC.number_of_nodes()} nút, {GCC.number_of_edges()} cạnh")
+    print("  Tương tác theo loại (sau làm sạch): " + ", ".join(f"{t}={tw[t]}" for t in TYPES))
+    print(f"  Đã ghi vào {OUT}/")
+
+
+if __name__ == "__main__":
+    main()</code></pre></div>
+        </div>
+      </details>
+
+      <details class="code">
+        <summary><span>Script tính độ đo</span><small>analyze_network.py</small></summary>
+        <div class="body">
+          <ul>
+            <li><b>Độ đo toàn mạng:</b> mật độ, tương hỗ, hệ số phân cụm, transitivity, assortativity, số thành phần liên thông. Đường kính và độ dài đường đi trung bình tính bằng cách duyệt BFS từ mọi nút của thành phần liên thông lớn nhất, nên là số chính xác, không phải ước lượng.</li>
+            <li><b>Centrality:</b> bậc vào, bậc ra, PageRank (có trọng số), betweenness, closeness, eigenvector, và HITS (hub, authority). Mỗi độ đo xuất một bảng top 10.</li>
+            <li><b>Phân bố bậc:</b> bậc vào, bậc ra và bậc tổng, ghi ra <code>degree_distribution.csv</code>.</li>
+            <li><b>Cộng đồng:</b> Louvain chạy 10 lần với seed khác nhau, giữ lần có modularity cao nhất và báo khoảng dao động để thấy kết quả có ổn định không.</li>
+            <li><b>Đuôi nặng:</b> ước lượng số mũ và xmin theo Clauset, Shalizi và Newman (2009), rồi bootstrap 100 lần để lấy p-value. Cần <code>scipy</code>.</li>
+          </ul>
+          <p class="run">Cách chạy: <code>python analyze_network.py</code>. Kết quả ghi vào <code>data/analysis/</code>.</p>
+          <div class="cf"><div class="ch"><code>analyze_network.py</code><span>243 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+"""
+Tính chính thức các độ đo mạng cho bài tập cá nhân SNA (đồ thị Bluesky tiếng Việt, đủ 4 loại cạnh).
+
+Cài:   python -m pip install networkx numpy scipy
+Chạy:  python analyze_network.py
+       python analyze_network.py --clean data/clean --out data/analysis
+
+Đầu vào : data/clean/nodes_anon.csv, edges_anon.csv  (mã ẩn danh U00xxx; ánh xạ về tài khoản thật nằm trong id_map.csv)
+Đầu ra  : data/analysis/
+  metrics_toan_mang.csv        độ đo toàn mạng (đồ thị đầy đủ và thành phần liên thông lớn nhất)
+  top10_*.csv                  bảng top 10 theo từng độ đo (thành phần liên thông lớn nhất)
+  degree_distribution.csv      phân bố bậc (vào, ra, tổng)
+  communities.csv, community_sizes.csv   kết quả Louvain
+  powerlaw_fit.csv             kiểm định đuôi nặng (power-law)
+  tom_tat.txt                  tóm tắt để chép vào báo cáo
+Không sửa dữ liệu trong data/clean.
+"""
+import argparse
+import csv
+import os
+import random
+from collections import Counter
+
+import networkx as nx
+import numpy as np
+
+try:
+    from scipy.special import zeta
+except Exception:  # scipy không bắt buộc, chỉ cần cho kiểm định power-law
+    zeta = None
+
+TYPES = ("w_reply", "w_quote", "w_mention", "w_repost")
+
+
+def read_csv(path):
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        return list(csv.DictReader(f))
+
+
+def load_graph(clean):
+    G = nx.DiGraph()
+    for r in read_csv(os.path.join(clean, "nodes_anon.csv")):
+        G.add_node(r["Id"])
+    for r in read_csv(os.path.join(clean, "edges_anon.csv")):
+        G.add_edge(r["Source"], r["Target"], weight=int(r["Weight"]),
+                   **{k: int(r[k]) for k in TYPES})
+    return G
+
+
+def write_rows(path, header, rows):
+    with open(path, "w", encoding="utf-8-sig", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(header)
+        w.writerows(rows)
+
+
+def overview(g, label):
+    u = g.to_undirected()
+    d = {
+        "Số nút": g.number_of_nodes(),
+        "Số cạnh có hướng": g.number_of_edges(),
+        "Mật độ": nx.density(g),
+        "Tương hỗ (reciprocity)": nx.reciprocity(g),
+        "Hệ số phân cụm trung bình": nx.average_clustering(u),
+        "Transitivity": nx.transitivity(u),
+        "Assortativity theo bậc": nx.degree_assortativity_coefficient(g),
+        "Số thành phần liên thông (yếu)": nx.number_weakly_connected_components(g),
+    }
+    for k in TYPES:
+        d["Lượt " + k[2:]] = sum(e[k] for _, _, e in g.edges(data=True))
+    return d
+
+
+# ---- kiểm định power-law (Clauset, Shalizi, Newman 2009), bậc rời rạc ----
+def fit_alpha(x, xmin):
+    t = x[x &gt;= xmin]
+    n = len(t)
+    return 1.0 + n / np.sum(np.log(t / (xmin - 0.5))), n
+
+
+def ks_dist(x, xmin, alpha):
+    t = np.sort(x[x &gt;= xmin])
+    n = len(t)
+    vals, counts = np.unique(t, return_counts=True)
+    emp = np.cumsum(counts) / n
+    model = 1.0 - zeta(alpha, vals + 1) / zeta(alpha, xmin)
+    return float(np.max(np.abs(emp - model)))
+
+
+def best_fit(x, xmins):
+    best = None
+    for xm in xmins:
+        if np.sum(x &gt;= xm) &lt; 30:
+            continue
+        a, n = fit_alpha(x, xm)
+        d = ks_dist(x, xm, a)
+        if best is None or d &lt; best[2]:
+            best = (xm, a, d, n)
+    return best
+
+
+def sample_powerlaw(alpha, xmin, size, rng, xmax=100000):
+    support = np.arange(xmin, xmax)
+    pmf = support ** (-alpha)
+    cdf = np.cumsum(pmf) / np.sum(pmf)
+    return support[np.searchsorted(cdf, rng.random(size))]
+
+
+def powerlaw_test(deg, reps, seed):
+    if zeta is None:
+        return None
+    x = np.array([d for d in deg if d &gt;= 1], dtype=float)
+    xmins = sorted(set(int(v) for v in x if v &lt;= np.percentile(x, 95)))
+    xmin, alpha, ks, ntail = best_fit(x, xmins)
+    rng = np.random.default_rng(seed)
+    below = x[x &lt; xmin]
+    n, worse = len(x), 0
+    for _ in range(reps):
+        k = rng.binomial(n, ntail / n)
+        syn = np.concatenate([sample_powerlaw(alpha, int(xmin), k, rng),
+                              rng.choice(below, n - k) if len(below) else np.array([])])
+        b = best_fit(syn, sorted(set(int(v) for v in syn if v &lt;= np.percentile(syn, 95))))
+        if b is not None and b[2] &gt;= ks:
+            worse += 1
+    return {"xmin": int(xmin), "alpha": alpha, "ks": ks, "n_tail": int(ntail),
+            "n": n, "p_value": worse / reps, "reps": reps}
+
+
+def top10(path, header2, scores, extra=None):
+    rows = sorted(scores.items(), key=lambda kv: -kv[1])[:10]
+    out = []
+    for i, (n, s) in enumerate(rows, 1):
+        r = [i, n, round(s, 6)]
+        if extra:
+            r += [extra(n)]
+        out.append(r)
+    write_rows(path, ["hang", "nut", header2] + (["bac_ra"] if extra else []), out)
+    return rows
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--clean", default="data/clean")
+    ap.add_argument("--out", default="data/analysis")
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--plreps", type=int, default=100, help="số lần bootstrap kiểm định power-law")
+    args = ap.parse_args()
+    os.makedirs(args.out, exist_ok=True)
+    random.seed(args.seed)
+
+    G = load_graph(args.clean)
+    giant = max(nx.weakly_connected_components(G), key=len)
+    H = G.subgraph(giant).copy()
+    U = H.to_undirected()
+    print(f"Toàn bộ: {G.number_of_nodes()} nút, {G.number_of_edges()} cạnh | "
+          f"liên thông lớn nhất: {H.number_of_nodes()} nút, {H.number_of_edges()} cạnh")
+
+    # 1) độ đo toàn mạng
+    ov_full, ov_gcc = overview(G, "full"), overview(H, "gcc")
+    print("Tính đường kính và độ dài đường đi (BFS từ mọi nút)...")
+    lengths = Counter()
+    for s in U.nodes():
+        lengths.update(nx.single_source_shortest_path_length(U, s).values())
+    pairs = sum(v for k, v in lengths.items() if k &gt; 0)
+    ov_gcc["Đường kính (vô hướng)"] = max(lengths)
+    ov_gcc["Độ dài đường đi trung bình (vô hướng)"] = sum(k * v for k, v in lengths.items()) / pairs
+    keys = list(ov_full.keys()) + [k for k in ov_gcc if k not in ov_full]
+    write_rows(os.path.join(args.out, "metrics_toan_mang.csv"),
+               ["do_do", "toan_bo", "lien_thong_lon_nhat"],
+               [[k, ov_full.get(k, ""), ov_gcc.get(k, "")] for k in keys])
+
+    # 2) centrality (thành phần liên thông lớn nhất)
+    print("Tính centrality...")
+    outdeg = dict(H.out_degree())
+    indeg = dict(H.in_degree())
+    top10(os.path.join(args.out, "top10_bac_vao.csv"), "bac_vao", indeg, lambda n: outdeg[n])
+    top10(os.path.join(args.out, "top10_bac_ra.csv"), "bac_ra", outdeg)
+    top10(os.path.join(args.out, "top10_pagerank.csv"), "pagerank", nx.pagerank(H, weight="weight"),
+          lambda n: outdeg[n])
+    top10(os.path.join(args.out, "top10_betweenness.csv"), "betweenness",
+          nx.betweenness_centrality(H), lambda n: outdeg[n])
+    top10(os.path.join(args.out, "top10_closeness.csv"), "closeness",
+          nx.closeness_centrality(H), lambda n: outdeg[n])
+    top10(os.path.join(args.out, "top10_eigenvector.csv"), "eigenvector",
+          nx.eigenvector_centrality_numpy(U), lambda n: outdeg[n])
+    hub, auth = nx.hits(H, max_iter=1000)
+    top10(os.path.join(args.out, "top10_hits_hub.csv"), "hub", hub, lambda n: outdeg[n])
+    top10(os.path.join(args.out, "top10_hits_authority.csv"), "authority", auth, lambda n: outdeg[n])
+
+    # 3) phân bố bậc
+    dist = {}
+    for name, deg in (("vao", dict(H.in_degree())), ("ra", dict(H.out_degree())),
+                      ("tong", dict(U.degree()))):
+        dist[name] = Counter(deg.values())
+    ks = sorted(set(k for c in dist.values() for k in c))
+    write_rows(os.path.join(args.out, "degree_distribution.csv"),
+               ["bac", "so_nut_bac_vao", "so_nut_bac_ra", "so_nut_bac_tong"],
+               [[k, dist["vao"].get(k, 0), dist["ra"].get(k, 0), dist["tong"].get(k, 0)] for k in ks])
+
+    # 4) cộng đồng Louvain (chạy nhiều seed để xem độ ổn định)
+    print("Louvain...")
+    runs = []
+    for i in range(10):
+        c = nx.community.louvain_communities(U, seed=args.seed + i)
+        runs.append((nx.community.modularity(U, c), len(c), c))
+    best = max(runs, key=lambda r: r[0])
+    comms = sorted(best[2], key=len, reverse=True)
+    rows = []
+    for ci, c in enumerate(comms, 1):
+        for n in c:
+            rows.append([n, ci])
+    write_rows(os.path.join(args.out, "communities.csv"), ["nut", "cong_dong"], rows)
+    write_rows(os.path.join(args.out, "community_sizes.csv"), ["cong_dong", "so_nut"],
+               [[i, len(c)] for i, c in enumerate(comms, 1)])
+    mods = [r[0] for r in runs]
+
+    # 5) kiểm định power-law
+    print("Kiểm định power-law (bootstrap, có thể mất vài phút)...")
+    pl = powerlaw_test(list(dict(U.degree()).values()), args.plreps, args.seed)
+    if pl:
+        write_rows(os.path.join(args.out, "powerlaw_fit.csv"), list(pl.keys()), [list(pl.values())])
+
+    # 6) tóm tắt
+    L = []
+    L.append(f"Toàn bộ: {ov_full['Số nút']} nút, {ov_full['Số cạnh có hướng']} cạnh")
+    L.append(f"Liên thông lớn nhất: {ov_gcc['Số nút']} nút, {ov_gcc['Số cạnh có hướng']} cạnh")
+    L.append(f"Đường kính (vô hướng): {ov_gcc['Đường kính (vô hướng)']}; đường đi TB: "
+             f"{ov_gcc['Độ dài đường đi trung bình (vô hướng)']:.3f}")
+    L.append(f"Louvain: {best[1]} cộng đồng, modularity {best[0]:.4f} "
+             f"(10 lần chạy: {min(mods):.4f} đến {max(mods):.4f}, số cộng đồng {min(r[1] for r in runs)} đến {max(r[1] for r in runs)})")
+    L.append("Cộng đồng lớn nhất: " + ", ".join(str(len(c)) for c in comms[:8]))
+    if pl:
+        L.append(f"Power-law: xmin={pl['xmin']}, alpha={pl['alpha']:.3f}, KS={pl['ks']:.4f}, "
+                 f"{pl['n_tail']}/{pl['n']} nút ở đuôi, p={pl['p_value']:.2f} ({pl['reps']} lần bootstrap)")
+    with open(os.path.join(args.out, "tom_tat.txt"), "w", encoding="utf-8") as f:
+        f.write("\n".join(L) + "\n")
+    print("\n".join(L))
+    print("Đã ghi vào", args.out)
+
+
+if __name__ == "__main__":
+    main()</code></pre></div>
+        </div>
+      </details>
+
       <h3>Ứng dụng: chấm điểm tài khoản nghi bot/spam</h3>
       <div class="tw"><table>
         <caption>Các nhóm tín hiệu dùng để chấm điểm. Mọi tín hiệu tính từ dữ liệu công khai đã thu thập.</caption>
@@ -422,6 +1298,19 @@ footer{max-width:1120px;margin:56px auto 0;padding-top:18px;border-top:1px solid
   svg.innerHTML=s;
 })();
 </script>
+<script>
+(function(){
+  document.querySelectorAll('.cf').forEach(function(box){
+    var b=box.querySelector('.cp'), pre=box.querySelector('pre code'); if(!b||!pre) return;
+    b.addEventListener('click',function(){
+      var txt=pre.textContent, done=function(m){b.textContent=m;setTimeout(function(){b.textContent='Sao chép'},1600)};
+      var sel=function(){var r=document.createRange();r.selectNodeContents(pre);var s=window.getSelection();s.removeAllRanges();s.addRange(r);done('Đã chọn, bấm Ctrl+C')};
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(function(){done('Đã chép')},sel)}else{sel()}
+    });
+  });
+})();
+</script>
+
 
 </body>
 </html>
