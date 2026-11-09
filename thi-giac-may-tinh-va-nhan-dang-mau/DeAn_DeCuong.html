@@ -124,8 +124,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <section id="vande"><div class="num">01</div><div class="tag">Bối cảnh</div><h2>Đặt vấn đề</h2>
 <p>Phát hiện tự động 29 điểm mốc trên phim sọ nghiêng giúp giảm thời gian đo thủ công. Mô hình hiện có còn ba hạn chế:</p>
 <div class="grid">
-<div class="card"><h3>Giấy phép</h3><p>YOLO11-Pose (Ultralytics) theo AGPL-3.0, khó đưa vào sản phẩm doanh nghiệp. Cần backbone mở (timm ViT, Apache-2.0).</p></div>
-<div class="card"><h3>Công nghệ cũ</h3><p>YOLO11 ra đời 2024; giảng viên đề nghị mô hình mới hơn hoặc Transformer.</p></div>
+<div class="card"><h3>Giấy phép</h3><p>YOLO11-Pose (Ultralytics) theo AGPL-3.0; dùng cho sản phẩm không công bố mã nguồn phải mua Enterprise License, và mô hình tự huấn luyện cũng thuộc AGPL-3.0. Cần backbone mở (timm ViT, Apache-2.0).</p></div>
+<div class="card"><h3>Công nghệ cũ</h3><p>YOLO11 ra đời 2024; giảng viên đề nghị mô hình mới hơn hoặc Transformer. Ứng viên giấy phép mở: RF-DETR Keypoint (Apache-2.0, bản preview 22/06/2026).</p></div>
 <div class="card"><h3>Khác biệt thiết bị</h3><p>Ảnh đến từ 7 máy với chất lượng khác nhau; bộ lọc hình học 1B (khung S-N) không cải thiện kết quả.</p></div>
 </div></section>
 
@@ -169,7 +169,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <div class="bar"><span>ViT device + lọc 1B</span><i style="width:72%"></i><em>1,39</em></div>
 <div class="bar"><span>ViT query decoder (E6a)</span><i style="width:71%"></i><em>1,38</em></div>
 <div class="bar"><span>ViT query, bỏ self-attn (E6b)</span><i style="width:72%"></i><em>1,39</em></div>
-<div class="bar c"><span>ResNet-50 (MDPI, trích dẫn)</span><i style="width:65%"></i><em>1,25</em></div>
+<div class="bar c"><span>CephViT (trích dẫn, 29 điểm)</span><i style="width:66%"></i><em>1,28</em></div>
 </div>
 <div class="tw"><table>
 <thead><tr><th>Mô hình</th><th>MRE ± SD (mm)</th><th>SDR 2 mm (%)</th><th>SDR 2,5 mm</th><th>SDR 3 mm</th><th>SDR 4 mm</th><th>Outlier &gt; 5 mm</th></tr></thead>
@@ -180,7 +180,10 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <tr><td>ViT device + bộ lọc 1B</td><td>1,39 ± 1,50</td><td>79,17</td><td>86,02</td><td>90,02</td><td>94,53</td><td>139</td></tr>
 <tr><td>E6a: ViT-Small + query decoder (epoch 52/60)</td><td>1,38 ± 1,44</td><td>79,54</td><td>86,02</td><td>89,93</td><td>95,08</td><td><b>115</b></td></tr>
 <tr><td>E6b: E6a bỏ self-attention (60 epoch)</td><td>1,39 ± 1,45</td><td>79,40</td><td>85,93</td><td>90,51</td><td>94,76</td><td>130</td></tr>
-<tr class="cite"><td>ResNet-50 regression (MDPI 2025, trích dẫn)</td><td>1,25</td><td>81,5</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr class="cite"><td>CephViT (ViT 512 px + decoder heatmap; trích dẫn)</td><td>1,28 ± 1,42</td><td>82,10</td><td>87,90</td><td>92,00</td><td>95,70</td><td>—</td></tr>
+<tr class="cite"><td>Baseline Aariz (trích dẫn từ bảng 1 của CephViT)</td><td>1,69 ± 3,36</td><td>81,18</td><td>87,28</td><td>90,82</td><td>94,82</td><td>—</td></tr>
+<tr class="cite"><td>Khalid et al. 2024 (hồi quy hai giai đoạn; trích dẫn)</td><td>1,87 ± 4,01</td><td>75,17</td><td>82,43</td><td>88,78</td><td>93,01</td><td>—</td></tr>
+<tr class="cite"><td>Khan et al. 2024 (CNN hai giai đoạn; trích dẫn)</td><td>1,92 ± 7,85</td><td>78,54</td><td>85,72</td><td>89,64</td><td>94,49</td><td>—</td></tr>
 </tbody></table></div>
 <ol class="steps">
 <li><b>RQ1 — đạt:</b> MRE giảm 1,93 → 1,45 mm (aug basic), SDR@2 mm tăng 64,6% → 78,3%.</li>
@@ -189,16 +192,16 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <li><b>RQ4 — sơ bộ:</b> query decoder (E6a) giảm điểm sai &gt; 5 mm từ 139 xuống 115 (−24; KTC 95% [−43; −6]; p ≈ 0,012, bootstrap theo ảnh và kiểm định dấu) nhưng MRE, SDR@2 mm và SDR@3 mm không khác biệt có ý nghĩa (KTC của ΔMRE [−0,039; 0,013] mm). Bỏ self-attention (E6b) chỉ còn 130 điểm, E6a so với E6b có p ≈ 0,069: gợi ý self-attention có ích nhưng chưa đủ kết luận.</li>
 </ol>
 <p class="note w">Theo máy chụp, mức giảm outlier của E6a tập trung ở ART Plus (84 → 62 điểm); Rotograph EVO giữ nguyên 37 điểm ở cả ba mô hình (MRE khoảng 2,5 mm), nên lệch thiết bị ở máy này chưa được giải quyết.</p>
-<p class="note w">Các bài trong bảng so sánh dưới đây dùng giao thức 19 điểm nên chưa so trực tiếp với 29 điểm. Trên 19 điểm, E3 đạt MRE 1,21 mm và SDR@2 mm 84,1%, ngang CNN tốt nhất (CephRes-MHNet 1,23 mm; 85,5%) và tốt hơn rõ ViT-S của Özcan &amp; Allaf 2026 (2,67 mm; 46,1%). Các cột SDR khác và outlier của baseline sẽ bổ sung khi chạy lại dự đoán baseline.</p>
+<p class="note w">Trên 29 điểm, CephViT (ViT + decoder heatmap, cùng bộ Aariz) hiện tốt hơn đề tài 0,11 mm MRE và 2,9 điểm phần trăm SDR@2 mm; chưa xác nhận được CephViT dùng đúng chia tập 700/150/150 và chưa có số outlier để so. Các bài trong bảng so sánh dưới đây dùng giao thức 19 điểm nên chưa so trực tiếp với 29 điểm. Trên 19 điểm, E3 đạt MRE 1,21 mm và SDR@2 mm 84,1%, ngang CNN tốt nhất (CephRes-MHNet 1,23 mm; 85,5%) và tốt hơn rõ ViT-S của Özcan &amp; Allaf 2026 (2,67 mm; 46,1%). Các cột SDR khác và outlier của baseline sẽ bổ sung khi chạy lại dự đoán baseline.</p>
 <div class="tw"><table>
 <thead><tr><th>Bài (Aariz, 19 điểm)</th><th>Mô hình</th><th>MRE (mm)</th><th>SDR 2 mm (%)</th></tr></thead>
 <tbody>
 <tr class="best"><td>Đề tài (E3)</td><td>ViT-S + decoder stride 4, 768 px</td><td>1,21</td><td>84,1</td></tr>
 <tr class="cite"><td>Özcan &amp; Allaf 2026</td><td>ViT-S, 224 px, công thức cố định</td><td>2,67 ± 0,09</td><td>46,1 (1 seed)</td></tr>
 <tr class="cite"><td>CephRes-MHNet (arXiv 2511.10173)</td><td>CNN heatmap</td><td>1,23</td><td>85,5</td></tr>
-<tr class="cite"><td>ResNet-50 regression (MDPI 2025)</td><td>CNN hồi quy</td><td>1,25</td><td>81,5</td></tr>
+<tr class="cite"><td>AFPF-Net (theo bảng 1 của CephRes-MHNet)</td><td>CNN, 20,65M tham số</td><td>1,25</td><td>84,1</td></tr>
 </tbody></table></div>
-<p class="note">D-CeLR (ECCV 2024; ResNet-34 + encoder transformer) chạy trên ISBI 2015, không phải Aariz: MRE 1,01 / 1,27 mm, SDR@2 mm 89,5% / 79,5% ở Test 1 / Test 2. Chưa tìm thấy bài ViT nào báo cáo 29 điểm trên Aariz (tìm kiếm chưa toàn diện).</p>
+<p class="note">D-CeLR (ECCV 2024; ResNet-34 + encoder transformer) chạy trên ISBI 2015, không phải Aariz: MRE 1,01 / 1,27 mm, SDR@2 mm 89,5% / 79,5% ở Test 1 / Test 2. CephViT (NIH, ViT + decoder heatmap, 29 điểm trên Aariz) là bài ViT gần nhất; tìm kiếm chưa toàn diện, chưa nêu được bài nào khác.</p>
 <div class="grid">
 <figure><img src="img/sdr_bars.png" alt="SDR theo ngưỡng" loading="lazy"><figcaption>SDR theo ngưỡng (bản device).</figcaption></figure>
 <figure><img src="img/per_landmark_mre.png" alt="MRE từng điểm mốc" loading="lazy"><figcaption>MRE từng điểm mốc.</figcaption></figure>
@@ -217,8 +220,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <ol class="steps">
 <li>Mỗi cấu hình một lần huấn luyện, một seed; kiểm định chỉ phản ánh dao động của tập test (150 ảnh), chưa gồm dao động do seed. E6a dừng ở epoch 52/60 do hết hạn Colab (dùng checkpoint tốt nhất theo valid), E6b đủ 60 epoch.</li>
 <li>Chưa thu hẹp khoảng cách giữa các máy: Rotograph EVO vẫn 37 điểm sai &gt; 5 mm ở mọi mô hình; chưa chạy E6c, E6d.</li>
-<li>Chưa vượt ResNet-50 được trích dẫn trên 29 điểm; trên 19 điểm E3 ngang CNN tốt nhất (1,21 so với 1,23 mm), không tuyên bố vượt state-of-the-art.</li>
-<li>Chưa kiểm tra bản quyền Aariz cho mục đích thương mại; chưa rà soát kỹ tài liệu liên quan.</li>
+<li>Chưa vượt CephViT trên 29 điểm (1,38 so với 1,28 mm); trên 19 điểm E3 ngang CNN tốt nhất (1,21 so với 1,23 mm), không tuyên bố vượt state-of-the-art.</li>
+<li>Giấy phép Aariz: GitHub của tác giả ghi MIT, chưa xác nhận được trên trang dữ liệu gốc (Figshare) nên cần kiểm tra trước khi dùng thương mại; rà soát tài liệu mới ở mức sơ bộ.</li>
 </ol></section>
 
 <section id="kehoach"><div class="num">07</div><div class="tag">Lịch</div><h2>Kế hoạch thực hiện</h2>
@@ -227,7 +230,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <li><b>Chốt đề cương</b> với kết quả hiện có (10/11/2026).</li>
 <li><b>LODO:</b> sửa script để loại một máy khỏi train, ưu tiên Rotograph EVO và ART Plus.</li>
 <li><b>Tăng độ bền theo thiết bị</b> và ước lượng độ bất định; chạy nhiều seed (ít nhất 2 seed cho E3 và E6a) và ablation E6c, E6d để kiểm định.</li>
-<li><b>Rà soát tài liệu</b> và bản quyền Aariz; chạy lại dự đoán baseline để điền đủ bảng so sánh.</li>
+<li><b>Rà soát tài liệu</b>, bản quyền Aariz và thử RF-DETR Keypoint (Apache-2.0) làm baseline mở thay YOLO11; chạy lại dự đoán baseline để điền đủ bảng so sánh.</li>
 <li><b>Bài báo và slide</b> báo cáo.</li>
 <li><b>Ứng dụng demo</b> cho người dùng thao tác, dùng để đề xuất doanh nghiệp.</li>
 </ol></section>
@@ -236,13 +239,13 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <ol>
 <li>R. Szeliski, <i>Computer Vision: Algorithms and Applications</i>, Springer, 2022.</li>
 <li>Valliappa L., Martin G., Ryan G., <i>Practical Machine Learning for Computer Vision</i>, O'Reilly Media, 2021.</li>
-<li>Bộ dữ liệu Aariz (1.000 ảnh, 29 điểm) — cần bổ sung tác giả, năm, giấy phép.</li>
-<li>Bài ResNet-50 regression, MDPI 2025 (MRE 1,25 mm, SDR@2 mm 81,5%) — cần bổ sung thông tin bài.</li>
-<li>Khan et al. 2025, baseline trên Aariz (MRE 1,69 ± 3,36 mm, SDR@2 mm 81,18%) — cần bổ sung thông tin bài.</li>
+<li>M. A. Khalid et al., A Benchmark Dataset for Automatic Cephalometric Landmark Detection and CVM Stage Classification, <i>Scientific Data</i> 12, 1336, 2025, DOI 10.1038/s41597-025-05542-3. <a href="https://github.com/manwaarkhd/aariz-cephalometric-dataset">Mã và dữ liệu</a></li>
+<li>B. Hou, K. Almpani, J. S. Lee, Z. Lu, Automatic Cephalometric Landmark Localization on CBCT-Derived Digitally Reconstructed Radiographs (CephViT), MICCAI 2026 satellite. <a href="https://papers.miccai.org/miccai-2026-sat/paper/ODIN_010.pdf">Liên kết</a></li>
+<li>Roboflow, RF-DETR Keypoint Preview (Apache-2.0), 22/06/2026. <a href="https://roboflow.com/blog/launch-rf-detr-keypoint-in-roboflow">Liên kết</a></li>
 <li>Özcan M., Allaf F., Cross-Domain Generalization of Deep Learning Architectures for Cephalometric Landmark Detection, <i>Diagnostics</i> 16(17), 2726, 2026. <a href="https://www.mdpi.com/2075-4418/16/17/2726">Liên kết</a></li>
 <li>CephRes-MHNet: A Multi-Head Residual Network for Accurate and Robust Cephalometric Landmark Detection, arXiv 2511.10173. <a href="https://arxiv.org/pdf/2511.10173">Liên kết</a></li>
 <li>D-CeLR: A Cephalometric Landmark Regression Method based on Dual-encoder for High-resolution X-ray Image, ECCV 2024. <a href="https://www.ecva.net/papers/eccv_2024/papers_ECCV/papers/04167.pdf">Liên kết</a></li>
-<li>timm (PyTorch Image Models), Apache-2.0; Ultralytics YOLO11, AGPL-3.0.</li>
+<li>timm (PyTorch Image Models), Apache-2.0; Ultralytics YOLO11, AGPL-3.0 và Enterprise License. <a href="https://ultralytics.com/license">Giấy phép Ultralytics</a></li>
 </ol></section>
 </main>
 <footer>ThS HUIT · Đề cương đồ án Thị giác máy tính và nhận dạng mẫu · cập nhật 09/11/2026</footer>
