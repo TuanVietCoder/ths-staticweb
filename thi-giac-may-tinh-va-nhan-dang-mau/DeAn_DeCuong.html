@@ -171,8 +171,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <div class="bar"><span>ViT device + lọc 1B</span><i style="width:72%"></i><em>1,39</em></div>
 <div class="bar"><span>ViT query decoder (E6a), TB 3 seed</span><i style="width:72%"></i><em>1,39</em></div>
 <div class="bar"><span>E6a, ensemble 3 seed (3 lần suy luận)</span><i style="width:68%"></i><em>1,32</em></div>
-<div class="bar"><span><b>E7: tinh chỉnh + TTA (TB 2 seed)</b></span><i style="width:58%"></i><em><b>1,11</b></em></div>
-<div class="bar"><span>E7: tinh chỉnh, không TTA (TB 2 seed)</span><i style="width:59%"></i><em>1,14</em></div>
+<div class="bar"><span><b>E7: tinh chỉnh + TTA (TB 3 seed)</b></span><i style="width:58%"></i><em><b>1,11</b></em></div>
+<div class="bar"><span>E7: tinh chỉnh, không TTA (TB 3 seed)</span><i style="width:59%"></i><em>1,14</em></div>
 <div class="bar"><span>ViT query, bỏ self-attn (E6b)</span><i style="width:72%"></i><em>1,39</em></div>
 <div class="bar c"><span>CephViT (trích dẫn, 29 điểm)</span><i style="width:66%"></i><em>1,28</em></div>
 </div>
@@ -186,8 +186,8 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <tr><td>E6a: ViT-Small + query decoder, TB ± SD giữa 3 seed (60 epoch)</td><td>1,39 ± 0,01 (giữa các seed)</td><td>79,68 ± 0,34</td><td>86,30 ± 0,31</td><td>90,25 ± 0,35</td><td>94,87 ± 0,06</td><td>130,3 ± 11,9</td></tr>
 <tr><td>E6a: ensemble trung bình toạ độ 3 seed (chi phí suy luận gấp 3)</td><td>1,32 ± 1,42</td><td>81,20</td><td>87,49</td><td>90,85</td><td>95,52</td><td><b>117</b></td></tr>
 <tr><td>E6a: lần chạy đầu (1 seed, dừng epoch 52/60)</td><td>1,38 ± 1,44</td><td>79,54</td><td>86,02</td><td>89,93</td><td>95,08</td><td>115</td></tr>
-<tr class="best"><td>E7: tinh chỉnh giai đoạn 2 + TTA, TB 2 seed (giai đoạn 1 = ensemble E6a)</td><td>1,11 (SD điểm ≈ 1,42)</td><td>86,46</td><td>90,69</td><td>93,06</td><td>95,70</td><td>111,5</td></tr>
-<tr><td>E7: tinh chỉnh, không TTA, TB 2 seed</td><td>1,14 (SD điểm ≈ 1,44)</td><td>85,98</td><td>90,21</td><td>92,64</td><td>95,47</td><td>114,5</td></tr>
+<tr class="best"><td>E7: tinh chỉnh giai đoạn 2 + TTA, TB 3 seed (giai đoạn 1 = ensemble E6a)</td><td>1,11 (SD điểm ≈ 1,41)</td><td>86,30</td><td>90,64</td><td>93,03</td><td>95,71</td><td>111,0</td></tr>
+<tr><td>E7: tinh chỉnh, không TTA, TB 3 seed</td><td>1,14 (SD điểm ≈ 1,44)</td><td>85,86</td><td>90,05</td><td>92,71</td><td>95,49</td><td>116,0</td></tr>
 <tr><td>E7: TTA + lặp 2 lần (1 seed)</td><td>1,10 ± 1,45</td><td>86,69</td><td>90,57</td><td>92,99</td><td>95,56</td><td>118</td></tr>
 <tr><td>E6b: E6a bỏ self-attention (60 epoch)</td><td>1,39 ± 1,45</td><td>79,40</td><td>85,93</td><td>90,51</td><td>94,76</td><td>130</td></tr>
 <tr class="cite"><td>CephViT (ViT 512 px + decoder heatmap; trích dẫn)</td><td>1,28 ± 1,42</td><td>82,10</td><td>87,90</td><td>92,00</td><td>95,70</td><td>—</td></tr>
@@ -200,7 +200,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <li><b>RQ2 — cải thiện:</b> augmentation theo thiết bị giảm thêm 0,06 mm, cả 7 máy đều tốt hơn, nhưng tỉ lệ sai số giữa máy tốt nhất và xấu nhất vẫn khoảng 4,8 lần.</li>
 <li><b>RQ3 — không hiệu quả:</b> bộ lọc 1B không đổi MRE (1,39 mm) và không giảm outlier (139 điểm).</li>
 <li><b>RQ4 — chưa kết luận:</b> lần chạy đầu của E6a (1 seed) giảm điểm sai &gt; 5 mm từ 139 xuống 115 (p ≈ 0,012), nhưng chạy lại 3 seed cho 144 / 124 / 123 điểm (TB 130 ± 12), tức mức giảm nằm trong dao động giữa các seed, và MRE (1,39 ± 0,01 mm) chỉ ngang E3. Chỉ ensemble 3 seed đạt 1,32 mm và 117 điểm; E3 chưa có số liệu nhiều seed nên chưa so công bằng được (đang chạy). Bỏ self-attention (E6b, 1 seed) còn 130 điểm, cùng mức với TB của E6a, nên chưa chứng minh được self-attention có ích.</li>
-<li><b>RQ5 — đạt (sơ bộ):</b> tinh chỉnh hạ MRE của ensemble giai đoạn 1 từ 1,32 xuống 1,14 mm (1,11 mm với TTA); trên valid từ 1,30 xuống 1,10 / 1,07 mm. Hai seed gần như trùng nhau (test 1,143 và 1,138 mm; với TTA 1,106 và 1,107 mm). Thấp hơn số công bố của CephViT (1,28 mm), nhưng SDR@4 mm bằng nhau (95,7%) và số điểm sai &gt; 5 mm gần như không đổi (117 → 109–118): cải thiện nằm ở độ chính xác dưới 3 mm, không phải ở điểm sai lớn.</li>
+<li><b>RQ5 — đạt (sơ bộ):</b> tinh chỉnh hạ MRE của ensemble giai đoạn 1 từ 1,32 xuống 1,14 mm (1,11 mm với TTA); trên valid từ 1,30 xuống 1,10 / 1,07 mm. Ba seed gần như trùng nhau (test 1,141 ± 0,003 mm; với TTA 1,107 ± 0,001 mm; valid 1,096 ± 0,001 và 1,070 ± 0,001 mm). Ensemble 3 seed giai đoạn 2 chỉ hạ thêm khoảng 0,01-0,02 mm (test 1,12 mm; 1,10 mm với TTA). Thấp hơn số công bố của CephViT (1,28 mm), nhưng SDR@4 mm bằng nhau (95,7%) và số điểm sai &gt; 5 mm gần như không đổi (117 → 109–119 giữa các seed): cải thiện nằm ở độ chính xác dưới 3 mm, không phải ở điểm sai lớn.</li>
 </ol>
 <p class="note w">Theo máy chụp, ở lần chạy đầu của E6a (1 seed) mức giảm outlier tập trung ở ART Plus (84 → 62 điểm); Rotograph EVO giữ nguyên 37 điểm ở cả ba mô hình (MRE khoảng 2,5 mm), nên lệch thiết bị ở máy này chưa được giải quyết.</p>
 <p class="note w">Trên 29 điểm, số công bố của CephViT (1,28 mm; SDR@2 mm 82,1%) tốt hơn một mô hình đơn của đề tài (1,39 mm; 79,2%) nhưng kém pipeline hai giai đoạn (1,11 mm; 86,5%). Pipeline này dùng giai đoạn 1 là ensemble 3 seed nên chi phí suy luận gấp nhiều lần mô hình đơn; chưa xác nhận được CephViT dùng đúng chia tập 700/150/150 và chưa có số outlier của họ để so. Các bài trong bảng so sánh dưới đây dùng giao thức 19 điểm nên chưa so trực tiếp với 29 điểm. Trên 19 điểm, E3 đạt MRE 1,21 mm và SDR@2 mm 84,1%, ngang CNN tốt nhất (CephRes-MHNet 1,23 mm; 85,5%) và tốt hơn rõ ViT-S của Özcan &amp; Allaf 2026 (2,67 mm; 46,1%). Các cột SDR khác và outlier của baseline sẽ bổ sung khi chạy lại dự đoán baseline.</p>
@@ -226,11 +226,11 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <div class="card"><h3>Đóng góp 2 <span class="badge">đang làm</span></h3><p>Đánh giá theo từng máy và augmentation theo thiết bị; tiếp theo là LODO (bỏ một máy khi huấn luyện, thử trên máy đó).</p></div>
 <div class="card"><h3>Đóng góp 3 <span class="badge">dự kiến</span></h3><p>Ước lượng độ bất định từ heatmap để cảnh báo điểm khó trước khi bác sĩ dùng.</p></div>
 <div class="card"><h3>Đóng góp 4 <span class="badge">sơ bộ</span></h3><p>Decoder dạng query cho điểm mốc sọ: 29 query tự chú ý lẫn nhau thay cho ràng buộc hậu xử lý; lần chạy đầu giảm điểm sai &gt; 5 mm 139 → 115, nhưng 3 seed cho TB 130 ± 12 nên chưa khẳng định; MRE ngang E3 (1,39 mm), ensemble 3 seed đạt 1,32 mm; ablation self-attention (E6b).</p></div>
-<div class="card"><h3>Đóng góp 5 <span class="badge">sơ bộ</span></h3><p>Tinh chỉnh hai giai đoạn theo ô cắt cố định theo mm: MRE test 1,32 → 1,14 mm (1,11 mm với TTA), ổn định giữa 2 seed (chênh &lt; 0,01 mm), thấp hơn số công bố của CephViT; không giảm điểm sai &gt; 5 mm.</p></div>
+<div class="card"><h3>Đóng góp 5 <span class="badge">sơ bộ</span></h3><p>Tinh chỉnh hai giai đoạn theo ô cắt cố định theo mm: MRE test 1,32 → 1,14 mm (1,11 mm với TTA), ổn định giữa 3 seed (SD &lt; 0,01 mm), thấp hơn số công bố của CephViT; không giảm điểm sai &gt; 5 mm.</p></div>
 </div>
 <h3>Hạn chế hiện tại</h3>
 <ol class="steps">
-<li>Giai đoạn 2 (E7) mới có 2 seed (seed thứ 3 đang chạy) và chỉ chạy trên đầu ra của ensemble E6a; chưa chạy trên một mô hình đơn nên chưa tách được phần đóng góp của ensemble. Ba biến thể suy luận (không TTA, TTA, TTA + lặp 2 lần) đều được báo cáo; TTA được chọn làm cấu hình chính theo valid.</li>
+<li>Giai đoạn 2 (E7) đã chạy 3 seed nhưng chỉ chạy trên đầu ra của ensemble E6a; chưa chạy trên một mô hình đơn nên chưa tách được phần đóng góp của ensemble. Ba biến thể suy luận (không TTA, TTA, TTA + lặp 2 lần) đều được báo cáo; TTA được chọn làm cấu hình chính theo valid.</li>
 <li>E6a đã chạy 3 seed đủ 60 epoch; E3, E6b và các mô hình còn lại mới một seed (E3 đang chạy 3 seed), nên chưa so sánh công bằng giữa các mô hình về dao động do seed. Kiểm định bootstrap trên tập test (150 ảnh) chỉ phản ánh dao động của tập test.</li>
 <li>Chưa thu hẹp khoảng cách giữa các máy: Rotograph EVO vẫn 37 điểm sai &gt; 5 mm ở mọi mô hình; chưa chạy E6c, E6d.</li>
 <li>Một mô hình đơn một giai đoạn (1,39 mm) chưa vượt CephViT (1,28 mm); chỉ pipeline hai giai đoạn (1,11–1,14 mm) thấp hơn số công bố, và chưa xác nhận cùng chia tập; trên 19 điểm E3 ngang CNN tốt nhất (1,21 so với 1,23 mm), không tuyên bố vượt state-of-the-art.</li>
@@ -242,7 +242,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <ol class="steps">
 <li><b>Chốt đề cương</b> với kết quả hiện có (10/11/2026).</li>
 <li><b>LODO:</b> sửa script để loại một máy khỏi train, ưu tiên Rotograph EVO và ART Plus.</li>
-<li><b>Tăng độ bền theo thiết bị</b> và ước lượng độ bất định; hoàn tất seed thứ 3 của giai đoạn 2, chạy giai đoạn 2 trên mô hình đơn E3, hoàn tất nhiều seed cho E3 (E6a đã đủ 3 seed) và ablation E6c, E6d để kiểm định.</li>
+<li><b>Tăng độ bền theo thiết bị</b> và ước lượng độ bất định; chạy giai đoạn 2 trên mô hình đơn E3, hoàn tất nhiều seed cho E3 (E6a đã đủ 3 seed) và ablation E6c, E6d để kiểm định.</li>
 <li><b>Rà soát tài liệu</b>, bản quyền Aariz và thử RF-DETR Keypoint (Apache-2.0) làm baseline mở thay YOLO11; chạy lại dự đoán baseline để điền đủ bảng so sánh.</li>
 <li><b>Bài báo và slide</b> báo cáo.</li>
 <li><b>Ứng dụng demo</b> cho người dùng thao tác, dùng để đề xuất doanh nghiệp.</li>
