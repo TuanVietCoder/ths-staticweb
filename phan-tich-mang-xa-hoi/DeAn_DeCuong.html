@@ -1149,6 +1149,16 @@ if __name__ == "__main__":
         <li><b>Giao diện:</b> thẻ điểm của một tài khoản, bảng xếp hạng nghi ngờ, đồ thị lân cận tô màu theo điểm, thanh trượt ngưỡng cho thấy số nút, số cạnh và modularity của mạng trước và sau khi loại nhóm bị gắn cờ.</li>
         <li><b>Thận trọng:</b> kết quả chỉ là mức nghi ngờ, không kết luận một tài khoản là bot. Trang và ứng dụng chỉ dùng mã ẩn danh.</li>
       </ul>
+
+      <h3>Các bước dự kiến làm ứng dụng web</h3>
+      <ol class="steps">
+        <li><span><b>Tính đặc trưng.</b> Script <code>build_features.py</code> đọc <code>posts_clean.jsonl</code> và đồ thị, xuất <code>features.csv</code> (mỗi tài khoản một dòng, mã ẩn danh) với các tín hiệu ở bảng trên.</span></li>
+        <li><span><b>Chấm điểm.</b> Chuẩn hóa từng tín hiệu theo phân vị, tính điểm tổng có trọng số và điểm Isolation Forest; xuất <code>scores.csv</code> kèm phần đóng góp của từng tín hiệu để giải thích được.</span></li>
+        <li><span><b>Kiểm chứng bằng nhãn tay.</b> Gán nhãn mẫu 50 tài khoản (25 điểm cao nhất, 25 ngẫu nhiên), tính precision@25, chỉnh trọng số nếu cần và ghi lại kết quả vào báo cáo.</span></li>
+        <li><span><b>Dựng giao diện Streamlit.</b> Ba phần: thẻ điểm của một tài khoản, bảng xếp hạng nghi ngờ, đồ thị lân cận tô màu theo điểm.</span></li>
+        <li><span><b>Thanh trượt ngưỡng.</b> Loại các nút có điểm trên ngưỡng, tính lại số nút, số cạnh và modularity (Louvain) để thấy ảnh hưởng của nhóm bị gắn cờ lên cấu trúc mạng.</span></li>
+        <li><span><b>Chạy thử và đóng gói.</b> Chạy bằng <code>streamlit run app.py</code> với dữ liệu ẩn danh đi kèm, viết README, thử từ đầu trên máy sạch. Nếu cần demo trực tuyến thì cân nhắc Streamlit Community Cloud.</span></li>
+      </ol>
     </section>
 
     <section id="ketqua">
@@ -1265,7 +1275,7 @@ if __name__ == "__main__":
         <li><span class="d">đã xong</span><span><b>Crawl đợt 1 và làm sạch lần đầu.</b> 30.088 bài, đồ thị 675 nút.</span><span class="pill ok">xong</span></li>
         <li><span class="d">đã xong</span><span><b>Crawl mở rộng theo seed (2 vòng) và làm sạch lại.</b> 48.311 bài thô, đồ thị 10.256 nút, thành phần liên thông lớn nhất 9.727 nút.</span><span class="pill ok">xong</span></li>
         <li><span class="d">đã xong</span><span><b>Phân tích mạng.</b> Script analyze_network.py tính độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data/analysis.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">23/11 – 27/11</span><span><b>Trực quan hóa.</b> Gephi và NetworkX, xuất ảnh độ phân giải cao.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">đã xong</span><span><b>Trực quan hóa.</b> Gephi và NetworkX, xuất ảnh độ phân giải cao.</span><span class="pill ok">xong</span></li>
         <li><span class="d">28/11 – 02/12</span><span><b>Ứng dụng bot/spam.</b> Chấm điểm, gán nhãn tay mẫu 50 tài khoản để kiểm chứng, giao diện Streamlit.</span><span class="pill todo">sắp tới</span></li>
         <li><span class="d">03/12 – hạn nộp</span><span><b>Báo cáo và đóng gói.</b> Mã nguồn, dữ liệu mẫu, README, file Gephi; chạy thử từ đầu trên máy sạch.</span><span class="pill todo">sắp tới</span></li>
       </ul>
