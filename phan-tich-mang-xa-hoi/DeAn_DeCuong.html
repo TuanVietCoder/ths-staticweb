@@ -1709,6 +1709,12 @@ with tab3:
         <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>10.367 trên 13.815 nút (75%) chỉ có bậc 1, trong khi 248 nút có bậc từ 10 trở lên và 101 nút từ 50 trở lên, bậc lớn nhất là 318. Kiểm định power-law (bootstrap 100 lần, xmin = 2, số mũ 2,32) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
       </div>
 
+      <div class="fig">
+        <h4>Thành phần liên thông lớn nhất (13.815 nút, 17.828 cạnh)</h4>
+        <p class="cap">Gephi, ForceAtlas 2 (LinLog, chống chồng lấp). Màu theo cộng đồng Louvain (8 cộng đồng lớn nhất có màu, còn lại xám), cỡ nút theo PageRank. Đồ thị có dạng một khối dày, các hub nằm rải quanh lõi và cộng đồng chồng lấn nhiều, nên ít cụm tách bạch hơn so với khi nhìn qua modularity 0,82; modularity cao chủ yếu đến từ rất nhiều cộng đồng nhỏ quanh từng hub.</p>
+        <img src="hinh/dothi_en.png" alt="Đồ thị thành phần liên thông lớn nhất, bố cục ForceAtlas 2, màu theo cộng đồng Louvain" style="width:100%;height:auto;border-radius:6px">
+      </div>
+
       <h3>Kết quả của ứng dụng</h3>
       <div class="tw"><table>
         <caption>Độ chính xác gợi ý. Giấu 1 tương tác của mỗi tài khoản, top 10, trung bình 5 lần chia. Kiểm tra trên 1,293 tài khoản có từ 2 cạnh ra (trên tổng 8,189 tài khoản có cạnh ra).</caption>
@@ -1751,7 +1757,7 @@ with tab3:
         <li><span class="d">20–21/11</span><span><b>Crawl và làm sạch.</b> Crawl 80.043 bài thô (theo từ khóa rồi theo seed), làm sạch còn 76.973 bài, đồ thị 21.707 nút, thành phần liên thông lớn nhất 13.815 nút.</span><span class="pill ok">xong</span></li>
         <li><span class="d">21/11</span><span><b>Phân tích mạng.</b> Độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data_en/analysis.</span><span class="pill ok">xong</span></li>
         <li><span class="d">21/11</span><span><b>Lõi ứng dụng.</b> Gợi ý bốn phương pháp, đánh giá Hit@10 và MRR, phép thử độ bền.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">22 – 27/11</span><span><b>Trực quan hóa cho dữ liệu tiếng Anh.</b> Gephi (ForceAtlas2, màu theo cộng đồng, cỡ theo PageRank), NetworkX, lưu file .gephi.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">21/11</span><span><b>Trực quan hóa cho dữ liệu tiếng Anh.</b> Gephi (ForceAtlas2, màu theo cộng đồng, cỡ theo PageRank), đã lưu ảnh và file .gephi; còn bản NetworkX nếu cần.</span><span class="pill ok">xong</span></li>
         <li><span class="d">28/11 – 02/12</span><span><b>Hoàn thiện ứng dụng.</b> Chạy thử giao diện Streamlit trên máy làm bài, sửa lỗi, README và đóng gói.</span><span class="pill todo">sắp tới</span></li>
         <li><span class="d">03/12 – hạn nộp</span><span><b>Báo cáo và đóng gói.</b> Mã nguồn, dữ liệu mẫu, README, file Gephi; chạy thử từ đầu trên máy sạch.</span><span class="pill todo">sắp tới</span></li>
       </ul>
