@@ -207,13 +207,13 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
         <a class="btn p" href="#ketqua">Xem kết quả sơ bộ</a>
         <a class="btn s" href="#kehoach">Kế hoạch tiếp theo</a>
       </div>
-      <p class="snap">Số liệu chụp ngày 21/11/2026, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu). Dữ liệu cộng đồng tiếng Việt được giữ lại làm đối chiếu ở mục 05.</p>
+      <p class="snap">Số liệu chụp ngày 21/11/2026, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu).</p>
     </header>
 
     <section id="vande">
       <h2><span class="n">01</span>Đặt vấn đề</h2>
       <p>Bluesky là mạng xã hội phi tập trung chạy trên giao thức AT Protocol. Dữ liệu công khai đọc được qua API mở, nên có thể thu thập hợp lệ bằng tài khoản và App Password của chính người làm bài. Cộng đồng khoa học và học thuật là một trong những nhóm chuyển sang Bluesky sớm và đông, nên phù hợp để nghiên cứu cấu trúc tương tác.</p>
-      <p>Bài tập yêu cầu thu thập tối thiểu 20.000 bản ghi từ một nguồn, làm sạch, dựng đồ thị, tính các độ đo của phân tích mạng xã hội, chọn một thuật toán để áp dụng, trực quan hóa và xây ứng dụng minh họa. Đề tài ban đầu dùng cộng đồng tiếng Việt, nhưng cộng đồng này còn nhỏ (khoảng 510 tài khoản hoạt động đủ để phân tích), nên đồ án chuyển sang cộng đồng tiếng Anh. Dữ liệu tiếng Việt được giữ lại để so sánh.</p>
+      <p>Bài tập yêu cầu thu thập tối thiểu 20.000 bản ghi từ một nguồn, làm sạch, dựng đồ thị, tính các độ đo của phân tích mạng xã hội, chọn một thuật toán để áp dụng, trực quan hóa và xây ứng dụng minh họa.</p>
       <ul>
         <li>Ai là người được nhiều người khác tương tác tới, và ai chủ động tương tác nhiều nhất?</li>
         <li>Mạng có tách thành các cộng đồng rõ ràng không?</li>
@@ -292,16 +292,16 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
           <p class="run">Cách chạy: <code>python crawl_seed.py --lang en --top 3000 --target 80000 --max-pages 3</code></p>
           <div class="cf"><div class="ch"><code>crawl_bluesky.py</code><span>189 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
 """
-Crawl bài đăng tiếng Việt (langs chứa 'vi') từ Bluesky bằng AT Protocol.
+Crawl bài đăng theo ngôn ngữ (mặc định langs chứa 'en') từ Bluesky bằng AT Protocol.
 Giai đoạn 2 của kế hoạch bài tập cá nhân SNA.
 
 Cài đặt:   không cần thư viện ngoài (dùng bsky_lite.py)
 Đăng nhập: tạo App Password tại Bluesky &gt; Settings &gt; Privacy and security &gt; App passwords
            set BSKY_HANDLE=ten.bsky.social
            set BSKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx      (Windows cmd)
-Chạy:      python crawl_bluesky.py --days 30 --target 30000
+Chạy:      python crawl_bluesky.py --lang en --days 14 --target 30000
 
-Đầu ra (data/raw/posts.jsonl): mỗi dòng 1 bài đăng, dùng để dựng cạnh:
+Đầu ra (data_en/raw/posts.jsonl): mỗi dòng 1 bài đăng, dùng để dựng cạnh:
   - reply   : author -&gt; tác giả của reply_parent_uri
   - quote   : author -&gt; tác giả của quote_uri
   - mention : author -&gt; mention_dids
@@ -316,7 +316,7 @@ from datetime import datetime, timedelta, timezone
 
 from bsky_lite import Client
 
-# Từ phổ biến tiếng Việt để search (searchPosts bắt buộc có từ khóa q)
+# Từ khóa để search (searchPosts bắt buộc có từ khóa q)
 QUERIES = [  # mặc định: chủ đề khoa học/học thuật tiếng Anh; ghi đè bằng --queries "a,b,c" hoặc --queries-file
     "research", "paper", "study", "science", "scientists", "journal", "preprint", "university",
     "PhD", "academic", "data", "climate", "biology", "physics", "neuroscience", "machine learning",
@@ -988,7 +988,7 @@ if __name__ == "__main__":
           <p class="run">Cách chạy: <code>python analyze_network.py</code>. Kết quả ghi vào <code>data/analysis/</code>.</p>
           <div class="cf"><div class="ch"><code>analyze_network.py</code><span>243 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
 """
-Tính chính thức các độ đo mạng cho bài tập cá nhân SNA (đồ thị Bluesky tiếng Việt, đủ 4 loại cạnh).
+Tính chính thức các độ đo mạng cho bài tập cá nhân SNA (đồ thị Bluesky, đủ 4 loại cạnh).
 
 Cài:   python -m pip install networkx numpy scipy
 Chạy:  python analyze_network.py
@@ -1705,7 +1705,7 @@ with tab3:
       <h3>Ba phát hiện về cấu trúc</h3>
       <div class="finds">
         <div class="find"><span class="pill mid">RQ1</span><b>Một tài khoản đứng đầu hầu hết các độ đo.</b><p>U01728 đứng đầu bậc vào (121), PageRank, betweenness và eigenvector, nhưng không đứng đầu bậc ra (112). U03684 có bậc vào 85 mà bậc ra chỉ 4, tức là được nhiều người tương tác tới nhưng gần như không tương tác lại. Các tài khoản bậc ra cao nhất (U06401, 317) có kiểu hành vi khác hẳn nhóm được nhắc tới nhiều, nên cần báo cáo từng độ đo thay vì một bảng xếp hạng chung.</p></div>
-        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rất rõ, và đó là cộng đồng hội thoại.</b><p>Louvain tìm được 65 cộng đồng với modularity 0,82, ổn định qua 10 lần chạy. Khác dữ liệu tiếng Việt (repost chiếm 92%), ở đây reply chiếm 53% lượt tương tác và repost chỉ 24%, nên các cộng đồng phản ánh chủ yếu việc ai trả lời ai.</p></div>
+        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rất rõ, và đó là cộng đồng hội thoại.</b><p>Louvain tìm được 65 cộng đồng với modularity 0,82, ổn định qua 10 lần chạy. Reply chiếm 53% lượt tương tác và repost 24%, nên các cộng đồng phản ánh chủ yếu việc ai trả lời ai.</p></div>
         <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>10.367 trên 13.815 nút (75%) chỉ có bậc 1, trong khi 248 nút có bậc từ 10 trở lên và 101 nút từ 50 trở lên, bậc lớn nhất là 318. Kiểm định power-law (bootstrap 100 lần, xmin = 2, số mũ 2,32) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
       </div>
 
@@ -1715,7 +1715,7 @@ with tab3:
         <thead><tr><th>Phương pháp</th><th class="num">Hit@10</th><th class="num">Độ lệch chuẩn</th><th class="num">MRR</th></tr></thead>
         <tbody><tr><td>Phổ biến (bậc vào)</td><td class="num">0,027</td><td class="num">0,002</td><td class="num">0,013</td></tr><tr><td>Đồng tương tác (user-CF)</td><td class="num">0,028</td><td class="num">0,002</td><td class="num">0,013</td></tr><tr><td>Phổ biến trong cộng đồng</td><td class="num">0,040</td><td class="num">0,005</td><td class="num">0,027</td></tr><tr><td>Lai: cộng đồng + đồng tương tác</td><td class="num">0,044</td><td class="num">0,004</td><td class="num">0,028</td></tr><tr><td>Ngẫu nhiên</td><td class="num">0,001</td><td class="num">0,000</td><td class="num">0,000</td></tr></tbody>
       </table></div>
-      <p>Phương pháp lai đạt Hit@10 = 0,044, cao hơn mức phổ biến (0,027) khoảng 1,6 lần và cao hơn ngẫu nhiên (0,001) rất nhiều, nhưng giá trị tuyệt đối vẫn thấp vì mạng thưa. Phần lợi chủ yếu đến từ việc đưa cộng đồng vào gợi ý; đồng tương tác riêng lẻ chỉ nhỉnh hơn mức phổ biến một chút. Lần chạy đầu cho 0,090 vì cộng đồng tính trên cả đồ thị làm lộ cạnh kiểm tra; con số đúng là 0,044 sau khi tính lại cộng đồng chỉ trên phần huấn luyện.</p>
+      <p>Phương pháp lai đạt Hit@10 = 0,044, cao hơn mức phổ biến (0,027) khoảng 1,6 lần và cao hơn ngẫu nhiên (0,001) rất nhiều, nhưng giá trị tuyệt đối vẫn thấp vì mạng thưa. Phần lợi chủ yếu đến từ việc đưa cộng đồng vào gợi ý; đồng tương tác riêng lẻ chỉ nhỉnh hơn mức phổ biến một chút.</p>
 
       <div class="tw"><table>
         <caption>Độ bền của mạng. Tỷ lệ thành phần liên thông lớn nhất so với toàn mạng 21.707 nút, sau khi gỡ nút theo từng chiến lược (ngẫu nhiên: trung bình 3 lần). Ban đầu GCC chiếm 63,6%.</caption>
@@ -1723,32 +1723,13 @@ with tab3:
         <tbody><tr><td>0%</td><td class="num">0</td><td class="num">63,6%</td><td class="num">63,6%</td><td class="num">63,6%</td><td class="num">63,6%</td></tr><tr><td>0,1%</td><td class="num">22</td><td class="num">47,8%</td><td class="num">47,3%</td><td class="num">49,9%</td><td class="num">63,4%</td></tr><tr><td>0,2%</td><td class="num">43</td><td class="num">36,3%</td><td class="num">36,0%</td><td class="num">39,2%</td><td class="num">63,1%</td></tr><tr><td>0,5%</td><td class="num">109</td><td class="num">5,7%</td><td class="num">6,3%</td><td class="num">12,0%</td><td class="num">62,7%</td></tr><tr><td>1%</td><td class="num">217</td><td class="num">1,0%</td><td class="num">1,1%</td><td class="num">1,8%</td><td class="num">61,7%</td></tr><tr><td>2%</td><td class="num">434</td><td class="num">0,1%</td><td class="num">0,2%</td><td class="num">0,5%</td><td class="num">60,6%</td></tr></tbody>
       </table></div>
       <p>Gỡ chỉ 0,5% tài khoản có bậc cao nhất (khoảng 108 nút) làm thành phần liên thông lớn nhất giảm từ 63,6% xuống 5,7%, trong khi gỡ ngẫu nhiên cùng số nút gần như không đổi (62,7%). Mạng có dạng “ngôi sao”: vài hub nối hàng nghìn tài khoản bậc 1, nên mất hub là mất đường đi giữa các nhóm. Betweenness xấp xỉ (300 mẫu) gỡ kém hiệu quả hơn bậc một chút ở mức 0,5%, có thể do sai số lấy mẫu.</p>
-
-      <div class="fig">
-        <h4>Đối chiếu với cộng đồng tiếng Việt</h4>
-        <p class="cap">Cùng quy trình chạy trên dữ liệu tiếng Việt (crawl 2 vòng, 11/2026), dùng làm bản so sánh.</p>
-        <div class="tw"><table>
-          <thead><tr><th>Chỉ số</th><th class="num">Tiếng Việt</th><th class="num">Tiếng Anh (khoa học)</th></tr></thead>
-          <tbody>
-            <tr><td>Bài sau làm sạch</td><td class="num">37.520</td><td class="num">76.973</td></tr>
-            <tr><td>Nút · cạnh</td><td class="num">10.256 · 14.104</td><td class="num">21.707 · 22.437</td></tr>
-            <tr><td>Nút trong GCC</td><td class="num">9.727</td><td class="num">13.815</td></tr>
-            <tr><td>Modularity · số cộng đồng</td><td class="num">0,88 · 49</td><td class="num">0,82 · 65</td></tr>
-            <tr><td>Tỷ lệ nút bậc 1 (GCC)</td><td class="num">80%</td><td class="num">75%</td></tr>
-            <tr><td>Tỷ lệ repost / reply</td><td class="num">92% / 5%</td><td class="num">24% / 53%</td></tr>
-            <tr><td>Đường kính · đường đi TB</td><td class="num">13 · 5,74</td><td class="num">16 · 5,01</td></tr>
-          </tbody>
-        </table></div>
-        <img src="hinh/dothi_gcc.png" alt="Đồ thị thành phần liên thông lớn nhất của mạng Bluesky tiếng Việt, tô màu theo cộng đồng Louvain: các cụm lớn tách rời nhau, nhiều cụm xám nhỏ ở rìa" style="display:block;width:100%;max-width:560px;height:auto;margin:12px auto 0;background:#fff;border-radius:6px" loading="lazy">
-        <p class="cap" style="margin:12px 0 0">Hình Gephi của mạng tiếng Việt (ForceAtlas 2, màu theo cộng đồng, cỡ nút theo PageRank). Hình của mạng tiếng Anh sẽ thay vào sau khi dựng xong.</p>
-      </div>
     </section>
 
     <section id="dongop">
       <h2><span class="n">06</span>Đóng góp và hạn chế</h2>
       <h3>Đóng góp</h3>
       <ul>
-        <li>Bộ dữ liệu tương tác của cộng đồng khoa học tiếng Anh trên Bluesky (80.043 bài thô), kèm quy trình thu thập và làm sạch chạy lại được, và bản đối chiếu với cộng đồng tiếng Việt. <span class="pill ok">đã có</span></li>
+        <li>Bộ dữ liệu tương tác của cộng đồng khoa học tiếng Anh trên Bluesky (80.043 bài thô), kèm quy trình thu thập và làm sạch chạy lại được. <span class="pill ok">đã có</span></li>
         <li>Phân tích cấu trúc mạng (centrality, HITS, Louvain, phân bố bậc) trên đồ thị 21.707 nút. <span class="pill ok">đã có</span></li>
         <li>Ứng dụng gợi ý tài khoản nên theo dõi, có đánh giá bằng giấu cạnh và so với mức phổ biến, kèm phép thử độ bền của mạng. <span class="pill todo">đang thử giao diện</span></li>
       </ul>
@@ -1767,8 +1748,7 @@ with tab3:
     <section id="kehoach">
       <h2><span class="n">07</span>Kế hoạch thực hiện</h2>
       <ul class="plan">
-        <li><span class="d">đã xong</span><span><b>Crawl và làm sạch tiếng Việt.</b> 48.311 bài thô, đồ thị 10.256 nút; giữ làm dữ liệu đối chiếu.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">20–21/11</span><span><b>Chuyển sang cộng đồng tiếng Anh.</b> Crawl 80.043 bài thô (theo từ khóa rồi theo seed), làm sạch còn 76.973 bài, đồ thị 21.707 nút, thành phần liên thông lớn nhất 13.815 nút.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">20–21/11</span><span><b>Crawl và làm sạch.</b> Crawl 80.043 bài thô (theo từ khóa rồi theo seed), làm sạch còn 76.973 bài, đồ thị 21.707 nút, thành phần liên thông lớn nhất 13.815 nút.</span><span class="pill ok">xong</span></li>
         <li><span class="d">21/11</span><span><b>Phân tích mạng.</b> Độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data_en/analysis.</span><span class="pill ok">xong</span></li>
         <li><span class="d">21/11</span><span><b>Lõi ứng dụng.</b> Gợi ý bốn phương pháp, đánh giá Hit@10 và MRR, phép thử độ bền.</span><span class="pill ok">xong</span></li>
         <li><span class="d">22 – 27/11</span><span><b>Trực quan hóa cho dữ liệu tiếng Anh.</b> Gephi (ForceAtlas2, màu theo cộng đồng, cỡ theo PageRank), NetworkX, lưu file .gephi.</span><span class="pill todo">sắp tới</span></li>
