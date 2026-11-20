@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light dark">
 <style>html{-webkit-text-size-adjust:100%}body{margin:0}</style>
-<title>Mạng tương tác Bluesky tiếng Việt</title>
+<title>Mạng tương tác Bluesky khoa học</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* Bố cục: cột mục lục dính bên trái, thân bài một cột đọc; số liệu dùng chữ mono, điểm nhấn màu cam chỉ dành cho nút "hub". */
@@ -168,7 +168,7 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
 <a class="skip" href="#main">Bỏ qua mục lục</a>
 <div class="top">
   <span><b>Môn Phân tích mạng xã hội</b> · Bài tập cá nhân</span>
-  <span>Cập nhật 08/11/2026 · Hạn nộp: đầu tháng 12/2026</span>
+  <span>Cập nhật 21/11/2026 · Hạn nộp: đầu tháng 12/2026</span>
 </div>
 <nav class="subj" aria-label="Các môn học">
   <h2>Các môn học</h2>
@@ -195,52 +195,54 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
 
   <main id="main">
     <header class="hero">
-      <h1>Mạng tương tác của người dùng tiếng Việt trên Bluesky</h1>
-      <p class="lead">Đồ án dựng đồ thị có hướng từ các lượt trả lời, trích dẫn, nhắc tên và đăng lại giữa người dùng Việt trên Bluesky, rồi đo cấu trúc mạng và xây ứng dụng chấm điểm các tài khoản nghi là bot hoặc spam.</p>
+      <h1>Mạng tương tác của cộng đồng khoa học tiếng Anh trên Bluesky</h1>
+      <p class="lead">Đồ án dựng đồ thị có hướng từ các lượt trả lời, trích dẫn, nhắc tên và đăng lại giữa người dùng Bluesky viết tiếng Anh về khoa học và học thuật, đo cấu trúc mạng, rồi xây ứng dụng gợi ý tài khoản nên theo dõi và đo độ bền của mạng khi mất các tài khoản trung tâm.</p>
       <div class="stats">
-        <div class="stat"><div class="v">37.520</div><div class="l">bài tiếng Việt sau làm sạch (thô: 48.311)</div></div>
-        <div class="stat"><div class="v">10.256 · 14.104</div><div class="l">nút · cạnh của đồ thị hiện có</div></div>
-        <div class="stat"><div class="v">9.727</div><div class="l">nút trong thành phần liên thông lớn nhất</div></div>
-        <div class="stat"><div class="v">0,88</div><div class="l">modularity, Louvain tìm được 49 cộng đồng</div></div>
+        <div class="stat"><div class="v">76.973</div><div class="l">bài tiếng Anh sau làm sạch (thô: 80.043)</div></div>
+        <div class="stat"><div class="v">21.707 · 22.437</div><div class="l">nút · cạnh của đồ thị</div></div>
+        <div class="stat"><div class="v">13.815</div><div class="l">nút trong thành phần liên thông lớn nhất</div></div>
+        <div class="stat"><div class="v">0,82</div><div class="l">modularity, Louvain tìm được 65 cộng đồng</div></div>
       </div>
       <div class="btns">
         <a class="btn p" href="#ketqua">Xem kết quả sơ bộ</a>
         <a class="btn s" href="#kehoach">Kế hoạch tiếp theo</a>
       </div>
-      <p class="snap">Số liệu chụp ngày 08/11/2026, sau crawl mở rộng vòng 2, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu). Số liệu sẽ đổi nếu dữ liệu được crawl thêm.</p>
+      <p class="snap">Số liệu chụp ngày 21/11/2026, tính bằng script analyze_network.py (đường kính và betweenness tính đầy đủ, không dùng mẫu). Dữ liệu cộng đồng tiếng Việt được giữ lại làm đối chiếu ở mục 05.</p>
     </header>
 
     <section id="vande">
       <h2><span class="n">01</span>Đặt vấn đề</h2>
-      <p>Bluesky là mạng xã hội phi tập trung chạy trên giao thức AT Protocol. Dữ liệu công khai đọc được qua API mở, nên có thể thu thập hợp lệ bằng tài khoản và App Password của chính người làm bài. Cộng đồng người Việt trên nền tảng này còn mới, chưa có mô tả nào về cấu trúc tương tác của họ.</p>
-      <p>Bài tập yêu cầu thu thập tối thiểu 20.000 bản ghi từ một nguồn, làm sạch, dựng đồ thị, tính các độ đo của phân tích mạng xã hội, chọn một thuật toán để áp dụng, trực quan hóa và xây ứng dụng minh họa. Bluesky đáp ứng đủ các bước đó với dữ liệu thật.</p>
+      <p>Bluesky là mạng xã hội phi tập trung chạy trên giao thức AT Protocol. Dữ liệu công khai đọc được qua API mở, nên có thể thu thập hợp lệ bằng tài khoản và App Password của chính người làm bài. Cộng đồng khoa học và học thuật là một trong những nhóm chuyển sang Bluesky sớm và đông, nên phù hợp để nghiên cứu cấu trúc tương tác.</p>
+      <p>Bài tập yêu cầu thu thập tối thiểu 20.000 bản ghi từ một nguồn, làm sạch, dựng đồ thị, tính các độ đo của phân tích mạng xã hội, chọn một thuật toán để áp dụng, trực quan hóa và xây ứng dụng minh họa. Đề tài ban đầu dùng cộng đồng tiếng Việt, nhưng cộng đồng này còn nhỏ (khoảng 510 tài khoản hoạt động đủ để phân tích), nên đồ án chuyển sang cộng đồng tiếng Anh. Dữ liệu tiếng Việt được giữ lại để so sánh.</p>
       <ul>
         <li>Ai là người được nhiều người khác tương tác tới, và ai chủ động tương tác nhiều nhất?</li>
         <li>Mạng có tách thành các cộng đồng rõ ràng không?</li>
         <li>Mạng có vài nút rất lớn và đa số nút nhỏ, như các mạng xã hội thường thấy không?</li>
-        <li>Tài khoản nào hành xử khác thường (nghi bot, spam) và làm lệch các độ đo của mạng?</li>
+        <li>Từ lịch sử tương tác, có gợi ý được tài khoản mà một người sẽ tương tác tiếp không?</li>
+        <li>Mạng chịu được việc mất các tài khoản trung tâm đến mức nào?</li>
       </ul>
-      <p>Câu hỏi cuối là lý do của ứng dụng. Bot và spam làm sai lệch centrality và cộng đồng, nên một công cụ chấm điểm tài khoản nghi ngờ vừa có ích cho người dùng nền tảng, vừa làm sạch dữ liệu cho chính bài phân tích này.</p>
+      <p>Hai câu hỏi cuối là lý do của ứng dụng: gợi ý kết nối giúp người dùng tìm đúng người trong cộng đồng, còn phép thử độ bền cho biết cộng đồng phụ thuộc vào một số ít tài khoản đến đâu.</p>
     </section>
 
     <section id="rq">
       <h2><span class="n">02</span>Mục tiêu và câu hỏi nghiên cứu</h2>
-      <p>Mục tiêu: mô tả cấu trúc mạng tương tác tiếng Việt trên Bluesky bằng các độ đo chuẩn, và xây một ứng dụng phát hiện tài khoản nghi bot/spam từ hành vi đăng bài và vị trí trong mạng.</p>
+      <p>Mục tiêu: mô tả cấu trúc mạng tương tác của cộng đồng khoa học tiếng Anh trên Bluesky bằng các độ đo chuẩn, và xây ứng dụng gợi ý tài khoản nên theo dõi, kèm phép thử độ bền của mạng.</p>
       <div>
         <div class="rq"><span class="k">RQ1</span><p>Những tài khoản nào giữ vai trò trung tâm (degree, betweenness, closeness, eigenvector, PageRank, HITS)?</p><span class="pill ok">có kết quả</span></div>
         <div class="rq"><span class="k">RQ2</span><p>Mạng có cấu trúc cộng đồng không, đo bằng Louvain và modularity?</p><span class="pill ok">có kết quả</span></div>
         <div class="rq"><span class="k">RQ3</span><p>Phân bố bậc có đuôi nặng (một ít nút rất lớn, nhiều nút rất nhỏ) không?</p><span class="pill ok">có kết quả</span></div>
-        <div class="rq"><span class="k">RQ4</span><p>Các tín hiệu về hành vi (tần suất đăng, trùng nội dung, tỷ lệ đăng lại) và vị trí trong mạng có tách được nhóm tài khoản nghi bot/spam không, và loại nhóm đó thì các độ đo của mạng đổi thế nào?</p><span class="pill todo">sắp làm</span></div>
+        <div class="rq"><span class="k">RQ4</span><p>Dựa vào tương tác đã có và cộng đồng, gợi ý có đoán trúng tài khoản mà người dùng tương tác tiếp tốt hơn việc gợi ý tài khoản phổ biến không?</p><span class="pill ok">có kết quả</span></div>
+        <div class="rq"><span class="k">RQ5</span><p>Khi gỡ dần các tài khoản trung tâm, thành phần liên thông lớn nhất của mạng thu nhỏ nhanh đến đâu so với gỡ ngẫu nhiên?</p><span class="pill ok">có kết quả</span></div>
       </div>
-      <p>Phạm vi: chỉ các bài có nhãn ngôn ngữ <code>vi</code>, thời gian đăng từ 10/2024 đến 10/2026. Không xét nội dung văn bản, chỉ xét cấu trúc tương tác.</p>
+      <p>Phạm vi: các bài có nhãn ngôn ngữ <code>en</code> thuộc chủ đề khoa học và học thuật (tìm theo từ khóa như research, paper, science, PhD, preprint), thời gian đăng từ 08/2024 đến 11/2026 (phần lớn là 11/2026). Không xét nội dung văn bản, chỉ xét cấu trúc tương tác.</p>
     </section>
 
     <section id="dulieu">
       <h2><span class="n">03</span>Dữ liệu và đồ thị</h2>
       <h3>Nguồn và cách thu thập</h3>
       <ul>
-        <li><b>Tìm bài</b> bằng <code>searchPosts</code> với <code>lang=vi</code>, duyệt theo từng ngày và từ khóa tiếng Việt phổ biến.</li>
-        <li><b>Mở rộng theo seed</b> bằng <code>getAuthorFeed</code>: lấy toàn bộ bài và lượt đăng lại của các tài khoản trung tâm, rồi lặp lại với những tài khoản mới được nhắc tới.</li>
+        <li><b>Tìm bài</b> bằng <code>searchPosts</code> với <code>lang=en</code>, duyệt theo từng ngày (14 ngày gần nhất) và 30 từ khóa khoa học, học thuật.</li>
+        <li><b>Mở rộng theo seed</b> bằng <code>getAuthorFeed</code>: lấy toàn bộ bài và lượt đăng lại của các tài khoản trung tâm (214 tài khoản đến khi đủ mục tiêu 80.000 bài).</li>
         <li>Tất cả đều là dữ liệu công khai. Trang này chỉ hiển thị mã ẩn danh <code>U00xxx</code>, không hiển thị tên tài khoản.</li>
       </ul>
       <h3>Đồ thị</h3>
@@ -251,15 +253,15 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
       </ul>
       <h3>Kết quả làm sạch</h3>
       <div class="tw"><table>
-        <caption>Nhật ký làm sạch, đợt chạy ngày 08/11/2026 (sau crawl mở rộng vòng 2)</caption>
+        <caption>Nhật ký làm sạch, đợt chạy ngày 21/11/2026</caption>
         <thead><tr><th>Bước</th><th>Nội dung</th><th class="num">Trước</th><th class="num">Sau</th></tr></thead>
         <tbody>
-          <tr><td>1</td><td>Xóa trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC</td><td class="num">48.311</td><td class="num">48.311</td></tr>
-          <tr><td>2.2</td><td>Loại bài rỗng hoặc dưới 1 từ</td><td class="num">48.311</td><td class="num">46.872</td></tr>
-          <tr><td>2.3</td><td>Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)</td><td class="num">46.872</td><td class="num">37.520</td></tr>
-          <tr><td>3</td><td>Bot/spam: 2 tài khoản bị gắn cờ, chỉ báo cáo, chưa loại</td><td class="num">37.520</td><td class="num">37.520</td></tr>
-          <tr><td>5–6</td><td>Dựng cạnh, bỏ self-loop, bỏ nút cô lập (cạnh: 14.310 → 14.104; nút: 10.583 → 10.256)</td><td class="num">30.363</td><td class="num">14.104</td></tr>
-          <tr><td>6.3</td><td>Giữ thành phần liên thông lớn nhất (nút / cạnh)</td><td class="num">10.256 / 14.104</td><td class="num">9.727 / 13.556</td></tr>
+          <tr><td>1</td><td>Xóa trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC</td><td class="num">80.043</td><td class="num">80.043</td></tr>
+          <tr><td>2.1–2.2</td><td>Giữ bài có nhãn <code>en</code>, loại bài rỗng hoặc dưới 1 từ</td><td class="num">80.043</td><td class="num">76.973</td></tr>
+          <tr><td>3</td><td>Bot/spam: 33 tài khoản bị gắn cờ (hơn 100 bài mỗi ngày hoạt động), chỉ báo cáo, chưa loại</td><td class="num">76.973</td><td class="num">76.973</td></tr>
+          <tr><td>5</td><td>Dựng cạnh, gộp trọng số theo cặp nguồn–đích (lượt tương tác → cạnh)</td><td class="num">47.809</td><td class="num">25.580</td></tr>
+          <tr><td>6.1–6.2</td><td>Bỏ self-loop (cạnh 25.580 → 22.437), bỏ nút cô lập (nút 31.524 → 21.707)</td><td class="num">25.580</td><td class="num">22.437</td></tr>
+          <tr><td>6.3</td><td>Giữ thành phần liên thông lớn nhất (nút / cạnh)</td><td class="num">21.707 / 22.437</td><td class="num">13.815 / 17.828</td></tr>
         </tbody>
       </table></div>
     </section>
@@ -267,32 +269,33 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
     <section id="phuongphap">
       <h2><span class="n">04</span>Phương pháp</h2>
       <ol class="steps">
-        <li><div><b>Thu thập.</b> Script Python dùng thư viện <code>atproto</code>, ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>.</div></li>
+        <li><div><b>Thu thập.</b> Script Python gọi trực tiếp API Bluesky (module <code>bsky_lite.py</code>, chỉ dùng thư viện chuẩn), ghi nối vào <code>posts.jsonl</code> và <code>reposts.jsonl</code>.</div></li>
         <li><div><b>Làm sạch.</b> <code>clean_build_graph.py</code> chạy 7 bước, không sửa dữ liệu thô, xuất bảng nút, bảng cạnh và GraphML.</div></li>
-        <li><div><b>Độ đo toàn mạng.</b> Tám chỉ số mô tả hình dạng chung của mạng. Bấm vào nút bên dưới để xem giải thích từng chỉ số, kèm giá trị đo được trên thành phần liên thông lớn nhất.<details class="code gloss"><summary><span>Giải thích từng độ đo</span><small>8 chỉ số</small></summary><div class="body"><dl class="gl"><div><dt>Mật độ</dt><dd>Tỷ lệ số kết nối có thật so với số kết nối tối đa có thể có giữa các tài khoản. Nằm từ 0 đến 1; càng gần 0 thì mạng càng thưa, mỗi người chỉ tương tác với rất ít người.<span class="here">0,00014: mạng rất thưa, đa số hai tài khoản bất kỳ không tương tác với nhau.</span></dd></div><div><dt>Tương hỗ (reciprocity)</dt><dd>Trong các tương tác có chiều (A tới B), tỷ lệ cặp mà B cũng tương tác lại A. Cho biết tương tác là trao đổi hai chiều hay chỉ một chiều.<span class="here">0,015: gần như toàn bộ là một chiều, ví dụ đăng lại bài hoặc trả lời một tài khoản nổi bật.</span></dd></div><div><dt>Hệ số phân cụm</dt><dd>Bạn của bạn có là bạn của nhau không: tỷ lệ các bộ ba tài khoản khép kín thành hình tam giác. Từ 0 đến 1; cao nghĩa là các nhóm kết nối chặt với nhau.<span class="here">0,05: thấp, ít nhóm nhỏ kết chặt, tương tác trải rộng hơn là khép kín.</span></dd></div><div><dt>Assortativity theo bậc</dt><dd>Tài khoản có nhiều kết nối thường nối với tài khoản cũng nhiều kết nối (giá trị dương) hay với tài khoản ít kết nối (giá trị âm). Từ −1 đến 1.<span class="here">−0,21: âm, các nút lớn chủ yếu nối với rất nhiều nút nhỏ, tạo dạng hình sao.</span></dd></div><div><dt>Đường kính</dt><dd>Quãng đường dài nhất, tính bằng số bước, giữa hai tài khoản bất kỳ trong cùng một thành phần liên thông. Tính trên bản bỏ qua chiều của cạnh.<span class="here">13 bước: hai tài khoản xa nhau nhất phải qua 13 bước.</span></dd></div><div><dt>Độ dài đường đi trung bình</dt><dd>Số bước trung bình để đi từ một tài khoản tới một tài khoản khác. Cho biết thông tin lan trong mạng nhanh hay chậm.<span class="here">5,74 bước: trung bình mất gần 6 bước, gần với “sáu bậc xa cách”.</span></dd></div><div><dt>Phân bố bậc</dt><dd>Với mỗi giá trị bậc (số kết nối của một tài khoản), có bao nhiêu tài khoản mang giá trị đó. Mạng xã hội thường có rất nhiều nút nhỏ và ít nút rất lớn.<span class="here">80% tài khoản chỉ có 1 kết nối, trong khi nút lớn nhất có 241.</span></dd></div><div><dt>Kiểm định power-law bằng bootstrap</dt><dd>Power-law là mô hình toán cho “đuôi nặng”: số tài khoản giảm theo lũy thừa khi bậc tăng. Cách kiểm: khớp mô hình vào dữ liệu thật, sinh 100 bộ dữ liệu giả đúng theo mô hình, rồi đếm bao nhiêu bộ giả lệch khỏi mô hình nhiều bằng dữ liệu thật. Tỷ lệ đó là p-value; p càng nhỏ thì dữ liệu thật càng không giống power-law.<span class="here">p = 0,00: không có bộ giả nào lệch nhiều như dữ liệu thật, nên phân bố bậc không phải power-law thuần dù đuôi vẫn nặng.</span></dd></div></dl></div></details></div></li>
+        <li><div><b>Độ đo toàn mạng.</b> Tám chỉ số mô tả hình dạng chung của mạng. Bấm vào nút bên dưới để xem giải thích từng chỉ số, kèm giá trị đo được trên thành phần liên thông lớn nhất.<details class="code gloss"><summary><span>Giải thích từng độ đo</span><small>8 chỉ số</small></summary><div class="body"><dl class="gl"><div><dt>Mật độ</dt><dd>Tỷ lệ số kết nối có thật so với số kết nối tối đa có thể có giữa các tài khoản. Nằm từ 0 đến 1; càng gần 0 thì mạng càng thưa, mỗi người chỉ tương tác với rất ít người.<span class="here">0,000093: mạng rất thưa, đa số hai tài khoản bất kỳ không tương tác với nhau.</span></dd></div><div><dt>Tương hỗ (reciprocity)</dt><dd>Trong các tương tác có chiều (A tới B), tỷ lệ cặp mà B cũng tương tác lại A. Cho biết tương tác là trao đổi hai chiều hay chỉ một chiều.<span class="here">0,031: phần lớn là một chiều, ví dụ đăng lại bài hoặc trả lời một tài khoản nổi bật.</span></dd></div><div><dt>Hệ số phân cụm</dt><dd>Bạn của bạn có là bạn của nhau không: tỷ lệ các bộ ba tài khoản khép kín thành hình tam giác. Từ 0 đến 1; cao nghĩa là các nhóm kết nối chặt với nhau.<span class="here">0,023: thấp, ít nhóm nhỏ kết chặt, tương tác trải rộng hơn là khép kín.</span></dd></div><div><dt>Assortativity theo bậc</dt><dd>Tài khoản có nhiều kết nối thường nối với tài khoản cũng nhiều kết nối (giá trị dương) hay với tài khoản ít kết nối (giá trị âm). Từ −1 đến 1.<span class="here">−0,21: âm, các nút lớn chủ yếu nối với rất nhiều nút nhỏ, tạo dạng hình sao.</span></dd></div><div><dt>Đường kính</dt><dd>Quãng đường dài nhất, tính bằng số bước, giữa hai tài khoản bất kỳ trong cùng một thành phần liên thông. Tính trên bản bỏ qua chiều của cạnh.<span class="here">16 bước: hai tài khoản xa nhau nhất phải qua 16 bước.</span></dd></div><div><dt>Độ dài đường đi trung bình</dt><dd>Số bước trung bình để đi từ một tài khoản tới một tài khoản khác. Cho biết thông tin lan trong mạng nhanh hay chậm.<span class="here">5,01 bước: trung bình mất khoảng 5 bước, gần với “sáu bậc xa cách”.</span></dd></div><div><dt>Phân bố bậc</dt><dd>Với mỗi giá trị bậc (số kết nối của một tài khoản), có bao nhiêu tài khoản mang giá trị đó. Mạng xã hội thường có rất nhiều nút nhỏ và ít nút rất lớn.<span class="here">75% tài khoản chỉ có 1 kết nối, trong khi nút lớn nhất có 318.</span></dd></div><div><dt>Kiểm định power-law bằng bootstrap</dt><dd>Power-law là mô hình toán cho “đuôi nặng”: số tài khoản giảm theo lũy thừa khi bậc tăng. Cách kiểm: khớp mô hình vào dữ liệu thật, sinh 100 bộ dữ liệu giả đúng theo mô hình, rồi đếm bao nhiêu bộ giả lệch khỏi mô hình nhiều bằng dữ liệu thật. Tỷ lệ đó là p-value; p càng nhỏ thì dữ liệu thật càng không giống power-law.<span class="here">p = 0,00: không có bộ giả nào lệch nhiều như dữ liệu thật, nên phân bố bậc không phải power-law thuần dù đuôi vẫn nặng.</span></dd></div></dl></div></details></div></li>
         <li><div><b>Centrality.</b> Degree, closeness, betweenness, eigenvector, PageRank, kèm HITS (hub và authority) cho đồ thị có hướng.</div></li>
         <li><div><b>Thuật toán áp dụng.</b> Louvain tìm cộng đồng, đánh giá bằng modularity, chạy trên bản vô hướng của thành phần liên thông lớn nhất.</div></li>
         <li><div><b>Trực quan hóa.</b> Gephi (ForceAtlas2, tô màu theo cộng đồng, cỡ nút theo centrality) và NetworkX.</div></li>
-        <li><div><b>Ứng dụng phát hiện bot/spam.</b> Tính đặc trưng từng tài khoản, chấm điểm nghi ngờ, giao diện Streamlit (chi tiết bên dưới).</div></li>
+        <li><div><b>Ứng dụng.</b> Gợi ý tài khoản nên theo dõi, đánh giá bằng giấu cạnh, và phép thử độ bền của mạng; giao diện Streamlit (chi tiết bên dưới).</div></li>
       </ol>
       <h3>Mã nguồn các bước</h3>
       <p>Bấm vào từng mục để xem giải thích và toàn bộ mã nguồn. Script không chứa mật khẩu: thông tin đăng nhập đọc từ biến môi trường.</p>
 
       <details class="code">
-        <summary><span>Script crawl</span><small>crawl_bluesky.py · crawl_seed.py</small></summary>
+        <summary><span>Script crawl</span><small>crawl_bluesky.py · crawl_seed.py · bsky_lite.py</small></summary>
         <div class="body">
           <ul>
-            <li><b>crawl_bluesky.py</b> tìm bài tiếng Việt bằng <code>searchPosts</code> với <code>lang=vi</code>, duyệt theo từng ngày và từng từ khóa phổ biến. Hàm <code>parse_post</code> rút ra tác giả, nội dung, thời gian, bài được reply, bài được quote, tài khoản được nhắc tên và số lượt tương tác.</li>
+            <li><b>crawl_bluesky.py</b> tìm bài bằng <code>searchPosts</code> với <code>lang=en</code> (đổi bằng <code>--lang</code>), duyệt theo từng ngày và từng từ khóa (mặc định 30 từ khoa học, ghi đè bằng <code>--queries</code>). Hàm <code>parse_post</code> rút ra tác giả, nội dung, thời gian, bài được reply, bài được quote, tài khoản được nhắc tên và số lượt tương tác.</li>
             <li><b>crawl_seed.py</b> xếp hạng tài khoản theo số bài đã đăng cộng số lần được người khác tương tác tới, rồi lấy toàn bộ bài và lượt đăng lại của các tài khoản đó bằng <code>getAuthorFeed</code>. Lượt repost ghi riêng vào <code>reposts.jsonl</code>.</li>
-            <li>Cả hai ghi nối vào file JSONL. Đăng nhập bằng App Password qua biến <code>BSKY_HANDLE</code> và <code>BSKY_APP_PASSWORD</code>.</li>
+            <li><b>bsky_lite.py</b> là client tối giản gọi thẳng API HTTP của Bluesky, thay cho thư viện <code>atproto</code> (thư viện này cần một DLL bị chính sách bảo mật của Windows chặn trên máy làm bài).</li>
+            <li>Ghi nối vào file JSONL. Đăng nhập bằng App Password qua biến <code>BSKY_HANDLE</code> và <code>BSKY_APP_PASSWORD</code>; mật khẩu không nằm trong mã.</li>
           </ul>
-          <p class="run">Cách chạy: <code>python crawl_seed.py --top 3000 --target 80000 --max-pages 3</code></p>
-          <div class="cf"><div class="ch"><code>crawl_bluesky.py</code><span>178 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+          <p class="run">Cách chạy: <code>python crawl_seed.py --lang en --top 3000 --target 80000 --max-pages 3</code></p>
+          <div class="cf"><div class="ch"><code>crawl_bluesky.py</code><span>189 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
 """
 Crawl bài đăng tiếng Việt (langs chứa 'vi') từ Bluesky bằng AT Protocol.
 Giai đoạn 2 của kế hoạch bài tập cá nhân SNA.
 
-Cài đặt:   pip install atproto
+Cài đặt:   không cần thư viện ngoài (dùng bsky_lite.py)
 Đăng nhập: tạo App Password tại Bluesky &gt; Settings &gt; Privacy and security &gt; App passwords
            set BSKY_HANDLE=ten.bsky.social
            set BSKY_APP_PASSWORD=xxxx-xxxx-xxxx-xxxx      (Windows cmd)
@@ -311,12 +314,14 @@ import sys
 import time
 from datetime import datetime, timedelta, timezone
 
-from atproto import Client
+from bsky_lite import Client
 
 # Từ phổ biến tiếng Việt để search (searchPosts bắt buộc có từ khóa q)
-QUERIES = [
-    "và", "là", "không", "được", "tôi", "của", "một", "những", "này", "có",
-    "mình", "đã", "cho", "với", "người", "các", "rất", "thì", "cũng", "như",
+QUERIES = [  # mặc định: chủ đề khoa học/học thuật tiếng Anh; ghi đè bằng --queries "a,b,c" hoặc --queries-file
+    "research", "paper", "study", "science", "scientists", "journal", "preprint", "university",
+    "PhD", "academic", "data", "climate", "biology", "physics", "neuroscience", "machine learning",
+    "AI", "statistics", "medicine", "ecology", "chemistry", "astronomy", "peer review", "grant",
+    "postdoc", "lab", "publication", "open access", "dataset", "model",
 ]
 
 
@@ -390,9 +395,9 @@ def load_seen(path):
     return seen
 
 
-def search_page(client, q, since, until, cursor):
+def search_page(client, q, since, until, cursor, lang="en"):
     params = {
-        "q": q, "lang": "vi", "limit": 100, "sort": "latest",
+        "q": q, "lang": lang, "limit": 100, "sort": "latest",
         "since": since, "until": until,
     }
     if cursor:
@@ -412,8 +417,16 @@ def main():
     ap.add_argument("--days", type=int, default=30, help="số ngày lùi về quá khứ")
     ap.add_argument("--target", type=int, default=30000, help="số bài cần thu thập")
     ap.add_argument("--max-pages", type=int, default=30, help="số trang tối đa mỗi (ngày, từ khóa)")
-    ap.add_argument("--out", default="data/raw")
+    ap.add_argument("--out", default="data_en/raw")
+    ap.add_argument("--lang", default="en", help="mã ngôn ngữ của bài (en, vi, ...)")
+    ap.add_argument("--queries", default="", help="từ khóa, cách nhau bằng dấu phẩy (mặc định dùng QUERIES)")
+    ap.add_argument("--queries-file", default="", help="file mỗi dòng một từ khóa")
     args = ap.parse_args()
+    queries = QUERIES
+    if args.queries_file:
+        queries = [l.strip() for l in open(args.queries_file, encoding="utf-8") if l.strip()]
+    elif args.queries:
+        queries = [q.strip() for q in args.queries.split(",") if q.strip()]
 
     handle = os.environ.get("BSKY_HANDLE")
     pw = os.environ.get("BSKY_APP_PASSWORD")
@@ -435,17 +448,17 @@ def main():
             day_end = today - timedelta(days=d)
             day_start = day_end - timedelta(days=1)
             since, until = day_start.isoformat(), day_end.isoformat()
-            for q in QUERIES:
+            for q in queries:
                 cursor = None
                 for _ in range(args.max_pages):
-                    res = search_page(client, q, since, until, cursor)
+                    res = search_page(client, q, since, until, cursor, args.lang)
                     if res is None or not res.posts:
                         break
                     for p in res.posts:
                         if p.uri in seen:
                             continue
                         row = parse_post(p)
-                        if "vi" not in row["langs"]:
+                        if args.lang not in row["langs"]:
                             continue
                         seen.add(p.uri)
                         f.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -455,6 +468,7 @@ def main():
                     if not cursor or total &gt;= args.target:
                         break
                     time.sleep(0.3)
+                print(f"  [{day_start.date()}] '{q}' -&gt; tổng {total} bài", flush=True)
                 if total &gt;= args.target:
                     break
             print(f"{day_start.date()} -&gt; tổng {total} bài")
@@ -464,18 +478,18 @@ def main():
 
 
 if __name__ == "__main__":
-    main()</code></pre></div><div class="cf"><div class="ch"><code>crawl_seed.py</code><span>151 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+    main()</code></pre></div><div class="cf"><div class="ch"><code>crawl_seed.py</code><span>152 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
 """
 Mở rộng dữ liệu theo tài khoản seed (bước 2 của kế hoạch thu thập).
-Đọc data/raw/posts.jsonl -&gt; chọn tài khoản tiếng Việt tích cực nhất -&gt; lấy toàn bộ
+Đọc data_en/raw/posts.jsonl -&gt; chọn tài khoản tích cực nhất -&gt; lấy toàn bộ
 bài đăng (kèm reply) của họ qua getAuthorFeed -&gt; ghi nối vào cùng posts.jsonl.
-Đồng thời ghi các lượt repost của seed vào data/raw/reposts.jsonl (cạnh repost).
+Đồng thời ghi các lượt repost của seed vào data_en/raw/reposts.jsonl (cạnh repost).
 
 Dùng chung đăng nhập với crawl_bluesky.py (BSKY_HANDLE, BSKY_APP_PASSWORD).
 Để file này cùng thư mục với crawl_bluesky.py.
 
 Chạy:  python crawl_seed.py --top 1500 --target 30000
-Có thể Ctrl+C và chạy lại: bỏ qua bài đã có và seed đã xử lý (data/raw/seeds_done.txt).
+Có thể Ctrl+C và chạy lại: bỏ qua bài đã có và seed đã xử lý (data_en/raw/seeds_done.txt).
 """
 import argparse
 import json
@@ -484,7 +498,7 @@ import sys
 import time
 from collections import Counter
 
-from atproto import Client
+from bsky_lite import Client
 
 from crawl_bluesky import parse_post, load_seen
 
@@ -539,7 +553,8 @@ def main():
     ap.add_argument("--top", type=int, default=1500, help="số tài khoản seed")
     ap.add_argument("--target", type=int, default=30000, help="dừng khi đủ số bài")
     ap.add_argument("--max-pages", type=int, default=10, help="số trang tối đa mỗi seed (100 bài/trang)")
-    ap.add_argument("--out", default="data/raw")
+    ap.add_argument("--out", default="data_en/raw")
+    ap.add_argument("--lang", default="en", help="mã ngôn ngữ của bài")
     args = ap.parse_args()
 
     handle = os.environ.get("BSKY_HANDLE")
@@ -592,7 +607,7 @@ def main():
                     if p.uri in seen or p.author.did != did:
                         continue
                     row = parse_post(p)
-                    if "vi" not in row["langs"]:
+                    if args.lang not in row["langs"]:
                         continue
                     seen.add(p.uri)
                     fp.write(json.dumps(row, ensure_ascii=False) + "\n")
@@ -614,7 +629,84 @@ def main():
 
 
 if __name__ == "__main__":
-    main()</code></pre></div>
+    main()</code></pre></div><div class="cf"><div class="ch"><code>bsky_lite.py</code><span>78 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>"""Client Bluesky tối giản (chỉ thư viện chuẩn, không cần atproto/libipld).
+Cung cấp client.login(), client.app.bsky.feed.search_posts(params=...), get_author_feed(params=...)."""
+import json
+import re
+import urllib.error
+import urllib.parse
+import urllib.request
+
+HOST = "https://bsky.social/xrpc/"
+
+
+def _camel(s):
+    return re.sub(r"_([a-z])", lambda m: m.group(1).upper(), s)
+
+
+class Obj:
+    """Bọc dict JSON để truy cập kiểu thuộc tính; thiếu khóa -&gt; None; 'record' giữ nguyên dict."""
+    def __init__(self, d):
+        self._d = d
+
+    def __getattr__(self, name):
+        if name.startswith("__"):
+            raise AttributeError(name)
+        if name == "py_type":
+            return self._d.get("$type")
+        v = self._d.get(name, self._d.get(_camel(name)))
+        if name == "record":
+            return v
+        return _wrap(v)
+
+
+def _wrap(v):
+    if isinstance(v, dict):
+        return Obj(v)
+    if isinstance(v, list):
+        return [_wrap(x) for x in v]
+    return v
+
+
+class _NS:
+    def __init__(self, **kw):
+        self.__dict__.update(kw)
+
+
+class Client:
+    def __init__(self):
+        self.jwt = self.refresh = self.handle = self.pw = None
+        self.app = _NS(bsky=_NS(feed=_NS(
+            search_posts=lambda params: self._get("app.bsky.feed.searchPosts", params),
+            get_author_feed=lambda params: self._get("app.bsky.feed.getAuthorFeed", params))))
+
+    def _req(self, req):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.loads(r.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            body = e.read().decode("utf-8", "ignore")
+            raise RuntimeError(f"HTTP {e.code} {body[:200]}")
+
+    def login(self, handle, pw):
+        self.handle, self.pw = handle, pw
+        data = json.dumps({"identifier": handle, "password": pw}).encode()
+        req = urllib.request.Request(HOST + "com.atproto.server.createSession", data=data,
+                                     headers={"Content-Type": "application/json"})
+        d = self._req(req)
+        self.jwt, self.refresh = d["accessJwt"], d["refreshJwt"]
+
+    def _get(self, method, params, retry=True):
+        q = urllib.parse.urlencode({k: v for k, v in params.items() if v is not None})
+        req = urllib.request.Request(HOST + method + "?" + q,
+                                     headers={"Authorization": "Bearer " + self.jwt})
+        try:
+            return Obj(self._req(req))
+        except RuntimeError as e:
+            if retry and "ExpiredToken" in str(e):
+                self.login(self.handle, self.pw)  # phiên hết hạn -&gt; đăng nhập lại
+                return self._get(method, params, retry=False)
+            raise</code></pre></div>
         </div>
       </details>
 
@@ -622,24 +714,24 @@ if __name__ == "__main__":
         <summary><span>Script làm sạch</span><small>clean_build_graph.py</small></summary>
         <div class="body">
           <ul>
-            <li>Chạy 7 bước theo thứ tự: xóa bài trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC, giữ bài có nhãn <code>vi</code>, loại bài rỗng, loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai), gắn cờ tài khoản nghi bot/spam.</li>
+            <li>Chạy 7 bước theo thứ tự: xóa bài trùng, loại dòng thiếu trường, chuẩn hóa thời gian UTC, giữ bài có nhãn ngôn ngữ đã chọn (<code>--lang</code>), loại bài rỗng, kiểm tra ký tự riêng của ngôn ngữ (chỉ dùng cho tiếng Việt), gắn cờ tài khoản nghi bot/spam.</li>
             <li>Sau đó dựng cạnh có hướng từ reply, quote, mention và repost, gộp trọng số theo cặp nguồn–đích, bỏ self-loop, bỏ nút cô lập và giữ thành phần liên thông lớn nhất.</li>
             <li>Mỗi bước in số bản ghi trước và sau, ghi vào <code>cleaning_log.csv</code>. Không sửa dữ liệu thô. Xuất bảng nút, bảng cạnh, GraphML cho Gephi, và bản ẩn danh (<code>*_anon.csv</code>) dùng cho báo cáo.</li>
             <li>Các ngưỡng đặt bằng tham số dòng lệnh, ví dụ <code>--max-ppd</code> (bài mỗi ngày để nghi bot), <code>--dup-min</code> và <code>--dup-ratio</code> (nghi spam do trùng nội dung), <code>--drop-flagged</code> (loại hẳn tài khoản bị gắn cờ).</li>
           </ul>
-          <p class="run">Cách chạy: <code>python clean_build_graph.py</code></p>
-          <div class="cf"><div class="ch"><code>clean_build_graph.py</code><span>244 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
+          <p class="run">Cách chạy: <code>python clean_build_graph.py --lang en</code></p>
+          <div class="cf"><div class="ch"><code>clean_build_graph.py</code><span>252 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>#!/usr/bin/env python3
 """
-Làm sạch dữ liệu Bluesky tiếng Việt và dựng đồ thị (7 bước, theo tài liệu "Quy trình làm sạch").
+Làm sạch dữ liệu Bluesky (tham số --lang) và dựng đồ thị (7 bước, theo tài liệu "Quy trình làm sạch").
 
 Cài:   python -m pip install networkx
 Chạy:  python clean_build_graph.py
        python clean_build_graph.py --max-ppd 60 --dup-min 15 --drop-flagged
 
-Đầu vào : data/raw/posts.jsonl, data/raw/reposts.jsonl
-Đầu ra  : data/clean/  (posts_clean.jsonl, nodes.csv, edges.csv, graph.graphml, graph_gcc.graphml,
+Đầu vào : data_en/raw/posts.jsonl, data_en/raw/reposts.jsonl
+Đầu ra  : data_en/clean/  (posts_clean.jsonl, nodes.csv, edges.csv, graph.graphml, graph_gcc.graphml,
           flagged_accounts.csv, id_map.csv, nodes_anon.csv, edges_anon.csv, cleaning_log.csv)
-Không sửa data/raw/.
+Không sửa data_en/raw/.
 """
 import argparse
 import csv
@@ -652,8 +744,8 @@ from datetime import datetime, timezone
 
 import networkx as nx
 
-RAW = "data/raw"
-OUT = "data/clean"
+RAW = "data_en/raw"
+OUT = "data_en/clean"
 TYPES = ("reply", "quote", "mention", "repost")
 VI_CHARS = set("àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ")
 URL_RE = re.compile(r"https?://\S+")
@@ -706,7 +798,12 @@ def main():
     ap.add_argument("--dup-min", type=int, default=20, help="một văn bản lặp từ số lần này (cùng tài khoản) thì nghi spam")
     ap.add_argument("--dup-ratio", type=float, default=0.5, help="tỷ lệ bài trùng nội dung tối thiểu để nghi spam")
     ap.add_argument("--drop-flagged", action="store_true", help="loại hẳn các tài khoản bị gắn cờ (mặc định chỉ báo cáo)")
+    ap.add_argument("--lang", default="en", help="mã ngôn ngữ giữ lại")
+    ap.add_argument("--raw", default="data_en/raw")
+    ap.add_argument("--out", default="data_en/clean")
     args = ap.parse_args()
+    global RAW, OUT
+    RAW, OUT = args.raw, args.out
     os.makedirs(OUT, exist_ok=True)
 
     # ---------------- Bước 1: trùng, dòng hỏng, thời gian ----------------
@@ -736,8 +833,8 @@ def main():
 
     # ---------------- Bước 2: nội dung văn bản ----------------
     n = len(rows)
-    rows = [r for r in rows if "vi" in (r.get("langs") or [])]
-    log("2.1", "Giữ bài có langs chứa 'vi'", n, len(rows))
+    rows = [r for r in rows if args.lang in (r.get("langs") or [])]
+    log("2.1", f"Giữ bài có langs chứa '{args.lang}'", n, len(rows))
 
     for r in rows:
         r["text"] = norm_text(r.get("text"))
@@ -746,8 +843,11 @@ def main():
     log("2.2", f"Loại bài rỗng / dưới {args.min_words} từ", n, len(rows))
 
     n = len(rows)
-    rows = [r for r in rows if not (len(r["text"]) &gt;= args.long_text and not (set(r["text"].lower()) &amp; VI_CHARS))]
-    log("2.3", "Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)", n, len(rows))
+    if args.lang == "vi":
+        rows = [r for r in rows if not (len(r["text"]) &gt;= args.long_text and not (set(r["text"].lower()) &amp; VI_CHARS))]
+        log("2.3", "Loại bài dài không có ký tự tiếng Việt (nghi gắn nhãn sai)", n, len(rows))
+    else:
+        log("2.3", "Bỏ qua (kiểm tra ký tự riêng chỉ áp dụng cho tiếng Việt)", n, len(rows))
 
     # ---------------- Bước 3: bot / spam ----------------
     by_author = defaultdict(list)
@@ -1132,53 +1232,434 @@ if __name__ == "__main__":
         </div>
       </details>
 
-      <h3>Ứng dụng: chấm điểm tài khoản nghi bot/spam</h3>
+      <details class="code">
+        <summary><span>Script ứng dụng</span><small>recsys.py · evaluate.py · robustness.py · app.py</small></summary>
+        <div class="body">
+          <ul>
+            <li><b>recsys.py</b> là lõi gợi ý: bốn phương pháp (phổ biến, đồng tương tác, phổ biến trong cộng đồng, lai) và hàm giải thích lý do gợi ý.</li>
+            <li><b>evaluate.py</b> giấu ngẫu nhiên một cạnh của mỗi tài khoản có từ 2 cạnh ra, tính Hit@10 và MRR, lặp 5 lần; cộng đồng được tính lại chỉ trên phần huấn luyện để không lộ dữ liệu kiểm tra.</li>
+            <li><b>robustness.py</b> gỡ dần nút theo bậc, PageRank, betweenness (xấp xỉ 300 mẫu) và ngẫu nhiên, đo thành phần liên thông lớn nhất, số thành phần và đường đi trung bình.</li>
+            <li><b>app.py</b> là giao diện Streamlit ba tab: gợi ý theo dõi, đánh giá phương pháp, độ bền của mạng. Chỉ dùng mã ẩn danh.</li>
+          </ul>
+          <p class="run">Cách chạy: <code>python -m streamlit run app.py</code></p>
+          <div class="cf"><div class="ch"><code>recsys.py</code><span>103 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>"""Lõi gợi ý tài khoản nên theo dõi (chỉ dùng mã ẩn danh U00xxx)."""
+import csv
+import math
+from collections import Counter, defaultdict
+
+import networkx as nx
+
+
+def read_edges(path):
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        return [(r["Source"], r["Target"]) for r in csv.DictReader(f)]
+
+
+def louvain(edges, seed=42):
+    G = nx.Graph()
+    G.add_edges_from(edges)
+    cl = nx.community.louvain_communities(G, seed=seed)
+    return {n: i for i, c in enumerate(cl) for n in c}, G
+
+
+class Recommender:
+    """edges: các cặp (nguồn, đích) = nguồn đã tương tác tới đích. comm: nút -&gt; mã cộng đồng."""
+
+    METHODS = {
+        "popular": "Phổ biến (bậc vào)",
+        "cf": "Đồng tương tác (user-CF)",
+        "community": "Phổ biến trong cộng đồng",
+        "hybrid": "Lai: cộng đồng + đồng tương tác",
+    }
+
+    def __init__(self, edges, comm):
+        self.out, self.inv = defaultdict(set), defaultdict(set)
+        for s, t in edges:
+            if s != t:
+                self.out[s].add(t)
+                self.inv[t].add(s)
+        self.indeg = Counter({v: len(s) for v, s in self.inv.items()})
+        self.comm = comm
+        self.by_comm = defaultdict(dict)  # cộng đồng -&gt; {tài khoản: bậc vào}
+        for v, d in self.indeg.items():
+            self.by_comm[comm.get(v, -1)][v] = d
+        self.items = list(self.indeg)
+
+    # --- thành phần điểm ---
+    def user_comm(self, u):
+        cs = Counter(self.comm.get(v, -1) for v in self.out[u])
+        if cs:
+            return cs.most_common(1)[0][0]
+        return self.comm.get(u, -1)  # người mới chưa tương tác: dùng cộng đồng của chính họ
+
+    def score_popular(self, u):
+        return dict(self.indeg)
+
+    def score_cf(self, u):
+        sc = defaultdict(float)
+        for i in self.out[u]:
+            for u2 in self.inv[i]:
+                if u2 == u:
+                    continue
+                w = 1 / math.sqrt(len(self.out[u2]))
+                for j in self.out[u2]:
+                    sc[j] += w
+        return sc
+
+    def score_comm(self, u):
+        return dict(self.by_comm.get(self.user_comm(u), {}))
+
+    def score_hybrid(self, u, a=0.5):
+        c1, c2 = self.score_cf(u), self.score_comm(u)
+        m1 = max(c1.values()) if c1 else 1
+        m2 = max(c2.values()) if c2 else 1
+        sc = defaultdict(float)
+        for v, s in c1.items():
+            sc[v] += a * s / m1
+        for v, s in c2.items():
+            sc[v] += (1 - a) * s / m2
+        return sc
+
+    def scores(self, u, method="hybrid", a=0.5):
+        if method == "popular":
+            return self.score_popular(u)
+        if method == "cf":
+            return self.score_cf(u)
+        if method == "community":
+            return self.score_comm(u)
+        return self.score_hybrid(u, a)
+
+    def recommend(self, u, k=10, method="hybrid", a=0.5):
+        sc = self.scores(u, method, a)
+        known = self.out[u] | {u}
+        cand = sorted(((s, v) for v, s in sc.items() if v not in known), key=lambda x: (-x[0], x[1]))
+        return cand[:k]
+
+    def explain(self, u, v):
+        """Lý do gợi ý v cho u (để người dùng hiểu được)."""
+        reasons = []
+        co = sum(1 for u2 in self.inv[v] if u2 != u and (self.out[u2] &amp; self.out[u]))
+        if co:
+            reasons.append(f"{co} tài khoản từng tương tác với cùng người như bạn cũng tương tác với họ")
+        if self.comm.get(v, -2) == self.user_comm(u):
+            reasons.append(f"cùng cộng đồng #{self.comm.get(v)} với các tài khoản bạn hay tương tác")
+        reasons.append(f"được {self.indeg[v]} tài khoản tương tác tới")
+        return "; ".join(reasons)</code></pre></div><div class="cf"><div class="ch"><code>evaluate.py</code><span>53 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>"""Đánh giá gợi ý bằng cách giấu 1 cạnh của mỗi tài khoản (leave-one-edge-out).
+Chạy: python evaluate.py   -&gt; ghi data/eval_results.json
+Cộng đồng được tính lại CHỈ trên đồ thị huấn luyện để không lộ cạnh kiểm tra."""
+import json
+import random
+from collections import defaultdict
+
+import numpy as np
+
+from recsys import Recommender, read_edges, louvain
+
+K, SEEDS = 10, 5
+
+
+def main():
+    edges = read_edges("data/edges.csv")
+    full = defaultdict(set)
+    for s, t in edges:
+        if s != t:
+            full[s].add(t)
+    users = sorted(u for u in full if len(full[u]) &gt;= 2)
+    print("tài khoản đủ điều kiện (&gt;=2 cạnh ra):", len(users), "/", len(full))
+    res = defaultdict(list)
+    for seed in range(SEEDS):
+        rnd = random.Random(seed)
+        test = {u: rnd.choice(sorted(full[u])) for u in users}
+        train = [(s, t) for s in full for t in full[s] if test.get(s) != t]
+        comm, _ = louvain(train, seed=seed)
+        rec = Recommender(train, comm)
+        for m in Recommender.METHODS:
+            hits = mrr = 0
+            for u in users:
+                top = rec.recommend(u, 200, m)
+                rank = next((i + 1 for i, (_, v) in enumerate(top) if v == test[u]), None)
+                if rank:
+                    mrr += 1 / rank
+                    hits += rank &lt;= K
+            res[m].append((hits / len(users), mrr / len(users)))
+        res["random"].append((K / len(rec.items), 0.0))
+        print("seed", seed, "xong", flush=True)
+    names = {**Recommender.METHODS, "random": "Ngẫu nhiên"}
+    out = {"k": K, "seeds": SEEDS, "n_users": len(users), "n_sources": len(full), "methods": []}
+    for m, v in res.items():
+        a = np.array(v)
+        out["methods"].append({"key": m, "name": names[m], "hit": float(a[:, 0].mean()),
+                               "hit_std": float(a[:, 0].std()), "mrr": float(a[:, 1].mean())})
+    json.dump(out, open("data/eval_results.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    for r in out["methods"]:
+        print(f'{r["name"]:35s} Hit@{K}={r["hit"]:.3f}±{r["hit_std"]:.3f} MRR={r["mrr"]:.3f}')
+
+
+if __name__ == "__main__":
+    main()</code></pre></div><div class="cf"><div class="ch"><code>robustness.py</code><span>69 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>"""Độ bền của mạng: gỡ dần nút quan trọng và xem mạng vỡ ra sao.
+Chạy: python robustness.py -&gt; ghi data/robustness.json và data/hub_rank.csv"""
+import csv
+import json
+import random
+
+import networkx as nx
+import numpy as np
+
+from recsys import read_edges
+
+STEPS = [0, 0.001, 0.002, 0.005, 0.01, 0.015, 0.02, 0.03, 0.05, 0.08, 0.12, 0.2, 0.3]
+
+
+def metrics(G, n0, rnd, samples=40):
+    comps = list(nx.connected_components(G))
+    if not comps:
+        return {"gcc": 0.0, "comps": 0, "apl": 0.0}
+    gcc = max(comps, key=len)
+    H = G.subgraph(gcc)
+    src = rnd.sample(list(H), min(samples, len(H)))
+    tot = cnt = 0
+    for s in src:
+        d = nx.single_source_shortest_path_length(H, s)
+        tot += sum(d.values())
+        cnt += len(d) - 1
+    return {"gcc": len(gcc) / n0, "comps": len(comps), "apl": tot / cnt if cnt else 0.0}
+
+
+def curve(G0, order, rnd):
+    n0 = G0.number_of_nodes()
+    out = []
+    for f in STEPS:
+        G = G0.copy()
+        G.remove_nodes_from(order[: int(round(f * n0))])
+        out.append({"f": f, **metrics(G, n0, rnd)})
+    return out
+
+
+def main():
+    G0 = nx.Graph()
+    G0.add_edges_from(e for e in read_edges("data/edges.csv") if e[0] != e[1])
+    rnd = random.Random(1)
+    print("nút:", G0.number_of_nodes(), "cạnh:", G0.number_of_edges())
+    deg = dict(G0.degree())
+    pr = nx.pagerank(G0)
+    bt = nx.betweenness_centrality(G0, k=300, seed=1)
+    with open("data/hub_rank.csv", "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["code", "degree", "pagerank", "betweenness"])
+        for n in G0:
+            w.writerow([n, deg[n], f"{pr[n]:.3e}", f"{bt[n]:.3e}"])
+    orders = {"degree": sorted(G0, key=lambda n: -deg[n]),
+              "pagerank": sorted(G0, key=lambda n: -pr[n]),
+              "betweenness": sorted(G0, key=lambda n: -bt[n])}
+    res = {k: curve(G0, o, rnd) for k, o in orders.items()}
+    rr = []
+    for _ in range(3):
+        nodes = list(G0)
+        rnd.shuffle(nodes)
+        rr.append(curve(G0, nodes, rnd))
+    res["random"] = [{k: float(np.mean([r[i][k] for r in rr])) for k in rr[0][i]} for i in range(len(STEPS))]
+    json.dump(res, open("data/robustness.json", "w"), indent=1)
+    for k, v in res.items():
+        print(k, [round(p["gcc"], 2) for p in v][::3])
+
+
+if __name__ == "__main__":
+    main()</code></pre></div><div class="cf"><div class="ch"><code>app.py</code><span>146 dòng</span><button type="button" class="cp">Sao chép</button></div><pre tabindex="0"><code>"""Ứng dụng: Gợi ý tài khoản nên theo dõi + Độ bền của mạng (Bluesky, cộng đồng khoa học tiếng Anh).
+Chạy: python -m streamlit run app.py
+Chỉ dùng mã ẩn danh U00xxx, không có tên hay DID thật."""
+import json
+import random
+
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import networkx as nx
+import pandas as pd
+import streamlit as st
+
+from recsys import Recommender, read_edges
+
+st.set_page_config(page_title="Gợi ý tài khoản &amp; độ bền mạng", layout="wide")
+
+
+@st.cache_resource
+def load():
+    edges = read_edges("data/edges.csv")
+    comm = json.load(open("data/communities.json", encoding="utf-8"))
+    rec = Recommender(edges, comm)
+    G = nx.Graph()
+    G.add_edges_from(e for e in edges if e[0] != e[1])
+    hubs = pd.read_csv("data/hub_rank.csv").set_index("code")
+    ev = json.load(open("data/eval_results.json", encoding="utf-8"))
+    rb = json.load(open("data/robustness.json", encoding="utf-8"))
+    return edges, comm, rec, G, hubs, ev, rb
+
+
+edges, comm, rec, G, hubs, ev, rb = load()
+
+st.title("Gợi ý tài khoản nên theo dõi và độ bền của mạng")
+st.caption(f"Dữ liệu: Bluesky, bài tiếng Anh chủ đề khoa học/học thuật. {G.number_of_nodes():,} tài khoản, "
+           f"{len(edges):,} tương tác (reply, quote, mention, repost). Tài khoản chỉ hiển thị bằng mã ẩn danh.")
+st.warning("Kết quả gợi ý chỉ mang tính tham khảo: mạng thưa (trung bình khoảng 2 cạnh/nút) nên độ chính xác thấp. "
+           "Xem tab Đánh giá để biết con số cụ thể.")
+
+tab1, tab2, tab3 = st.tabs(["Gợi ý theo dõi", "Đánh giá phương pháp", "Độ bền của mạng"])
+
+# ---------------------------------------------------------------- Tab 1
+with tab1:
+    c1, c2, c3 = st.columns([2, 2, 1])
+    users = sorted(u for u in rec.out if rec.out[u])
+    code = c1.selectbox("Chọn tài khoản (mã ẩn danh)", users, index=0)
+    method = c2.radio("Phương pháp", list(Recommender.METHODS), index=3, horizontal=True,
+                      format_func=lambda k: Recommender.METHODS[k])
+    k = c3.slider("Số gợi ý", 5, 20, 10)
+    typed = st.text_input("Hoặc nhập mã khác (ví dụ U05437)", "").strip().upper()
+    if typed:
+        if typed in G:
+            code = typed
+        else:
+            st.error("Không tìm thấy mã này trong mạng.")
+
+    top = rec.recommend(code, k, method)
+    st.markdown(f"**{code}**: đã tương tác với {len(rec.out[code])} tài khoản, "
+                f"được {rec.indeg[code]} tài khoản tương tác tới, cộng đồng #{rec.user_comm(code)}.")
+    if not rec.out[code]:
+        st.info("Tài khoản này chưa tương tác với ai nên chỉ gợi ý theo cộng đồng của chính nó (trường hợp người mới).")
+    if top:
+        df = pd.DataFrame([{"Hạng": i + 1, "Tài khoản": v, "Điểm": round(s, 3), "Cộng đồng": comm.get(v),
+                            "Lý do": rec.explain(code, v)} for i, (s, v) in enumerate(top)])
+        left, right = st.columns([3, 2])
+        left.dataframe(df, hide_index=True, use_container_width=True)
+        # đồ thị lân cận: tài khoản chọn + người đã tương tác + các gợi ý
+        nodes = {code} | rec.out[code] | {v for _, v in top}
+        H = nx.Graph(G.subgraph(nodes))
+        for _, v in top:
+            if v not in H.nodes:
+                H.add_node(v)
+        for _, v in top:
+            for u2 in rec.inv[v]:
+                if u2 in rec.out[code] and u2 in H:
+                    H.add_edge(u2, v)
+        pos = nx.spring_layout(H, seed=3, k=0.6)
+        colors = ["#c0392b" if n == code else "#2e86de" if n in {v for _, v in top} else "#aaaaaa" for n in H]
+        fig, ax = plt.subplots(figsize=(5, 4))
+        nx.draw_networkx(H, pos, node_color=colors, node_size=[220 if n == code else 90 for n in H],
+                         with_labels=False, edge_color="#cccccc", ax=ax)
+        ax.set_title("Đỏ: tài khoản chọn. Xanh: được gợi ý. Xám: đã tương tác", fontsize=8)
+        ax.axis("off")
+        right.pyplot(fig)
+        plt.close(fig)
+    else:
+        st.info("Không có gợi ý cho tài khoản này.")
+
+# ---------------------------------------------------------------- Tab 2
+with tab2:
+    st.subheader("Cách đánh giá")
+    st.markdown(
+        f"Với mỗi tài khoản có ít nhất 2 tương tác ({ev['n_users']:,} tài khoản), giấu ngẫu nhiên 1 tương tác, "
+        f"gợi ý top {ev['k']} bằng phần còn lại, rồi xem tương tác đã giấu có nằm trong danh sách không (**Hit@{ev['k']}**). "
+        f"**MRR** là trung bình nghịch đảo thứ hạng. Lặp {ev['seeds']} lần với cách giấu khác nhau. "
+        "Cộng đồng được tính lại chỉ trên phần huấn luyện để không lộ dữ liệu kiểm tra.")
+    ed = pd.DataFrame(ev["methods"])
+    show = ed.rename(columns={"name": "Phương pháp", "hit": f"Hit@{ev['k']}", "hit_std": "Độ lệch chuẩn", "mrr": "MRR"})
+    st.dataframe(show[["Phương pháp", f"Hit@{ev['k']}", "Độ lệch chuẩn", "MRR"]].round(4), hide_index=True)
+    st.bar_chart(ed.set_index("name")["hit"])
+    pop = next(m["hit"] for m in ev["methods"] if m["key"] == "popular")
+    hyb = next(m["hit"] for m in ev["methods"] if m["key"] == "hybrid")
+    st.success(f"Phương pháp lai đạt Hit@{ev['k']} = {hyb:.3f}, cao hơn phương pháp phổ biến {hyb / pop:.1f} lần "
+               f"và cao hơn ngẫu nhiên rất nhiều.")
+    st.subheader("Giới hạn (cần nêu trong báo cáo)")
+    st.markdown(
+        "1. Con số tuyệt đối thấp (dưới 5%): đồ thị thưa, hầu hết tài khoản chỉ có 1 tương tác.\n"
+        f"2. Chỉ {ev['n_users']:,}/{ev['n_sources']:,} tài khoản đủ điều kiện kiểm tra; kết quả không đại diện cho tài khoản ít tương tác.\n"
+        "3. Mục tiêu dự đoán là *tương tác* (reply, quote, mention, repost), không phải quan hệ theo dõi thật.\n"
+        "4. Dữ liệu chỉ là mẫu theo từ khóa và theo tài khoản seed, nên thiên về nhóm hoạt động nhiều.")
+
+# ---------------------------------------------------------------- Tab 3
+with tab3:
+    st.subheader("Gỡ dần tài khoản quan trọng nhất, mạng vỡ ra sao?")
+    st.markdown("Thành phần liên thông lớn nhất (GCC) là phần mạng còn nối liền được với nhau. "
+                "Ba chiến lược gỡ có chủ đích so với gỡ ngẫu nhiên.")
+    labels = {"degree": "Theo bậc", "pagerank": "Theo PageRank", "betweenness": "Theo betweenness (xấp xỉ)",
+              "random": "Ngẫu nhiên (trung bình 3 lần)"}
+    metric = st.radio("Chỉ số", ["gcc", "comps", "apl"], horizontal=True,
+                      format_func=lambda m: {"gcc": "GCC (tỷ lệ so với toàn mạng)", "comps": "Số thành phần liên thông",
+                                             "apl": "Đường đi trung bình trong GCC"}[m])
+    cur = pd.DataFrame({labels[k]: {f"{p['f'] * 100:g}%": p[metric] for p in v} for k, v in rb.items()})
+    st.line_chart(cur)
+    st.caption("Trục ngang: tỷ lệ tài khoản bị gỡ. Đường đi trung bình sau khi mạng vỡ gần như vô nghĩa vì GCC rất nhỏ.")
+
+    st.subheader("Thử tự gỡ")
+    a, b = st.columns(2)
+    strat = a.selectbox("Chiến lược", list(labels), format_func=lambda k: labels[k])
+    pct = b.slider("Tỷ lệ tài khoản bị gỡ (%)", 0.0, 5.0, 0.5, 0.1)
+    n0 = G.number_of_nodes()
+    nrem = int(round(pct / 100 * n0))
+    if strat == "random":
+        order = list(G)
+        random.Random(7).shuffle(order)
+    else:
+        col = {"degree": "degree", "pagerank": "pagerank", "betweenness": "betweenness"}[strat]
+        order = list(hubs.sort_values(col, ascending=False).index)
+    H = G.copy()
+    H.remove_nodes_from(order[:nrem])
+    comps = sorted(nx.connected_components(H), key=len, reverse=True)
+    m1, m2, m3 = st.columns(3)
+    m1.metric("Đã gỡ", f"{nrem:,} tài khoản")
+    m2.metric("GCC còn lại", f"{(len(comps[0]) / n0 * 100 if comps else 0):.1f}%")
+    m3.metric("Số thành phần", f"{len(comps):,}")
+    st.info("Mạng dạng 'ngôi sao': vài hub nối hàng nghìn tài khoản bậc 1. Mất các hub này thì thông tin không còn "
+            "đường đi giữa các cộng đồng. Gỡ ngẫu nhiên gần như không ảnh hưởng.")</code></pre></div>
+        </div>
+      </details>
+
+      <h3>Ứng dụng: gợi ý tài khoản nên theo dõi và độ bền của mạng</h3>
       <div class="tw"><table>
-        <caption>Các nhóm tín hiệu dùng để chấm điểm. Mọi tín hiệu tính từ dữ liệu công khai đã thu thập.</caption>
-        <thead><tr><th>Nhóm</th><th>Tín hiệu</th><th>Vì sao đáng ngờ</th></tr></thead>
+        <caption>Bốn phương pháp gợi ý được so sánh. Mọi phương pháp chỉ dùng tương tác đã thu thập.</caption>
+        <thead><tr><th>Phương pháp</th><th>Cách chấm điểm</th><th>Ý nghĩa</th></tr></thead>
         <tbody>
-          <tr><td>Tần suất</td><td>Số bài mỗi ngày hoạt động</td><td>Đăng dày đặc, đều đặn bất thường</td></tr>
-          <tr><td>Nội dung</td><td>Tỷ lệ bài trùng, tỷ lệ bài có link</td><td>Lặp một nội dung hoặc chỉ đẩy link</td></tr>
-          <tr><td>Hành vi</td><td>Tỷ lệ repost, quote, reply trên tổng hoạt động</td><td>Chỉ khuếch đại bài người khác, ít tự đăng</td></tr>
-          <tr><td>Vị trí trong mạng</td><td>Bậc vào/ra, hub score, tương hỗ, phân cụm</td><td>Tương tác một chiều, không được ai đáp lại</td></tr>
+          <tr><td>Phổ biến</td><td>Số tài khoản tương tác tới (bậc vào)</td><td>Mức cơ sở: gợi ý người nổi tiếng nhất cho mọi người</td></tr>
+          <tr><td>Đồng tương tác</td><td>Tài khoản mà những người cùng tương tác với bạn cũng tương tác tới</td><td>“Người giống bạn còn tương tác với ai”</td></tr>
+          <tr><td>Phổ biến trong cộng đồng</td><td>Bậc vào, chỉ xét trong cộng đồng Louvain mà bạn hay tương tác</td><td>Gợi ý người nổi bật đúng nhóm chủ đề của bạn</td></tr>
+          <tr><td>Lai</td><td>Trung bình có trọng số của hai điểm trên (0,5 / 0,5)</td><td>Kết hợp độ giống nhau và vị trí trong cộng đồng</td></tr>
         </tbody>
       </table></div>
       <ul>
-        <li><b>Chấm điểm:</b> điểm tổng có trọng số của các tín hiệu đã chuẩn hóa, mỗi tín hiệu hiện rõ phần đóng góp để giải thích được. Đối chiếu với Isolation Forest, một mô hình không giám sát.</li>
-        <li><b>Kiểm chứng:</b> chưa có danh sách bot đã xác nhận, nên gán nhãn tay một mẫu 50 tài khoản (25 điểm cao nhất, 25 ngẫu nhiên) rồi tính precision@25.</li>
-        <li><b>Giao diện:</b> thẻ điểm của một tài khoản, bảng xếp hạng nghi ngờ, đồ thị lân cận tô màu theo điểm, thanh trượt ngưỡng cho thấy số nút, số cạnh và modularity của mạng trước và sau khi loại nhóm bị gắn cờ.</li>
-        <li><b>Thận trọng:</b> kết quả chỉ là mức nghi ngờ, không kết luận một tài khoản là bot. Trang và ứng dụng chỉ dùng mã ẩn danh.</li>
+        <li><b>Kiểm chứng:</b> giấu một tương tác của mỗi tài khoản, gợi ý top 10 từ phần còn lại và xem tương tác đã giấu có nằm trong danh sách không (Hit@10), cùng MRR. Có mức ngẫu nhiên để đối chiếu.</li>
+        <li><b>Độ bền:</b> gỡ dần tài khoản theo bậc, PageRank, betweenness hoặc ngẫu nhiên, đo thành phần liên thông lớn nhất. Giao diện có thanh trượt để người xem tự gỡ.</li>
+        <li><b>Giao diện:</b> chọn một mã ẩn danh, xem top gợi ý kèm lý do và đồ thị lân cận; tab đánh giá nêu số liệu và giới hạn; tab độ bền có đường cong và thanh trượt.</li>
+        <li><b>Thận trọng:</b> gợi ý chỉ mang tính tham khảo vì mạng thưa. Trang và ứng dụng chỉ dùng mã ẩn danh.</li>
       </ul>
 
-      <h3>Các bước dự kiến làm ứng dụng web</h3>
+      <h3>Các bước làm ứng dụng web</h3>
       <ol class="steps">
-        <li><span><b>Tính đặc trưng.</b> Script <code>build_features.py</code> đọc <code>posts_clean.jsonl</code> và đồ thị, xuất <code>features.csv</code> (mỗi tài khoản một dòng, mã ẩn danh) với các tín hiệu ở bảng trên.</span></li>
-        <li><span><b>Chấm điểm.</b> Chuẩn hóa từng tín hiệu theo phân vị, tính điểm tổng có trọng số và điểm Isolation Forest; xuất <code>scores.csv</code> kèm phần đóng góp của từng tín hiệu để giải thích được.</span></li>
-        <li><span><b>Kiểm chứng bằng nhãn tay.</b> Gán nhãn mẫu 50 tài khoản (25 điểm cao nhất, 25 ngẫu nhiên), tính precision@25, chỉnh trọng số nếu cần và ghi lại kết quả vào báo cáo.</span></li>
-        <li><span><b>Dựng giao diện Streamlit.</b> Ba phần: thẻ điểm của một tài khoản, bảng xếp hạng nghi ngờ, đồ thị lân cận tô màu theo điểm.</span></li>
-        <li><span><b>Thanh trượt ngưỡng.</b> Loại các nút có điểm trên ngưỡng, tính lại số nút, số cạnh và modularity (Louvain) để thấy ảnh hưởng của nhóm bị gắn cờ lên cấu trúc mạng.</span></li>
-        <li><span><b>Chạy thử và đóng gói.</b> Chạy bằng <code>streamlit run app.py</code> với dữ liệu ẩn danh đi kèm, viết README, thử từ đầu trên máy sạch. Nếu cần demo trực tuyến thì cân nhắc Streamlit Community Cloud.</span></li>
+        <li><span><b>Chuẩn bị dữ liệu.</b> Lấy <code>edges_anon.csv</code> và <code>nodes_anon.csv</code> từ bước làm sạch, tính cộng đồng Louvain trên toàn đồ thị, lưu vào <code>data/</code>.</span><span class="pill ok">xong</span></li>
+        <li><span><b>Lõi gợi ý.</b> Viết <code>recsys.py</code> với bốn phương pháp và phần giải thích lý do.</span><span class="pill ok">xong</span></li>
+        <li><span><b>Đánh giá.</b> <code>evaluate.py</code> giấu cạnh, tính Hit@10 và MRR trên 5 lần chia, ghi <code>eval_results.json</code>.</span><span class="pill ok">xong</span></li>
+        <li><span><b>Phép thử độ bền.</b> <code>robustness.py</code> gỡ nút theo bốn chiến lược, ghi <code>robustness.json</code> và bảng xếp hạng hub.</span><span class="pill ok">xong</span></li>
+        <li><span><b>Giao diện Streamlit.</b> <code>app.py</code> ba tab; đã chạy thử toàn bộ logic, cần chạy giao diện trên máy làm bài.</span><span class="pill todo">đang thử</span></li>
+        <li><span><b>Đóng gói.</b> README, <code>requirements.txt</code>, thử từ đầu trên máy sạch; nếu cần demo trực tuyến thì cân nhắc Streamlit Community Cloud.</span><span class="pill todo">sắp tới</span></li>
       </ol>
     </section>
 
     <section id="ketqua">
       <h2><span class="n">05</span>Kết quả thực nghiệm sơ bộ</h2>
-      <p>Các số dưới đây tính trên đồ thị đầy đủ (10.256 nút) và trên thành phần liên thông lớn nhất (9.727 nút, chiếm 95% số nút).</p>
+      <p>Các số dưới đây tính trên đồ thị đầy đủ (21.707 nút) và trên thành phần liên thông lớn nhất (13.815 nút, chiếm 64% số nút).</p>
 
       <div class="tw"><table>
         <caption>Độ đo toàn mạng. Dấu “—” là không xác định vì đồ thị chưa liên thông. Đường kính và đường đi tính trên bản vô hướng.</caption>
         <thead><tr><th>Độ đo</th><th class="num">Toàn bộ</th><th class="num">Liên thông lớn nhất</th></tr></thead>
         <tbody>
-          <tr><td>Số nút</td><td class="num">10.256</td><td class="num">9.727</td></tr>
-          <tr><td>Số cạnh có hướng</td><td class="num">14.104</td><td class="num">13.556</td></tr>
-          <tr><td>Mật độ</td><td class="num">0,00013</td><td class="num">0,00014</td></tr>
-          <tr><td>Tương hỗ (reciprocity)</td><td class="num">0,015</td><td class="num">0,015</td></tr>
-          <tr><td>Hệ số phân cụm trung bình</td><td class="num">0,049</td><td class="num">0,050</td></tr>
-          <tr><td>Transitivity</td><td class="num">0,013</td><td class="num">0,013</td></tr>
-          <tr><td>Assortativity theo bậc</td><td class="num">−0,222</td><td class="num">−0,210</td></tr>
-          <tr><td>Đường kính</td><td class="num">—</td><td class="num">13</td></tr>
-          <tr><td>Độ dài đường đi trung bình</td><td class="num">—</td><td class="num">5,74</td></tr>
-          <tr><td>Số thành phần liên thông (4 lớn nhất)</td><td class="num">38 (9.727 · 81 · 80 · 48)</td><td class="num">—</td></tr>
+          <tr><td>Số nút</td><td class="num">21.707</td><td class="num">13.815</td></tr>
+          <tr><td>Số cạnh có hướng</td><td class="num">22.437</td><td class="num">17.828</td></tr>
+          <tr><td>Mật độ</td><td class="num">0,000048</td><td class="num">0,000093</td></tr>
+          <tr><td>Tương hỗ (reciprocity)</td><td class="num">0,035</td><td class="num">0,031</td></tr>
+          <tr><td>Hệ số phân cụm trung bình</td><td class="num">0,016</td><td class="num">0,023</td></tr>
+          <tr><td>Transitivity</td><td class="num">0,0063</td><td class="num">0,0062</td></tr>
+          <tr><td>Assortativity theo bậc</td><td class="num">−0,114</td><td class="num">−0,213</td></tr>
+          <tr><td>Đường kính</td><td class="num">—</td><td class="num">16</td></tr>
+          <tr><td>Độ dài đường đi trung bình</td><td class="num">—</td><td class="num">5,01</td></tr>
+          <tr><td>Số thành phần liên thông (4 lớn nhất)</td><td class="num">3.419 (13.815 · 15 · 13 · 11)</td><td class="num">—</td></tr>
         </tbody>
       </table></div>
 
@@ -1186,85 +1667,99 @@ if __name__ == "__main__":
         <h4>Loại tương tác tạo nên các cạnh</h4>
         <p class="cap">Tổng số lượt tương tác theo loại, trước khi gộp thành cạnh có trọng số.</p>
         <div class="bars">
-          <div class="grp">Toàn bộ đồ thị (26.969 lượt)</div>
-          <div class="bar"><span>Repost</span><span class="t"><i style="width:100%"></i></span><span class="v">24.769</span></div>
-          <div class="bar"><span>Reply</span><span class="t"><i style="width:5%"></i></span><span class="v">1.244</span></div>
-          <div class="bar"><span>Quote</span><span class="t"><i style="width:3.8%"></i></span><span class="v">943</span></div>
-          <div class="bar"><span>Mention</span><span class="t"><i style="width:.2%"></i></span><span class="v">13</span></div>
-          <div class="grp">Liên thông lớn nhất (23.797 lượt)</div>
-          <div class="bar"><span>Repost</span><span class="t"><i style="width:91.1%"></i></span><span class="v">22.567</span></div>
-          <div class="bar"><span>Reply</span><span class="t"><i style="width:4.8%"></i></span><span class="v">1.188</span></div>
-          <div class="bar"><span>Quote</span><span class="t"><i style="width:.2%"></i></span><span class="v">34</span></div>
-          <div class="bar"><span>Mention</span><span class="t"><i style="width:.1%"></i></span><span class="v">8</span></div>
+          <div class="grp">Toàn bộ đồ thị (31.955 lượt)</div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:100.0%"></i></span><span class="v">16.953</span></div><div class="bar"><span>Repost</span><span class="t"><i style="width:45.5%"></i></span><span class="v">7.722</span></div><div class="bar"><span>Quote</span><span class="t"><i style="width:21.9%"></i></span><span class="v">3.714</span></div><div class="bar"><span>Mention</span><span class="t"><i style="width:21.0%"></i></span><span class="v">3.566</span></div>
+          <div class="grp">Liên thông lớn nhất (27.153 lượt)</div>
+          <div class="bar"><span>Reply</span><span class="t"><i style="width:81.6%"></i></span><span class="v">13.838</span></div><div class="bar"><span>Repost</span><span class="t"><i style="width:45.4%"></i></span><span class="v">7.703</span></div><div class="bar"><span>Quote</span><span class="t"><i style="width:18.7%"></i></span><span class="v">3.170</span></div><div class="bar"><span>Mention</span><span class="t"><i style="width:14.4%"></i></span><span class="v">2.442</span></div>
         </div>
       </div>
 
       <div class="fig">
         <h4>Phân bố bậc (thang log–log)</h4>
-        <p class="cap">Mỗi chấm là một giá trị bậc: trục ngang là bậc, trục dọc là số nút có bậc đó. Toàn bộ đồ thị, bậc tính trên bản vô hướng.</p>
-        <svg id="deg" viewBox="0 0 600 300" role="img" aria-label="Phân bố bậc log-log: 8.233 nút bậc 1, 1.072 nút bậc 2, số nút giảm dần khi bậc tăng, bậc lớn nhất là 241"></svg>
+        <p class="cap">Mỗi chấm là một giá trị bậc: trục ngang là bậc, trục dọc là số nút có bậc đó. Thành phần liên thông lớn nhất, bậc tính trên bản vô hướng.</p>
+        <svg id="deg" viewBox="0 0 600 300" role="img" aria-label="Phân bố bậc log-log: 10.367 nút bậc 1, 1.849 nút bậc 2, số nút giảm dần khi bậc tăng, bậc lớn nhất là 318"></svg>
       </div>
 
       <h3>Các nút trung tâm</h3>
       <div class="tw"><table>
-        <caption>Năm nút đứng đầu theo từng độ đo, thành phần liên thông lớn nhất. Mã ẩn danh, được đánh lại sau mỗi lần chạy. Bảng top 10 đầy đủ nằm trong data/analysis.</caption>
+        <caption>Năm nút đứng đầu theo từng độ đo, thành phần liên thông lớn nhất. Mã ẩn danh, được đánh lại sau mỗi lần chạy. Bảng top 10 đầy đủ nằm trong data_en/analysis.</caption>
         <thead><tr><th class="num">Hạng</th><th>Bậc vào</th><th>PageRank</th><th>Betweenness</th><th>Eigenvector</th><th>Bậc ra</th></tr></thead>
         <tbody>
-          <tr><td class="num">1</td><td class="hot">U01245 (39)</td><td class="hot">U07637 (0,0023)</td><td class="hot">U01623 (0,0012)</td><td class="hot">U01623 (0,299)</td><td>U00362 (241)</td></tr>
-          <tr><td class="num">2</td><td>U06924 (34)</td><td>U05773 (0,0008)</td><td>U07257 (0,0006)</td><td>U02054 (0,218)</td><td>U03912 (208)</td></tr>
-          <tr><td class="num">3</td><td>U03564 (29)</td><td>U00205 (0,0006)</td><td>U00976 (0,0004)</td><td>U05598 (0,198)</td><td>U04883 (177)</td></tr>
-          <tr><td class="num">4</td><td>U07637 (26)</td><td>U01401 (0,0005)</td><td>U09980 (0,0004)</td><td>U02383 (0,194)</td><td>U06963 (176)</td></tr>
-          <tr><td class="num">5</td><td>U02054 (24)</td><td>U01245 (0,0005)</td><td>U03934 (0,0004)</td><td>U00598 (0,185)</td><td>U01938 (174)</td></tr>
+          <tr><td class="num">1</td><td class="hot">U01728 (121)</td><td class="hot">U01728 (0,0045)</td><td class="hot">U01728 (0,0114)</td><td class="hot">U01728 (0,294)</td><td>U06401 (317)</td></tr>
+          <tr><td class="num">2</td><td>U03684 (85)</td><td>U03684 (0,0042)</td><td>U05872 (0,0112)</td><td>U05872 (0,242)</td><td>U11431 (298)</td></tr>
+          <tr><td class="num">3</td><td>U00631 (74)</td><td>U20955 (0,0027)</td><td>U02768 (0,0112)</td><td>U00473 (0,201)</td><td>U02584 (291)</td></tr>
+          <tr><td class="num">4</td><td>U00953 (59)</td><td>U00631 (0,0025)</td><td>U00473 (0,0090)</td><td>U16667 (0,178)</td><td>U05872 (208)</td></tr>
+          <tr><td class="num">5</td><td>U20955 (57)</td><td>U07728 (0,0022)</td><td>U01028 (0,0089)</td><td>U00953 (0,158)</td><td>U02768 (191)</td></tr>
         </tbody>
       </table></div>
-      <p>HITS: hub score dồn gần hết vào một tài khoản (U03912, 0,95; bậc ra 208), authority cao nhất ở U01893 (0,108). Hai điểm số này tập trung vào cấu trúc dày nhất nên ít phân biệt được phần còn lại của mạng.</p>
+      <p>HITS: hub score dồn gần hết vào một tài khoản (U07971, 0,96; bậc ra 9), authority cao nhất ở U16717 (0,74; bậc ra 25). Hai điểm số này tập trung vào cấu trúc dày nhất nên ít phân biệt được phần còn lại của mạng.</p>
 
       <div class="fig">
         <h4>Quy mô các cộng đồng (Louvain)</h4>
-        <p class="cap">Số nút của 8 cộng đồng lớn nhất trong tổng số 49 cộng đồng của thành phần liên thông lớn nhất. Modularity Q = 0,877. Chạy 10 lần với seed khác nhau: Q từ 0,876 đến 0,877, số cộng đồng từ 47 đến 49.</p>
+        <p class="cap">Số nút của 8 cộng đồng lớn nhất trong tổng số 65 cộng đồng của thành phần liên thông lớn nhất. Modularity Q = 0,825. Chạy 10 lần với seed khác nhau: Q từ 0,822 đến 0,825, số cộng đồng từ 63 đến 67.</p>
         <div class="bars">
-          <div class="bar"><span>Cộng đồng 1</span><span class="t"><i style="width:100.0%"></i></span><span class="v">1.183</span></div>
-          <div class="bar"><span>Cộng đồng 2</span><span class="t"><i style="width:83.6%"></i></span><span class="v">989</span></div>
-          <div class="bar"><span>Cộng đồng 3</span><span class="t"><i style="width:68.7%"></i></span><span class="v">813</span></div>
-          <div class="bar"><span>Cộng đồng 4</span><span class="t"><i style="width:59.6%"></i></span><span class="v">705</span></div>
-          <div class="bar"><span>Cộng đồng 5</span><span class="t"><i style="width:39.6%"></i></span><span class="v">468</span></div>
-          <div class="bar"><span>Cộng đồng 6</span><span class="t"><i style="width:33.3%"></i></span><span class="v">394</span></div>
-          <div class="bar"><span>Cộng đồng 7</span><span class="t"><i style="width:28.7%"></i></span><span class="v">340</span></div>
-          <div class="bar"><span>Cộng đồng 8</span><span class="t"><i style="width:26.3%"></i></span><span class="v">311</span></div>
+          <div class="bar"><span>Cộng đồng 1</span><span class="t"><i style="width:100.0%"></i></span><span class="v">1.332</span></div><div class="bar"><span>Cộng đồng 2</span><span class="t"><i style="width:49.5%"></i></span><span class="v">660</span></div><div class="bar"><span>Cộng đồng 3</span><span class="t"><i style="width:39.2%"></i></span><span class="v">522</span></div><div class="bar"><span>Cộng đồng 4</span><span class="t"><i style="width:31.2%"></i></span><span class="v">416</span></div><div class="bar"><span>Cộng đồng 5</span><span class="t"><i style="width:30.9%"></i></span><span class="v">411</span></div><div class="bar"><span>Cộng đồng 6</span><span class="t"><i style="width:30.8%"></i></span><span class="v">410</span></div><div class="bar"><span>Cộng đồng 7</span><span class="t"><i style="width:30.5%"></i></span><span class="v">406</span></div><div class="bar"><span>Cộng đồng 8</span><span class="t"><i style="width:29.4%"></i></span><span class="v">391</span></div>
         </div>
       </div>
 
-      <div class="fig">
-        <h4>Trực quan hóa bằng Gephi</h4>
-        <p class="cap">Thành phần liên thông lớn nhất (9.727 nút, 13.556 cạnh), bố cục ForceAtlas 2. Mỗi chấm là một tài khoản (mã ẩn danh), màu theo cộng đồng Louvain, kích thước theo PageRank. Các cộng đồng lớn nhất có màu riêng, cộng đồng nhỏ để màu xám.</p>
-        <img src="hinh/dothi_gcc.png" alt="Đồ thị thành phần liên thông lớn nhất của mạng Bluesky tiếng Việt, tô màu theo cộng đồng: các cụm xanh lá, xanh dương, đen, xanh ngọc, cam, hồng và tím tách rời nhau, nhiều cụm xám nhỏ ở rìa" style="display:block;width:100%;max-width:640px;height:auto;margin:0 auto;background:#fff;border-radius:6px" loading="lazy">
-        <p class="cap" style="margin:12px 0 0">Nhận xét: các cụm lớn nối với nhau bằng rất ít cạnh, khớp với modularity 0,88. Các đám xám nhỏ ở rìa là cộng đồng dạng sao, gồm một tài khoản được repost nhiều và các tài khoản bậc 1 xung quanh.</p>
+      <h3>Ba phát hiện về cấu trúc</h3>
+      <div class="finds">
+        <div class="find"><span class="pill mid">RQ1</span><b>Một tài khoản đứng đầu hầu hết các độ đo.</b><p>U01728 đứng đầu bậc vào (121), PageRank, betweenness và eigenvector, nhưng không đứng đầu bậc ra (112). U03684 có bậc vào 85 mà bậc ra chỉ 4, tức là được nhiều người tương tác tới nhưng gần như không tương tác lại. Các tài khoản bậc ra cao nhất (U06401, 317) có kiểu hành vi khác hẳn nhóm được nhắc tới nhiều, nên cần báo cáo từng độ đo thay vì một bảng xếp hạng chung.</p></div>
+        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rất rõ, và đó là cộng đồng hội thoại.</b><p>Louvain tìm được 65 cộng đồng với modularity 0,82, ổn định qua 10 lần chạy. Khác dữ liệu tiếng Việt (repost chiếm 92%), ở đây reply chiếm 53% lượt tương tác và repost chỉ 24%, nên các cộng đồng phản ánh chủ yếu việc ai trả lời ai.</p></div>
+        <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>10.367 trên 13.815 nút (75%) chỉ có bậc 1, trong khi 248 nút có bậc từ 10 trở lên và 101 nút từ 50 trở lên, bậc lớn nhất là 318. Kiểm định power-law (bootstrap 100 lần, xmin = 2, số mũ 2,32) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
       </div>
 
-      <h3>Ba phát hiện</h3>
-      <div class="finds">
-        <div class="find"><span class="pill mid">RQ1</span><b>Vai trò trung tâm tách thành nhiều nhóm khác nhau.</b><p>U01245 được nhiều tài khoản tương tác tới nhất (bậc vào 39). U07637 đứng đầu PageRank, gấp khoảng 3 lần hạng hai, dù bậc vào chỉ 26 vì được các nút quan trọng trỏ tới. U01623 đứng đầu betweenness và eigenvector, là nút cầu nối với bậc ra 140. Vì vậy cần báo cáo từng độ đo thay vì một bảng xếp hạng chung.</p></div>
-        <div class="find"><span class="pill mid">RQ2</span><b>Có cấu trúc cộng đồng rất rõ, nhưng repost chi phối.</b><p>Louvain tìm được 49 cộng đồng với modularity 0,88, ổn định qua 10 lần chạy (0,876 đến 0,877). Repost chiếm 92% lượt tương tác trên toàn mạng, nên các cộng đồng phản ánh chủ yếu việc ai đăng lại bài của ai. Bài giữ đồ thị đủ 4 loại cạnh và ghi rõ điều này ở mục hạn chế.</p></div>
-        <div class="find"><span class="pill mid">RQ3</span><b>Phân bố bậc có đuôi nặng.</b><p>7.786 trên 9.727 nút (80%) chỉ có bậc 1, trong khi 314 nút có bậc từ 10 trở lên và 96 nút từ 50 trở lên. Kiểm định power-law (bootstrap 100 lần, xmin = 4, số mũ 1,80) cho p = 0,00, nên phân bố bậc không phải power-law thuần. Đuôi vẫn nặng nhưng có dạng khác, chưa so sánh với các phân bố như log-normal.</p></div>
+      <h3>Kết quả của ứng dụng</h3>
+      <div class="tw"><table>
+        <caption>Độ chính xác gợi ý. Giấu 1 tương tác của mỗi tài khoản, top 10, trung bình 5 lần chia. Kiểm tra trên 1,293 tài khoản có từ 2 cạnh ra (trên tổng 8,189 tài khoản có cạnh ra).</caption>
+        <thead><tr><th>Phương pháp</th><th class="num">Hit@10</th><th class="num">Độ lệch chuẩn</th><th class="num">MRR</th></tr></thead>
+        <tbody><tr><td>Phổ biến (bậc vào)</td><td class="num">0,027</td><td class="num">0,002</td><td class="num">0,013</td></tr><tr><td>Đồng tương tác (user-CF)</td><td class="num">0,028</td><td class="num">0,002</td><td class="num">0,013</td></tr><tr><td>Phổ biến trong cộng đồng</td><td class="num">0,040</td><td class="num">0,005</td><td class="num">0,027</td></tr><tr><td>Lai: cộng đồng + đồng tương tác</td><td class="num">0,044</td><td class="num">0,004</td><td class="num">0,028</td></tr><tr><td>Ngẫu nhiên</td><td class="num">0,001</td><td class="num">0,000</td><td class="num">0,000</td></tr></tbody>
+      </table></div>
+      <p>Phương pháp lai đạt Hit@10 = 0,044, cao hơn mức phổ biến (0,027) khoảng 1,6 lần và cao hơn ngẫu nhiên (0,001) rất nhiều, nhưng giá trị tuyệt đối vẫn thấp vì mạng thưa. Phần lợi chủ yếu đến từ việc đưa cộng đồng vào gợi ý; đồng tương tác riêng lẻ chỉ nhỉnh hơn mức phổ biến một chút. Lần chạy đầu cho 0,090 vì cộng đồng tính trên cả đồ thị làm lộ cạnh kiểm tra; con số đúng là 0,044 sau khi tính lại cộng đồng chỉ trên phần huấn luyện.</p>
+
+      <div class="tw"><table>
+        <caption>Độ bền của mạng. Tỷ lệ thành phần liên thông lớn nhất so với toàn mạng 21.707 nút, sau khi gỡ nút theo từng chiến lược (ngẫu nhiên: trung bình 3 lần). Ban đầu GCC chiếm 63,6%.</caption>
+        <thead><tr><th>Tỷ lệ gỡ</th><th class="num">Số nút gỡ</th><th class="num">Theo bậc</th><th class="num">Theo PageRank</th><th class="num">Theo betweenness</th><th class="num">Ngẫu nhiên</th></tr></thead>
+        <tbody><tr><td>0%</td><td class="num">0</td><td class="num">63,6%</td><td class="num">63,6%</td><td class="num">63,6%</td><td class="num">63,6%</td></tr><tr><td>0,1%</td><td class="num">22</td><td class="num">47,8%</td><td class="num">47,3%</td><td class="num">49,9%</td><td class="num">63,4%</td></tr><tr><td>0,2%</td><td class="num">43</td><td class="num">36,3%</td><td class="num">36,0%</td><td class="num">39,2%</td><td class="num">63,1%</td></tr><tr><td>0,5%</td><td class="num">109</td><td class="num">5,7%</td><td class="num">6,3%</td><td class="num">12,0%</td><td class="num">62,7%</td></tr><tr><td>1%</td><td class="num">217</td><td class="num">1,0%</td><td class="num">1,1%</td><td class="num">1,8%</td><td class="num">61,7%</td></tr><tr><td>2%</td><td class="num">434</td><td class="num">0,1%</td><td class="num">0,2%</td><td class="num">0,5%</td><td class="num">60,6%</td></tr></tbody>
+      </table></div>
+      <p>Gỡ chỉ 0,5% tài khoản có bậc cao nhất (khoảng 108 nút) làm thành phần liên thông lớn nhất giảm từ 63,6% xuống 5,7%, trong khi gỡ ngẫu nhiên cùng số nút gần như không đổi (62,7%). Mạng có dạng “ngôi sao”: vài hub nối hàng nghìn tài khoản bậc 1, nên mất hub là mất đường đi giữa các nhóm. Betweenness xấp xỉ (300 mẫu) gỡ kém hiệu quả hơn bậc một chút ở mức 0,5%, có thể do sai số lấy mẫu.</p>
+
+      <div class="fig">
+        <h4>Đối chiếu với cộng đồng tiếng Việt</h4>
+        <p class="cap">Cùng quy trình chạy trên dữ liệu tiếng Việt (crawl 2 vòng, 11/2026), dùng làm bản so sánh.</p>
+        <div class="tw"><table>
+          <thead><tr><th>Chỉ số</th><th class="num">Tiếng Việt</th><th class="num">Tiếng Anh (khoa học)</th></tr></thead>
+          <tbody>
+            <tr><td>Bài sau làm sạch</td><td class="num">37.520</td><td class="num">76.973</td></tr>
+            <tr><td>Nút · cạnh</td><td class="num">10.256 · 14.104</td><td class="num">21.707 · 22.437</td></tr>
+            <tr><td>Nút trong GCC</td><td class="num">9.727</td><td class="num">13.815</td></tr>
+            <tr><td>Modularity · số cộng đồng</td><td class="num">0,88 · 49</td><td class="num">0,82 · 65</td></tr>
+            <tr><td>Tỷ lệ nút bậc 1 (GCC)</td><td class="num">80%</td><td class="num">75%</td></tr>
+            <tr><td>Tỷ lệ repost / reply</td><td class="num">92% / 5%</td><td class="num">24% / 53%</td></tr>
+            <tr><td>Đường kính · đường đi TB</td><td class="num">13 · 5,74</td><td class="num">16 · 5,01</td></tr>
+          </tbody>
+        </table></div>
+        <img src="hinh/dothi_gcc.png" alt="Đồ thị thành phần liên thông lớn nhất của mạng Bluesky tiếng Việt, tô màu theo cộng đồng Louvain: các cụm lớn tách rời nhau, nhiều cụm xám nhỏ ở rìa" style="display:block;width:100%;max-width:560px;height:auto;margin:12px auto 0;background:#fff;border-radius:6px" loading="lazy">
+        <p class="cap" style="margin:12px 0 0">Hình Gephi của mạng tiếng Việt (ForceAtlas 2, màu theo cộng đồng, cỡ nút theo PageRank). Hình của mạng tiếng Anh sẽ thay vào sau khi dựng xong.</p>
       </div>
-      <p>Tín hiệu đầu tiên cho ứng dụng: bước làm sạch đã gắn cờ 2 tài khoản, mỗi tài khoản khoảng 200 bài, có 76% và 54% bài trùng nội dung. Cả hai đều đăng đều khoảng 2,7 bài mỗi ngày hoạt động, nên riêng tần suất không tách được họ; cần kết hợp thêm tín hiệu nội dung và vị trí trong mạng.</p>
     </section>
 
     <section id="dongop">
       <h2><span class="n">06</span>Đóng góp và hạn chế</h2>
       <h3>Đóng góp</h3>
       <ul>
-        <li>Bộ dữ liệu tương tác tiếng Việt trên Bluesky, kèm quy trình thu thập và làm sạch chạy lại được. <span class="pill ok">đã có</span></li>
-        <li>Phân tích cấu trúc mạng (centrality, HITS, Louvain, phân bố bậc) trên dữ liệu mở rộng. <span class="pill todo">đang làm</span></li>
-        <li>Ứng dụng chấm điểm tài khoản nghi bot/spam, có giải thích từng tín hiệu và so sánh độ đo mạng trước, sau khi loại. <span class="pill todo">dự kiến</span></li>
+        <li>Bộ dữ liệu tương tác của cộng đồng khoa học tiếng Anh trên Bluesky (80.043 bài thô), kèm quy trình thu thập và làm sạch chạy lại được, và bản đối chiếu với cộng đồng tiếng Việt. <span class="pill ok">đã có</span></li>
+        <li>Phân tích cấu trúc mạng (centrality, HITS, Louvain, phân bố bậc) trên đồ thị 21.707 nút. <span class="pill ok">đã có</span></li>
+        <li>Ứng dụng gợi ý tài khoản nên theo dõi, có đánh giá bằng giấu cạnh và so với mức phổ biến, kèm phép thử độ bền của mạng. <span class="pill todo">đang thử giao diện</span></li>
       </ul>
       <h3>Hạn chế</h3>
       <ul>
-        <li><b>Lệch do chọn seed:</b> mạng phụ thuộc vào những tài khoản được chọn làm điểm xuất phát. Đợt mở rộng đã giảm nhưng chưa loại bỏ lệch này.</li>
-        <li><b>Repost chiếm ưu thế:</b> khoảng 92% lượt tương tác là repost, nên cộng đồng và nút trung tâm chủ yếu phản ánh hành vi đăng lại. Bài giữ đồ thị đủ 4 loại cạnh.</li>
+        <li><b>Lệch do chọn từ khóa và seed:</b> mạng phụ thuộc vào 30 từ khóa và các tài khoản được chọn làm điểm xuất phát, nên thiên về nhóm hoạt động nhiều và nội dung khoa học.</li>
+        <li><b>Mạng thưa:</b> 75% nút trong thành phần lớn nhất chỉ có 1 kết nối, và chỉ 1.293 trong 8.189 tài khoản có cạnh ra đủ điều kiện kiểm tra gợi ý. Hit@10 của phương pháp tốt nhất chỉ 0,044.</li>
+        <li><b>Mục tiêu dự đoán là tương tác:</b> reply, quote, mention và repost, không phải quan hệ theo dõi thật, nên không so sánh được với các hệ thống gợi ý theo dõi của nền tảng.</li>
         <li><b>Repost không tìm được qua search:</b> chỉ lấy được khi duyệt bảng tin của seed, nên cạnh repost tập trung quanh seed.</li>
-        <li><b>Nhãn ngôn ngữ do người đăng đặt:</b> một số bài gắn <code>vi</code> nhưng không phải tiếng Việt; đã lọc phần dài và không có dấu, còn sót bài ngắn.</li>
-        <li><b>Chưa có nhãn thật:</b> không có danh sách bot đã xác nhận, nên độ chính xác của ứng dụng chỉ ước lượng bằng gán nhãn tay một mẫu nhỏ. Mới gắn cờ 2 tài khoản, chưa loại khỏi đồ thị.</li>
+        <li><b>Thời gian lệch:</b> hơn 90% bài đăng trong 11/2026 vì crawl theo 14 ngày gần nhất và mở rộng theo seed, nên mạng là một lát cắt ngắn.</li>
+        <li><b>Bot và feed tự động:</b> 33 tài khoản đăng hơn 100 bài mỗi ngày hoạt động bị gắn cờ nhưng chưa loại khỏi đồ thị; một số có thể là hub đứng đầu bậc ra.</li>
         <li><b>Quyền riêng tư:</b> chỉ công bố mã ẩn danh, bảng ánh xạ về tài khoản thật giữ riêng.</li>
       </ul>
     </section>
@@ -1272,11 +1767,12 @@ if __name__ == "__main__":
     <section id="kehoach">
       <h2><span class="n">07</span>Kế hoạch thực hiện</h2>
       <ul class="plan">
-        <li><span class="d">đã xong</span><span><b>Crawl đợt 1 và làm sạch lần đầu.</b> 30.088 bài, đồ thị 675 nút.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">đã xong</span><span><b>Crawl mở rộng theo seed (2 vòng) và làm sạch lại.</b> 48.311 bài thô, đồ thị 10.256 nút, thành phần liên thông lớn nhất 9.727 nút.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">đã xong</span><span><b>Phân tích mạng.</b> Script analyze_network.py tính độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data/analysis.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">đã xong</span><span><b>Trực quan hóa.</b> Gephi và NetworkX, xuất ảnh độ phân giải cao.</span><span class="pill ok">xong</span></li>
-        <li><span class="d">28/11 – 02/12</span><span><b>Ứng dụng bot/spam.</b> Chấm điểm, gán nhãn tay mẫu 50 tài khoản để kiểm chứng, giao diện Streamlit.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">đã xong</span><span><b>Crawl và làm sạch tiếng Việt.</b> 48.311 bài thô, đồ thị 10.256 nút; giữ làm dữ liệu đối chiếu.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">20–21/11</span><span><b>Chuyển sang cộng đồng tiếng Anh.</b> Crawl 80.043 bài thô (theo từ khóa rồi theo seed), làm sạch còn 76.973 bài, đồ thị 21.707 nút, thành phần liên thông lớn nhất 13.815 nút.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">21/11</span><span><b>Phân tích mạng.</b> Độ đo toàn mạng, top 10 từng độ đo, HITS, Louvain, modularity, phân bố bậc và kiểm định power-law; kết quả ghi vào data_en/analysis.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">21/11</span><span><b>Lõi ứng dụng.</b> Gợi ý bốn phương pháp, đánh giá Hit@10 và MRR, phép thử độ bền.</span><span class="pill ok">xong</span></li>
+        <li><span class="d">22 – 27/11</span><span><b>Trực quan hóa cho dữ liệu tiếng Anh.</b> Gephi (ForceAtlas2, màu theo cộng đồng, cỡ theo PageRank), NetworkX, lưu file .gephi.</span><span class="pill todo">sắp tới</span></li>
+        <li><span class="d">28/11 – 02/12</span><span><b>Hoàn thiện ứng dụng.</b> Chạy thử giao diện Streamlit trên máy làm bài, sửa lỗi, README và đóng gói.</span><span class="pill todo">sắp tới</span></li>
         <li><span class="d">03/12 – hạn nộp</span><span><b>Báo cáo và đóng gói.</b> Mã nguồn, dữ liệu mẫu, README, file Gephi; chạy thử từ đầu trên máy sạch.</span><span class="pill todo">sắp tới</span></li>
       </ul>
     </section>
@@ -1291,21 +1787,22 @@ if __name__ == "__main__":
         <li>Newman, M. E. J. (2010). <i>Networks: An Introduction.</i> Oxford University Press.</li>
         <li>Hagberg, A., Schult, D., Swart, P. (2008). Exploring network structure, dynamics, and function using NetworkX. <i>Proceedings of SciPy 2008.</i></li>
         <li>Bastian, M., Heymann, S., Jacomy, M. (2009). Gephi: an open source software for exploring and manipulating networks. <i>ICWSM.</i></li>
-        <li>Ferrara, E., Varol, O., Davis, C., Menczer, F., Flammini, A. (2016). The rise of social bots. <i>Communications of the ACM</i>, 59(7), 96–104.</li>
-        <li>Liu, F. T., Ting, K. M., Zhou, Z.-H. (2008). Isolation forest. <i>IEEE ICDM</i>, 413–422.</li>
+        <li>Albert, R., Jeong, H., Barabási, A.-L. (2000). Error and attack tolerance of complex networks. <i>Nature</i>, 406, 378–382.</li>
+        <li>Sarwar, B., Karypis, G., Konstan, J., Riedl, J. (2001). Item-based collaborative filtering recommendation algorithms. <i>WWW</i>, 285–295.</li>
+        <li>Clauset, A., Shalizi, C. R., Newman, M. E. J. (2009). Power-law distributions in empirical data. <i>SIAM Review</i>, 51(4), 661–703.</li>
       </ol>
     </section>
   </main>
 </div>
 
-<footer>Số liệu lấy từ thư mục <code>data/clean</code>, chụp ngày 08/11/2026, sau crawl mở rộng vòng 2. Mã nút <code>U00xxx</code> là mã ẩn danh, đánh lại sau mỗi lần chạy làm sạch nên không so sánh được giữa các lần chạy.</footer>
+<footer>Số liệu lấy từ thư mục <code>data_en/clean</code>, chụp ngày 21/11/2026. Mã nút <code>U00xxx</code> là mã ẩn danh, đánh lại sau mỗi lần chạy làm sạch nên không so sánh được giữa các lần chạy.</footer>
 
 <script>
 (function(){
-  var pts=[[1,8233],[2,1072],[3,266],[4,149],[5,81],[6,29],[7,37],[8,23],[9,37],[10,16],[11,27],[12,10],[13,16],[14,14],[15,9],[16,11],[17,9],[18,5],[19,8],[20,3],[21,7],[22,5],[23,4],[25,7],[26,6],[27,4],[28,2],[29,3],[30,5],[31,3],[32,5],[33,3],[34,5],[35,2],[36,1],[37,2],[38,7],[39,3],[40,1],[41,4],[42,7],[43,5],[44,9],[45,1],[46,3],[50,2],[51,1],[52,1],[54,1],[55,2],[56,1],[57,1],[58,1],[59,1],[60,1],[62,2],[63,4],[64,5],[65,1],[68,1],[69,1],[70,1],[72,2],[73,4],[74,2],[75,1],[76,1],[77,1],[78,2],[81,2],[83,2],[86,1],[88,2],[90,1],[91,1],[94,2],[97,1],[98,1],[99,1],[101,2],[103,1],[104,2],[106,3],[108,2],[109,1],[111,1],[114,1],[116,1],[117,1],[118,2],[119,1],[120,1],[121,1],[125,1],[128,1],[129,1],[134,1],[135,1],[136,1],[137,2],[140,1],[146,1],[154,1],[155,2],[157,1],[159,1],[163,1],[173,1],[175,2],[176,1],[177,1],[208,1],[241,1]];
+  var pts=[[1,10367],[2,1849],[3,657],[4,288],[5,183],[6,93],[7,59],[8,35],[9,36],[10,36],[11,18],[12,13],[13,19],[14,9],[15,1],[16,6],[17,5],[18,2],[19,1],[20,3],[21,2],[22,1],[23,7],[25,2],[26,2],[27,1],[28,2],[30,2],[31,2],[34,1],[37,2],[38,1],[43,2],[44,1],[46,2],[47,1],[48,1],[49,2],[52,2],[54,2],[55,1],[58,2],[61,3],[62,1],[63,1],[66,1],[74,1],[79,1],[83,2],[84,1],[85,1],[87,2],[88,3],[89,1],[91,1],[92,1],[94,2],[95,1],[98,1],[99,1],[100,1],[103,1],[104,1],[105,3],[106,1],[107,1],[109,2],[110,2],[111,1],[112,1],[113,1],[114,1],[119,1],[120,1],[121,2],[122,2],[125,1],[129,1],[130,1],[132,1],[133,2],[135,1],[136,1],[137,1],[139,2],[144,2],[145,1],[146,1],[148,1],[149,1],[151,1],[158,2],[162,3],[163,1],[166,1],[167,2],[168,2],[169,1],[173,2],[175,1],[177,2],[178,2],[186,1],[193,1],[199,1],[200,1],[211,1],[231,2],[292,1],[299,1],[318,1]];
   var svg=document.getElementById('deg'); if(!svg) return;
   var W=600,H=300,L=56,R=16,T=14,B=44,pw=W-L-R,ph=H-T-B;
-  var xmax=Math.log10(300), ymax=Math.log10(10000);
+  var xmax=Math.log10(400), ymax=Math.log10(20000);
   function X(v){return L+Math.log10(v)/xmax*pw}
   function Y(v){return T+ph-Math.log10(v)/ymax*ph}
   var s='';
@@ -1318,9 +1815,9 @@ if __name__ == "__main__":
     var hub=p[0]>=100;
     s+='<circle class="d'+(hub?' hub':'')+'" cx="'+X(p[0])+'" cy="'+Y(p[1])+'" r="'+(p[1]>1?6:4.5)+'"><title>'+p[1]+' nút có bậc '+p[0]+'</title></circle>';
   });
-  s+='<text x="'+(X(1)+12)+'" y="'+(Y(8233)+4)+'">8.233 nút bậc 1</text>';
-  s+='<text x="'+(X(2)+12)+'" y="'+(Y(1072)+4)+'">1.072 nút bậc 2</text>';
-  s+='<text class="hl" x="'+(X(241)-8)+'" y="'+(Y(1)-14)+'" text-anchor="end">bậc lớn nhất: 241</text>';
+  s+='<text x="'+(X(1)+12)+'" y="'+(Y(10367)+4)+'">10.367 nút bậc 1</text>';
+  s+='<text x="'+(X(2)+12)+'" y="'+(Y(1849)+4)+'">1.849 nút bậc 2</text>';
+  s+='<text class="hl" x="'+(X(318)-8)+'" y="'+(Y(1)-14)+'" text-anchor="end">bậc lớn nhất: 318</text>';
   svg.innerHTML=s;
 })();
 </script>
