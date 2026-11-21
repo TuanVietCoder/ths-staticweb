@@ -242,6 +242,17 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
         <div class="rq"><span class="k">MT3</span><p><b>Phép thử độ bền đáng tin hơn.</b> Lặp gỡ ngẫu nhiên nhiều lần để có khoảng dao động, thêm chiến lược gỡ theo cộng đồng, và so với mạng ngẫu nhiên giữ nguyên phân bố bậc để biết độ mong manh là do cấu trúc hay chỉ do phân bố bậc. Tiêu chí: mỗi kết luận về độ bền có số liệu đối chứng.</p><span class="pill todo">dự kiến</span></div>
         <div class="rq"><span class="k">MT4</span><p><b>Giao diện dùng được.</b> Cho chọn tài khoản, phương pháp, K và xem lý do gợi ý; hiển thị bảng đánh giá và đường cong độ bền; chạy được từ đầu trên máy sạch chỉ bằng README.</p><span class="pill todo">dự kiến</span></div>
       </div>
+      <h3>Ứng dụng đích: công cụ tạo danh sách khởi đầu cho hội hoặc nhóm nghiên cứu</h3>
+      <p>Bài toán thực tế: người quản trị một hội khoa học hoặc nhóm nghiên cứu cần lập danh sách tài khoản để thành viên mới theo dõi (starter pack), nhưng tự tìm từng người rất tốn công. Công cụ dùng lại phần gợi ý của ứng dụng để đề xuất ứng viên, người quản trị duyệt lại.</p>
+      <ol>
+        <li><b>Đầu vào:</b> 3–10 tài khoản cốt lõi của hội (hạt giống) và số lượng cần.</li>
+        <li><b>Chọn ứng viên:</b> xác định cộng đồng Louvain chiếm đa số trong các hạt giống, chấm điểm các tài khoản còn lại bằng phương pháp lai (cộng đồng + đồng tương tác với hạt giống), loại các tài khoản nghi là bot hoặc feed tự động.</li>
+        <li><b>Đầu ra:</b> danh sách xếp hạng, mỗi tài khoản kèm lý do gợi ý, xuất CSV để đưa vào starter pack.</li>
+        <li><b>Cân bằng:</b> đo danh sách có dồn về vài hub không (nối với phép thử độ bền) và cho chọn tỷ lệ trộn thêm tài khoản nhỏ hơn.</li>
+        <li><b>Đánh giá:</b> giấu một phần hạt giống, xem danh sách có tìm lại được các tài khoản bị giấu (Hit@K, Recall@K) và so với mức phổ biến.</li>
+      </ol>
+      <p>Giới hạn: công cụ chỉ đề xuất ứng viên chứ không tự quyết định; chỉ hoạt động với tài khoản có trong đồ thị 21.707 nút, và danh sách có thể nghiêng về nhóm hoạt động nhiều. Vì Hit@10 hiện mới ở mức 0,044, đây là minh họa trường hợp sử dụng, chưa phải sản phẩm hoàn chỉnh. <span class="pill todo">dự kiến</span></p>
+
       <p>Phạm vi: các bài có nhãn ngôn ngữ <code>en</code> thuộc chủ đề khoa học và học thuật (tìm theo từ khóa như research, paper, science, PhD, preprint), thời gian đăng từ 08/2024 đến 11/2026 (phần lớn là 11/2026). Không xét nội dung văn bản, chỉ xét cấu trúc tương tác.</p>
     </section>
 
