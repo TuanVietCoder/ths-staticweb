@@ -234,6 +234,14 @@ dl.gl .here::before{content:"Trong dữ liệu này: ";color:var(--accent);font-
         <div class="rq"><span class="k">RQ4</span><p>Dựa vào tương tác đã có và cộng đồng, gợi ý có đoán trúng tài khoản mà người dùng tương tác tiếp tốt hơn việc gợi ý tài khoản phổ biến không?</p><span class="pill ok">có kết quả</span></div>
         <div class="rq"><span class="k">RQ5</span><p>Khi gỡ dần các tài khoản trung tâm, thành phần liên thông lớn nhất của mạng thu nhỏ nhanh đến đâu so với gỡ ngẫu nhiên?</p><span class="pill ok">có kết quả</span></div>
       </div>
+      <h3>Mục tiêu cải tiến ứng dụng</h3>
+      <p>Sau bản đầu, ứng dụng được nâng cấp theo bốn mục tiêu dưới đây. Mốc so sánh là chính bản đầu (Hit@10 = 0,044 của phương pháp lai) và các baseline chuẩn, không so với hệ thống thương mại. Kết quả nào không cải thiện cũng được báo cáo đúng như đo được.</p>
+      <div>
+        <div class="rq"><span class="k">MT1</span><p><b>Đánh giá chặt hơn.</b> Thêm baseline Adamic-Adar, Jaccard, Resource Allocation; thêm NDCG@10, Recall@K, độ phủ và độ lệch phổ biến; thêm cách chia theo thời gian (huấn luyện trước, kiểm tra sau) bên cạnh giấu từng cạnh. Tiêu chí: phương pháp lai so được với mọi baseline trên cùng cách chia, kèm độ lệch chuẩn.</p><span class="pill todo">dự kiến</span></div>
+        <div class="rq"><span class="k">MT2</span><p><b>Độ nhạy và làm sạch.</b> Khảo sát tham số trộn a của phương pháp lai, và thử loại các tài khoản nghi là bot/feed tự động (33 tài khoản đã gắn cờ) rồi đo lại Hit@10 và các độ đo mạng. Tiêu chí: nêu rõ kết quả ổn định hay phụ thuộc vào các tài khoản này.</p><span class="pill todo">dự kiến</span></div>
+        <div class="rq"><span class="k">MT3</span><p><b>Phép thử độ bền đáng tin hơn.</b> Lặp gỡ ngẫu nhiên nhiều lần để có khoảng dao động, thêm chiến lược gỡ theo cộng đồng, và so với mạng ngẫu nhiên giữ nguyên phân bố bậc để biết độ mong manh là do cấu trúc hay chỉ do phân bố bậc. Tiêu chí: mỗi kết luận về độ bền có số liệu đối chứng.</p><span class="pill todo">dự kiến</span></div>
+        <div class="rq"><span class="k">MT4</span><p><b>Giao diện dùng được.</b> Cho chọn tài khoản, phương pháp, K và xem lý do gợi ý; hiển thị bảng đánh giá và đường cong độ bền; chạy được từ đầu trên máy sạch chỉ bằng README.</p><span class="pill todo">dự kiến</span></div>
+      </div>
       <p>Phạm vi: các bài có nhãn ngôn ngữ <code>en</code> thuộc chủ đề khoa học và học thuật (tìm theo từ khóa như research, paper, science, PhD, preprint), thời gian đăng từ 08/2024 đến 11/2026 (phần lớn là 11/2026). Không xét nội dung văn bản, chỉ xét cấu trúc tương tác.</p>
     </section>
 
