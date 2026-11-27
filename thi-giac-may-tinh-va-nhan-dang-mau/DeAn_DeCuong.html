@@ -145,6 +145,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <div class="card"><h3>Aariz</h3><p>1.000 phim sọ nghiêng, 29 điểm mốc, kích thước pixel (mm) cho từng ảnh.</p></div>
 <div class="card"><h3>Chia tập</h3><p>Train 700 · Valid 150 · Test 150. Checkpoint chọn theo MRE trên valid.</p></div>
 <div class="card"><h3>Chỉ số</h3><p><b>MRE</b> (mm) · <b>SDR@2/2,5/3/4 mm</b> · <b>Outlier</b> (điểm lệch &gt; 5 mm). Phân tích riêng từng máy; LODO là bước tiếp theo.</p></div>
+<figure><img src="img/so_do_thang_do.png" alt="Sơ đồ thang đo đánh giá" loading="lazy"><figcaption>Sơ đồ thang đo đánh giá: sai số d (mm), MRE, SDR@t, outlier.</figcaption></figure>
 </div></section>
 
 <section id="phuongphap"><div class="num">04</div><div class="tag">Phương pháp</div><h2>Phương pháp</h2>
@@ -160,6 +161,7 @@ footer{border-top:1px solid var(--line);padding:24px 0 48px;color:var(--mut);fon
 <li><b>Cải tiến E6, decoder dạng query:</b> mỗi điểm mốc là một query học được (29 query); 3 tầng gồm self-attention giữa các query (học quan hệ giải phẫu), cross-attention vào token ViT (mã vị trí 2D) và FFN; heatmap là tích vô hướng giữa query và bản đồ đặc trưng stride 4. Loss, giải mã và cách chấm giữ nguyên để so sánh công bằng với E3.</li>
 </ol>
 <p><b>Tinh chỉnh giai đoạn 2 (E7):</b> với mỗi điểm mốc, cắt một ô vuông 24 mm quanh vị trí dự đoán của giai đoạn 1 (kích thước tính theo mm nên cùng độ phóng đại ở mọi máy), phóng lên 224 px và dự đoán lại bằng ViT-Small riêng (heatmap 56 × 56, mỗi ô ≈ 0,43 mm, mịn hơn ≈ 1 mm của giai đoạn 1). Khi huấn luyện, tâm ô cắt là điểm thật cộng nhiễu (80% ~1,2 mm, 20% tới 6 mm); chỉ dùng ảnh train. Khi suy luận có thể thêm TTA (4 ô cắt lệch ±0,8 mm lấy trung bình) hoặc lặp 2 lần.</p>
+<figure><img src="img/so_do_phuong_phap.png" alt="Sơ đồ phương pháp đề xuất" loading="lazy"><figcaption>Sơ đồ phương pháp đề xuất: giai đoạn 1 (ViT-Small + decoder query, ensemble 3 seed) và giai đoạn 2 (tinh chỉnh theo ô cắt 24 mm).</figcaption></figure>
 <p class="note w">Kiến trúc cũ (stride 16, trung bình token rồi MLP) cho MRE 6,78 mm nên được thay bằng decoder stride 4.</p></section>
 
 <section id="ketqua"><div class="num">05</div><div class="tag">Thực nghiệm</div><h2>Kết quả thực nghiệm sơ bộ</h2>
